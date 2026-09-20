@@ -1,132 +1,91 @@
 (()=>{
-  'use strict';
+'use strict';
 
-  const SHELL_VERSION='0.5.4';
-  let deferredInstallPrompt=null;
-  let registration=null;
-  let reloadingForUpdate=false;
+const PWA_VERSION='0.5.5';
+let installPrompt=null;
+let registration=null;
+let updating=false;
 
-  const isStandalone=()=>(
-    window.matchMedia?.('(display-mode: standalone)').matches===true ||
-    window.navigator.standalone===true
-  );
+function standalone(){
+  return (window.matchMedia && window.matchMedia('(display-mode: standalone)').matches) ||
+         window.navigator.standalone===true;
+}
 
-  function isCombatScreen(){
-    return !!document.querySelector('.battle-screen,.deployment-screen');
+function installButton(){
+  let b=document.getElementById('pwaInstallButton');
+  if(!b){
+    b=document.createElement('button');
+    b.id='pwaInstallButton';
+    b.className='pwa-install-button';
+    b.type='button';
+    b.textContent='⬇ Instalar app';
+    b.hidden=true;
+    b.onclick=async()=>{
+      if(!installPrompt)return;
+      const p=installPrompt;
+      installPrompt=null;
+      b.hidden=true;
+      try{ await p.prompt(); await p.userChoice; }catch(e){}
+    };
+    document.body.appendChild(b);
   }
+  return b;
+}
 
-  function syncDisplayedVersion(){
-    document.title=`Arena Táctica v${SHELL_VERSION}`;
-    document.querySelectorAll('.start-version,.brand-block small').forEach(el=>{
-      if(el.textContent.includes('v0.5.3')){
-        el.textContent=el.textContent.replace('v0.5.3',`v${SHELL_VERSION}`);
-      }
+function refreshInstall(){
+  const b=installButton();
+  b.hidden=!(installPrompt && !standalone());
+}
+
+function updateBanner(){
+  if(document.querySelector('.pwa-update-banner'))return;
+  const bar=document.createElement('div');
+  bar.className='pwa-update-banner';
+  bar.innerHTML='<span><b>Nueva versión disponible</b><small>Actualizá cuando termines la partida.</small></span><button class="pwa-update-now">Actualizar</button><button class="pwa-update-close" aria-label="Cerrar">×</button>';
+  bar.querySelector('.pwa-update-now').onclick=()=>{
+    if(!registration || !registration.waiting)return;
+    updating=true;
+    registration.waiting.postMessage({type:'SKIP_WAITING'});
+  };
+  bar.querySelector('.pwa-update-close').onclick=()=>bar.remove();
+  document.body.appendChild(bar);
+}
+
+window.addEventListener('beforeinstallprompt',e=>{
+  e.preventDefault();
+  installPrompt=e;
+  refreshInstall();
+});
+window.addEventListener('appinstalled',()=>{
+  installPrompt=null;
+  refreshInstall();
+});
+
+async function startPwa(){
+  refreshInstall();
+  if(!('serviceWorker' in navigator))return;
+  try{
+    registration=await navigator.serviceWorker.register('./sw.js',{updateViaCache:'none'});
+    if(registration.waiting && navigator.serviceWorker.controller)updateBanner();
+    registration.addEventListener('updatefound',()=>{
+      const w=registration.installing;
+      if(!w)return;
+      w.addEventListener('statechange',()=>{
+        if(w.state==='installed' && navigator.serviceWorker.controller)updateBanner();
+      });
     });
-  }
-
-  function ensureInstallButton(){
-    let btn=document.querySelector('#pwaInstallButton');
-    if(!btn){
-      btn=document.createElement('button');
-      btn.id='pwaInstallButton';
-      btn.className='pwa-install-button';
-      btn.type='button';
-      btn.innerHTML='<span>⬇️</span><b>INSTALAR APP</b>';
-      btn.addEventListener('click',async()=>{
-        if(!deferredInstallPrompt)return;
-        const prompt=deferredInstallPrompt;
-        deferredInstallPrompt=null;
-        refreshInstallButton();
-        try{
-          await prompt.prompt();
-          await prompt.userChoice;
-        }catch(e){}
-      });
-      document.body.appendChild(btn);
-    }
-    return btn;
-  }
-
-  function refreshInstallButton(){
-    const btn=ensureInstallButton();
-    const canInstall=!!deferredInstallPrompt && !isStandalone() && !isCombatScreen();
-    btn.hidden=!canInstall;
-  }
-
-  function showUpdateBanner(){
-    if(document.querySelector('.pwa-update-banner'))return;
-    const bar=document.createElement('div');
-    bar.className='pwa-update-banner';
-    bar.innerHTML=`
-      <span class="pwa-update-copy">
-        <b>✦ Nueva versión disponible</b>
-        <small>Podés actualizar cuando termines la partida.</small>
-      </span>
-      <button type="button" class="pwa-update-now">Actualizar</button>
-      <button type="button" class="pwa-update-later" aria-label="Cerrar">×</button>
-    `;
-    bar.querySelector('.pwa-update-now').addEventListener('click',()=>{
-      const waiting=registration?.waiting;
-      if(!waiting)return;
-      reloadingForUpdate=true;
-      waiting.postMessage({type:'SKIP_WAITING'});
+    navigator.serviceWorker.addEventListener('controllerchange',()=>{
+      if(updating)location.reload();
     });
-    bar.querySelector('.pwa-update-later').addEventListener('click',()=>bar.remove());
-    document.body.appendChild(bar);
+    setTimeout(()=>registration.update().catch(()=>{}),2000);
+  }catch(e){
+    console.warn('PWA:',e);
   }
+}
 
-  window.addEventListener('beforeinstallprompt',event=>{
-    event.preventDefault();
-    deferredInstallPrompt=event;
-    refreshInstallButton();
-  });
-
-  window.addEventListener('appinstalled',()=>{
-    deferredInstallPrompt=null;
-    refreshInstallButton();
-  });
-
-  const observer=new MutationObserver(()=>{
-    syncDisplayedVersion();
-    refreshInstallButton();
-  });
-  observer.observe(document.documentElement,{subtree:true,childList:true});
-
-  async function registerServiceWorker(){
-    if(!('serviceWorker' in navigator))return;
-    try{
-      registration=await navigator.serviceWorker.register('./sw.js',{updateViaCache:'none'});
-
-      if(registration.waiting && navigator.serviceWorker.controller){
-        showUpdateBanner();
-      }
-
-      registration.addEventListener('updatefound',()=>{
-        const worker=registration.installing;
-        if(!worker)return;
-        worker.addEventListener('statechange',()=>{
-          if(worker.state==='installed' && navigator.serviceWorker.controller){
-            showUpdateBanner();
-          }
-        });
-      });
-
-      navigator.serviceWorker.addEventListener('controllerchange',()=>{
-        if(reloadingForUpdate) location.reload();
-      });
-
-      setTimeout(()=>registration.update().catch(()=>{}),1500);
-      document.addEventListener('visibilitychange',()=>{
-        if(document.visibilityState==='visible'){
-          registration.update().catch(()=>{});
-        }
-      });
-    }catch(e){
-      console.warn('PWA no disponible:',e);
-    }
-  }
-
-  syncDisplayedVersion();
-  refreshInstallButton();
-  registerServiceWorker();
+if(document.readyState==='loading'){
+  document.addEventListener('DOMContentLoaded',startPwa,{once:true});
+}else{
+  startPwa();
+}
 })();
