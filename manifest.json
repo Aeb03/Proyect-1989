@@ -1,8 +1,0 @@
-{
-  "name": "Arena Táctica",
-  "short_name": "Arena Táctica",
-  "start_url": "./",
-  "display": "standalone",
-  "background_color": "#080d16",
-  "theme_color": "#111827"
-}
