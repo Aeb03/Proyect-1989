@@ -1,0 +1,10 @@
+{
+  "name": "Arena Táctica",
+  "short_name": "Arena",
+  "start_url": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#0d1511",
+  "theme_color": "#18231b",
+  "lang": "es"
+}
