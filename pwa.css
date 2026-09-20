@@ -1,0 +1,90 @@
+.pwa-install-button{
+  position:fixed;
+  z-index:4800;
+  right:max(10px,env(safe-area-inset-right));
+  bottom:max(10px,env(safe-area-inset-bottom));
+  min-height:38px;
+  padding:7px 10px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:7px;
+  border:1px solid #9a8650;
+  border-radius:10px;
+  background:#20362aee;
+  color:#f3dfa0;
+  box-shadow:0 6px 18px #000a;
+  font-size:9px;
+  font-weight:900;
+  backdrop-filter:blur(3px);
+}
+.pwa-install-button[hidden]{display:none!important}
+
+.pwa-update-banner{
+  position:fixed;
+  z-index:5000;
+  left:50%;
+  top:max(8px,env(safe-area-inset-top));
+  transform:translateX(-50%);
+  width:min(520px,calc(100vw - 16px));
+  display:flex;
+  align-items:center;
+  gap:8px;
+  padding:7px 8px;
+  border:1px solid #d8b65c;
+  border-radius:11px;
+  background:#101913f5;
+  color:#f5edd8;
+  box-shadow:0 8px 24px #000c;
+  backdrop-filter:blur(4px);
+}
+.pwa-update-copy{
+  min-width:0;
+  flex:1;
+  display:flex;
+  flex-direction:column;
+}
+.pwa-update-copy b{
+  font-size:11px;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+.pwa-update-copy small{
+  margin-top:2px;
+  font-size:8px;
+  opacity:.75;
+}
+.pwa-update-banner button{
+  min-height:30px!important;
+  padding:4px 8px!important;
+  font-size:9px!important;
+}
+.pwa-update-later{
+  width:28px!important;
+  min-width:28px!important;
+  padding:0!important;
+  background:#29352e!important;
+}
+
+@media (orientation:landscape) and (max-height:430px){
+  .pwa-install-button{
+    right:6px;
+    bottom:6px;
+    min-height:28px;
+    padding:4px 7px;
+    font-size:7px;
+  }
+  .pwa-update-banner{
+    top:5px;
+    width:min(460px,58vw);
+    padding:4px 5px;
+  }
+  .pwa-update-copy b{font-size:8px}
+  .pwa-update-copy small{font-size:6px}
+  .pwa-update-banner button{
+    min-height:24px!important;
+    height:24px!important;
+    font-size:7px!important;
+  }
+}

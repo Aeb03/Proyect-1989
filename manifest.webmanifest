@@ -1,10 +1,32 @@
 {
+  "id": "./",
   "name": "Arena Táctica",
   "short_name": "Arena",
+  "description": "Circuito galáctico de combate táctico por turnos.",
   "start_url": "./",
+  "scope": "./",
   "display": "standalone",
-  "orientation": "any",
+  "orientation": "landscape",
   "background_color": "#0d1511",
   "theme_color": "#18231b",
-  "lang": "es"
+  "lang": "es-AR",
+  "categories": [
+    "games",
+    "entertainment"
+  ],
+  "prefer_related_applications": false,
+  "icons": [
+    {
+      "src": "icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ]
 }
