@@ -8,12 +8,13 @@
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="Liga de los Mundos">
-  <title>Liga de los Mundos</title>
+  <title>Liga de los Mundos v0.5.6</title>
   <link rel="manifest" href="./manifest.webmanifest">
   <link rel="icon" type="image/png" sizes="192x192" href="./icon-192.png">
   <link rel="apple-touch-icon" href="./icon-192.png">
   <link rel="stylesheet" href="./styles.css?v=053">
-  <link rel="stylesheet" href="./pwa.css?v=055">
+  <link rel="stylesheet" href="./brand.css?v=056">
+  <link rel="stylesheet" href="./pwa.css?v=056">
 </head>
 <body>
   <div class="rotate-gate" aria-live="polite">
@@ -26,8 +27,10 @@
   </div>
   <main id="app"></main>
 
-  <!-- Primero arranca el juego estable. La PWA se inicializa después. -->
+  <!-- Motor estable v0.5.3 -->
   <script src="./app.js?v=053"></script>
-  <script src="./pwa.js?v=055" defer></script>
+  <!-- Identidad visual y PWA, separadas del motor -->
+  <script src="./brand.js?v=056"></script>
+  <script src="./pwa.js?v=056" defer></script>
 </body>
 </html>

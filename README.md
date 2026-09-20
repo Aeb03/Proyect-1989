@@ -1,10 +1,25 @@
-# Arena Táctica v0.5.3 — corrección de rotación de cámara
+# Liga de los Mundos v0.5.6 — rebranding
 
-Corrección puntual sobre v0.5.2. Mantiene intactos motor, reglas, IA, balance y cámara desplazable.
+Actualización de identidad sobre el motor estable v0.5.3.
 
-- Se corrigió el bloque CSS de los controles de cámara, que había quedado escrito con secuencias `\n` literales y por eso no se aplicaba correctamente en el navegador.
-- El mini HUD de cámara ahora queda por encima del tablero y recibe los toques correctamente.
-- Se eliminó el botón central de centrado: quedan sólo mover controles, girar 90° a la izquierda y girar 90° a la derecha.
-- Los botones se redujeron para que sean sutiles y ocupen el mínimo espacio posible.
-- La rotación visual puede usarse incluso mientras la IA o una animación está resolviendo una acción.
-- La rotación sigue siendo puramente visual: coordenadas lógicas, movimiento, alcance, LOS, empujes, IA y habilidades no cambian.
+## Cambios
+- Arena Táctica pasa a llamarse **Liga de los Mundos** en la interfaz visible.
+- La pantalla de inicio utiliza el icono/logo oficial como marca principal.
+- El Lobby incorpora la misma identidad visual.
+- Se actualizan título del navegador, PWA y textos de marca.
+- Se mantiene el sistema de actualización de la PWA.
+- Versión pública mostrada: **v0.5.6**.
+
+## Se mantiene intacto
+- Motor de combate v0.5.3.
+- Reglas, campeones, habilidades, balance e IA.
+- Tablero isométrico y rotación de cámara.
+- HUD y posiciones guardadas.
+- Perfil e historial local.
+
+Importante: las claves internas `arena-tactica-*` se conservan intencionalmente para no borrar configuraciones, perfil ni estadísticas existentes.
+
+## Archivos de esta actualización
+`index.html`, `brand.js`, `brand.css`, `pwa.js`, `pwa.css`, `manifest.webmanifest`, `sw.js`, `README.md`.
+
+No reemplazar `app.js`, `styles.css`, `icon-192.png` ni `icon-512.png`.
