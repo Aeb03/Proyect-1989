@@ -1,28 +1,46 @@
-# Liga de los Mundos v0.5.7 — anclaje de entidades
+# Liga de los Mundos v0.5.8 — Arfeli, primera campeona viva
 
-Actualización visual sobre la v0.5.6 validada.
+Prueba visual sobre la v0.5.7 validada.
 
-## Cambios
-- Punto de anclaje único para combatientes y objetos isométricos.
-- La referencia sigue siendo `isoCenter(x,y)`.
-- Peana, personaje, vida, escudo y estados quedan ligados al mismo contenedor.
-- Brotes, Pilares y Muñeco usan el mismo criterio.
-- Se conserva la profundidad del motor en las cuatro rotaciones.
-- Obstáculos y trampas conservan su elevación visual.
-- Versión pública v0.5.7.
+## Objetivo
+Integrar por primera vez un campeón con arte propio sin tocar el motor estable.
+
+## Arfeli
+- `arfeli-combat.png`: personaje completo para el tablero.
+- `arfeli-avatar.png`: avatar para selección, colección y HUD de combate.
+- Estilo acordado: campeón vivo, fantasía estilizada tipo Dofus/Wakfu, sin peana tradicional.
+- En tablero conserva la sombra del arte y usa una señal de equipo más fina y sutil.
+- Sigue usando exactamente el anclaje de entidades validado en v0.5.7.
+
+## Implementación
+La integración se hace mediante `champion-assets.js` y `champion-assets.css`.
+No se modifica `app.js` ni `styles.css`.
+
+El sistema detecta a Arfeli y reemplaza sólo su representación visual:
+- selección de campeón;
+- colección/detalle;
+- avatar del HUD;
+- paneles de equipo/rival;
+- orden de turnos;
+- representación del personaje en la arena.
+
+Los demás campeones continúan con sus iconos actuales durante esta prueba.
 
 ## No se modifica
-- Motor `app.js` v0.5.3.
-- `styles.css`.
-- Reglas, IA, balance, cámara, paneo ni HUD.
-- El caso de Onod bajo el HUD se evalúa después de esta prueba.
-- Feedback de combate queda para después.
-- Las claves internas `arena-tactica-*` se conservan.
+- Reglas, habilidades, balance o IA.
+- Cámara, rotación y paneo.
+- Coordenadas o profundidad del tablero.
+- Claves de almacenamiento.
+- Animaciones: siguen fuera de esta prueba.
 
-## Archivos
-`index.html`, `brand.js`, `brand.css`, `entity-anchor.css`, `pwa.js`, `pwa.css`, `manifest.webmanifest`, `sw.js`, `README.md`.
+## Archivos de esta actualización
+`index.html`, `brand.js`, `champion-assets.js`, `champion-assets.css`, `arfeli-avatar.png`, `arfeli-combat.png`, `sw.js`, `README.md`.
 
-No reemplazar `app.js`, `styles.css`, `icon-192.png` ni `icon-512.png`.
+No reemplazar `app.js`, `styles.css`, `entity-anchor.css`, `pwa.js`, `pwa.css`, `manifest.webmanifest` ni los iconos de la app.
 
-## Prueba
-Comparar el mismo combatiente en 0°, 90°, 180° y 270° y verificar que la peana permanezca centrada en su casilla.
+## Prueba recomendada
+1. Revisar Arfeli en selección.
+2. Entrar a combate.
+3. Ver tamaño y punto de apoyo sobre la casilla.
+4. Girar el tablero 0°, 90°, 180° y 270°.
+5. Revisar avatar en HUD, equipo/rival y orden de turno.

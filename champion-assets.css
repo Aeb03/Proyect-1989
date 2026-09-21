@@ -1,0 +1,59 @@
+/* v0.5.8 — primera integración de campeón vivo: Arfeli.
+   Sólo presentación. No cambia reglas, coordenadas ni lógica. */
+
+.arfeli-image-host{overflow:hidden!important}
+.arfeli-avatar-img{
+  width:100%!important;height:100%!important;display:block!important;
+  object-fit:cover!important;object-position:center!important;border-radius:50%!important;
+}
+
+/* Selección / colección */
+.champion-card.compact .champ-icon.arfeli-image-host{
+  width:42px;height:42px;flex:0 0 42px;border-radius:50%;
+  border:1px solid #8d7d50;background:#17120f;box-shadow:0 2px 7px #0008;
+  font-size:0!important;
+}
+.detail-icon.arfeli-image-host,.profile-avatar.arfeli-image-host,
+.fighter-avatar.arfeli-image-host,.battle-roster-icon.arfeli-image-host{
+  padding:0!important;background:#17120f!important;font-size:0!important;
+}
+.turn-icon.arfeli-image-host{
+  display:inline-block!important;width:13px!important;height:13px!important;
+  border-radius:50%;vertical-align:middle;font-size:0!important;
+}
+
+/* Tablero: personaje vivo, anclado al mismo punto v0.5.7. */
+@media (orientation:landscape){
+  .iso-combat-entity .unit-piece.champion-arfeli{
+    width:clamp(62px,7.2vw,82px)!important;
+    height:clamp(82px,9.8vw,108px)!important;
+  }
+  .iso-combat-entity .unit-piece.champion-arfeli .unit-icon.arfeli-image-host{
+    width:clamp(66px,7.8vw,88px)!important;
+    height:clamp(60px,7.3vw,82px)!important;
+    flex:0 0 auto!important;
+    display:flex!important;align-items:flex-end!important;justify-content:center!important;
+    overflow:visible!important;margin:0 auto -1px!important;font-size:0!important;
+  }
+  .iso-combat-entity .unit-piece.champion-arfeli .arfeli-combat-img{
+    display:block!important;width:100%!important;height:100%!important;
+    object-fit:contain!important;object-position:center bottom!important;
+    filter:drop-shadow(0 3px 2px #0008);
+  }
+  /* señal táctica más sutil que la peana anterior */
+  .iso-combat-entity .unit-piece.champion-arfeli.team-player:before,
+  .iso-combat-entity .unit-piece.champion-arfeli.team-enemy:before{
+    width:58%!important;height:10%!important;bottom:0!important;
+    border-width:1.5px!important;opacity:.72!important;
+    box-shadow:0 0 5px #0007!important;
+  }
+}
+@media (orientation:landscape) and (max-height:430px){
+  .champion-card.compact .champ-icon.arfeli-image-host{width:34px;height:34px;flex-basis:34px}
+  .iso-combat-entity .unit-piece.champion-arfeli{
+    width:66px!important;height:88px!important;
+  }
+  .iso-combat-entity .unit-piece.champion-arfeli .unit-icon.arfeli-image-host{
+    width:70px!important;height:64px!important;
+  }
+}
