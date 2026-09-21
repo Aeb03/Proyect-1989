@@ -1,37 +1,18 @@
-# Liga de los Mundos v0.5.11 — Primera animación de Arfeli
+# Liga de los Mundos — v0.5.12
 
-Prueba de integración de la caminata generada en FrameSprite sobre la base v0.5.10.
+Corrección de la primera prueba de caminata de Arfeli.
 
-## Cambios
-- Se incorporan 8 fotogramas PNG transparentes de la caminata de Arfeli.
-- Reproducción configurada a 8 FPS (125 ms por fotograma).
-- La animación se activa solamente cuando Arfeli está realizando un movimiento en combate.
-- Al terminar el movimiento vuelve automáticamente a `arfeli-combat.png`.
-- Los fotogramas se precargan para evitar parpadeos durante el primer movimiento.
-- Funciona tanto para Arfeli controlada por el jugador como para una Arfeli rival IA.
+## Qué cambia
+- Los 8 fotogramas de caminata fueron normalizados para mantener la misma altura visual y el mismo punto de apoyo de los pies.
+- La animación ya no se reinicia cada vez que el motor redibuja una casilla.
+- Al detectar un movimiento de Arfeli, se reproduce como mínimo un ciclo completo de 8 fotogramas para que la caminata sea visible incluso en un desplazamiento de una sola casilla.
+- Al finalizar vuelve a `arfeli-combat.png`.
+- No se modifican reglas, PA, PM, alcance, IA, cámara ni rotación.
 
-## Importante
-Esta versión es una **prueba de integración visual**. No modifica `app.js` ni las reglas, balance, IA, PM, rutas, cámara o rotación del motor v0.5.3.
+## Archivos
+Incluye `index.html` y `README.md`, más el controlador de caminata, los 8 frames normalizados y los archivos de versión/cache necesarios.
 
-## Archivos a subir/reemplazar
-- `index.html`
-- `brand.js`
-- `walk-animation.js`
-- `sw.js`
-- `README.md`
-- `arfeli-walk-0.png`
-- `arfeli-walk-1.png`
-- `arfeli-walk-2.png`
-- `arfeli-walk-3.png`
-- `arfeli-walk-4.png`
-- `arfeli-walk-5.png`
-- `arfeli-walk-6.png`
-- `arfeli-walk-7.png`
-
-## Prueba recomendada
-1. Actualizar la PWA/web a v0.5.11.
-2. Iniciar un combate con Arfeli.
-3. Elegir **Mover** y desplazarla una o varias casillas.
-4. Confirmar que durante el movimiento aparecen los frames de caminata.
-5. Confirmar que al detenerse vuelve a la pose normal.
-6. Girar la cámara y comprobar que el giro por sí solo no activa la caminata.
+## Base
+Motor de combate: v0.5.3 sin cambios.
+Interfaz/colección: v0.5.10.
+Prueba de animación corregida: v0.5.12.
