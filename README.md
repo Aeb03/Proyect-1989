@@ -1,34 +1,42 @@
-# Liga de los Mundos v0.5.10 — Campeones escalable
+# Liga de los Mundos v0.5.13 — Miniatura Arfeli 4 vistas
 
-Actualización visual sobre la v0.5.9.
+Primera versión del nuevo enfoque de **juego de mesa digital** para los campeones en combate.
 
-## Cambios
-- La pantalla **Campeones** ahora usa el mismo retrato grande de selección para Arfeli.
-- El avatar circular queda reservado para HUD, turno, ficha compacta y otras interfaces pequeñas.
-- La grilla izquierda de **Campeones** pasa a ser desplazable verticalmente con el dedo.
-- La lista ya no depende de que todos los campeones entren en una sola pantalla.
-- Se mantienen 3 columnas en horizontal.
-- Se agrega scrollbar fina como referencia visual de que hay más contenido.
-- El detalle de campeón y los botones inferiores permanecen fijos mientras se desplaza solamente el plantel.
+## Cambio principal
+Arfeli deja de usar `arfeli-combat.png`. En la arena ahora se representa como una miniatura rígida fotografiada desde cuatro ángulos isométricos:
 
-## Sistema visual oficial
-1. `*-select.png`: Selección de partida + pantalla Campeones.
-2. `*-avatar.png`: HUD e interfaces compactas.
-3. `*-combat.png`: campeón dentro de la arena.
+- `arfeli-combat-down-right.png`
+- `arfeli-combat-down-left.png`
+- `arfeli-combat-up-right.png`
+- `arfeli-combat-up-left.png`
 
-## Se conserva
-- Escala de Arfeli en combate de v0.5.9.
-- Anclaje de entidades v0.5.7.
-- Avatar completo en los HUD.
-- Motor `app.js` v0.5.3.
-- Reglas, balance, IA, cámara y rotación.
+Las cuatro imágenes fueron colocadas sobre el mismo canvas y alineadas por el centro de la peana para reducir saltos de posición o escala al cambiar de vista.
 
-## Archivos
-`index.html`, `brand.js`, `champion-assets.js`, `champion-assets.css`,
-`arfeli-select.png`, `arfeli-avatar.png`, `arfeli-combat.png`, `sw.js`, `README.md`.
+## Orientación
+- Se conserva el `facing` que ya usa el motor v0.5.3.
+- Un último paso o un ataque puede cambiar la orientación de Arfeli exactamente como antes.
+- La vista mostrada también tiene en cuenta la rotación 0/90/180/270° de la cámara.
+- No hay animación de caminata. Arfeli es una miniatura física rígida.
 
-## Prueba
-1. Abrir **Campeones** y comprobar que Arfeli muestra el portrait grande.
-2. Deslizar verticalmente dentro del plantel.
-3. Confirmar que la ficha derecha y los botones inferiores no se mueven.
-4. Entrar a combate para confirmar que v0.5.9 se mantiene intacta.
+## Cambio de imagen sin parpadeo
+Las cuatro vistas se precargan al iniciar la app y se insertan superpuestas dentro del mismo contenedor. Sólo una queda visible. No se cambia el `src` durante el combate.
+
+## Motor
+`app.js` permanece **v0.5.3 sin modificaciones**. La integración se realiza desde `champion-assets.js`, envolviendo solamente la salida visual de `renderEntity`; PA, PM, IA, alcance, LOS, turnos, cámara y reglas no cambian.
+
+## Archivos de Arfeli que se conservan
+- `arfeli-avatar.png`: HUD y elementos compactos.
+- `arfeli-select.png`: Selección y pantalla Campeones.
+
+`arfeli-combat.png` ya no es utilizado ni precargado. Una vez validada esta versión puede eliminarse manualmente del repositorio.
+
+## Prueba recomendada
+1. Confirmar que la app muestre v0.5.13.
+2. Entrar al combate con Arfeli y comprobar que se ve la peana completa.
+3. Moverla una casilla en cada dirección y comprobar las cuatro vistas.
+4. Atacar desde distintos lados y verificar que conserva la orientación resultante.
+5. Girar la cámara con ↶/↷ y confirmar que la vista cambia coherentemente.
+6. Observar especialmente si hay salto de escala/posición o un cuadro vacío al cambiar de vista.
+
+## Carga manual
+Subir todos los archivos de este ZIP a la raíz del repositorio, reemplazando los existentes cuando corresponda. `arfeli-combat.png` viejo puede quedar temporalmente: esta versión no lo referencia.

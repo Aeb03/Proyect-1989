@@ -1,4 +1,4 @@
-/* v0.5.10 — Campeones preparado para plantel grande + portrait de selección en colección. */
+/* v0.5.13 — Arfeli como miniatura rígida de 4 vistas isométricas. */
 .arfeli-image-host,.arfeli-select-host,.arfeli-collection-select-host,.arfeli-combat-host{overflow:hidden!important}
 .arfeli-avatar-img{width:100%!important;height:100%!important;display:block!important;object-fit:cover!important;object-position:center!important;border-radius:50%!important}
 
@@ -57,25 +57,35 @@
 .arfeli-round-avatar{width:14px;height:14px;border-radius:50%;object-fit:cover;vertical-align:middle;border:1px solid #8d7d50;margin:0 2px}
 .round-active{display:inline-flex!important;align-items:center!important;gap:2px}
 
-/* Tablero: conserva tamaño/anclaje v0.5.9 */
+/* TABLERO — miniatura física de cuatro vistas.
+   Las cuatro imágenes comparten canvas, escala y centro de peana. */
 @media (orientation:landscape){
-  .iso-combat-entity .unit-piece.champion-arfeli{width:clamp(46px,5.4vw,62px)!important;height:clamp(62px,7.4vw,82px)!important}
+  .iso-combat-entity .unit-piece.champion-arfeli{
+    width:clamp(46px,5.4vw,62px)!important;height:clamp(62px,7.4vw,82px)!important;
+  }
   .iso-combat-entity .unit-piece.champion-arfeli .unit-icon.arfeli-combat-host{
-    width:clamp(50px,5.9vw,66px)!important;height:clamp(47px,5.6vw,62px)!important;flex:0 0 auto!important;
-    display:flex!important;align-items:flex-end!important;justify-content:center!important;overflow:visible!important;
-    margin:0 auto -1px!important;font-size:0!important;
+    position:relative!important;width:clamp(54px,6.2vw,70px)!important;height:clamp(58px,6.7vw,74px)!important;
+    flex:0 0 auto!important;display:block!important;overflow:visible!important;
+    margin:0 auto -2px!important;font-size:0!important;filter:none!important;
   }
   .iso-combat-entity .unit-piece.champion-arfeli .arfeli-combat-img{
-    display:block!important;width:100%!important;height:100%!important;object-fit:contain!important;
-    object-position:center bottom!important;filter:drop-shadow(0 2px 1px #0006);
+    position:absolute!important;inset:0!important;display:block!important;
+    width:100%!important;height:100%!important;object-fit:contain!important;object-position:center bottom!important;
+    opacity:0!important;visibility:hidden!important;pointer-events:none!important;
+    filter:drop-shadow(0 2px 1px #0006);
   }
+  .iso-combat-entity .unit-piece.champion-arfeli .arfeli-combat-img.is-active{
+    opacity:1!important;visibility:visible!important;
+  }
+  /* Indicador de equipo de la app: queda detrás de la peana, no forma parte del PNG. */
   .iso-combat-entity .unit-piece.champion-arfeli.team-player:before,
   .iso-combat-entity .unit-piece.champion-arfeli.team-enemy:before{
-    width:44%!important;height:7%!important;bottom:0!important;border-width:1px!important;opacity:.48!important;box-shadow:0 0 3px #0005!important;
+    width:54%!important;height:7%!important;bottom:-1%!important;border-width:1px!important;
+    opacity:.46!important;box-shadow:0 0 3px #0005!important;
   }
 }
 @media (orientation:landscape) and (max-height:430px){
   .collection-screen>.roster-grid{grid-auto-rows:130px!important}
   .iso-combat-entity .unit-piece.champion-arfeli{width:52px!important;height:68px!important}
-  .iso-combat-entity .unit-piece.champion-arfeli .unit-icon.arfeli-combat-host{width:55px!important;height:51px!important}
+  .iso-combat-entity .unit-piece.champion-arfeli .unit-icon.arfeli-combat-host{width:58px!important;height:61px!important}
 }
