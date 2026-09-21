@@ -1,34 +1,37 @@
-# Liga de los Mundos v0.5.10 — Campeones escalable
+# Liga de los Mundos v0.5.11 — Primera animación de Arfeli
 
-Actualización visual sobre la v0.5.9.
+Prueba de integración de la caminata generada en FrameSprite sobre la base v0.5.10.
 
 ## Cambios
-- La pantalla **Campeones** ahora usa el mismo retrato grande de selección para Arfeli.
-- El avatar circular queda reservado para HUD, turno, ficha compacta y otras interfaces pequeñas.
-- La grilla izquierda de **Campeones** pasa a ser desplazable verticalmente con el dedo.
-- La lista ya no depende de que todos los campeones entren en una sola pantalla.
-- Se mantienen 3 columnas en horizontal.
-- Se agrega scrollbar fina como referencia visual de que hay más contenido.
-- El detalle de campeón y los botones inferiores permanecen fijos mientras se desplaza solamente el plantel.
+- Se incorporan 8 fotogramas PNG transparentes de la caminata de Arfeli.
+- Reproducción configurada a 8 FPS (125 ms por fotograma).
+- La animación se activa solamente cuando Arfeli está realizando un movimiento en combate.
+- Al terminar el movimiento vuelve automáticamente a `arfeli-combat.png`.
+- Los fotogramas se precargan para evitar parpadeos durante el primer movimiento.
+- Funciona tanto para Arfeli controlada por el jugador como para una Arfeli rival IA.
 
-## Sistema visual oficial
-1. `*-select.png`: Selección de partida + pantalla Campeones.
-2. `*-avatar.png`: HUD e interfaces compactas.
-3. `*-combat.png`: campeón dentro de la arena.
+## Importante
+Esta versión es una **prueba de integración visual**. No modifica `app.js` ni las reglas, balance, IA, PM, rutas, cámara o rotación del motor v0.5.3.
 
-## Se conserva
-- Escala de Arfeli en combate de v0.5.9.
-- Anclaje de entidades v0.5.7.
-- Avatar completo en los HUD.
-- Motor `app.js` v0.5.3.
-- Reglas, balance, IA, cámara y rotación.
+## Archivos a subir/reemplazar
+- `index.html`
+- `brand.js`
+- `walk-animation.js`
+- `sw.js`
+- `README.md`
+- `arfeli-walk-0.png`
+- `arfeli-walk-1.png`
+- `arfeli-walk-2.png`
+- `arfeli-walk-3.png`
+- `arfeli-walk-4.png`
+- `arfeli-walk-5.png`
+- `arfeli-walk-6.png`
+- `arfeli-walk-7.png`
 
-## Archivos
-`index.html`, `brand.js`, `champion-assets.js`, `champion-assets.css`,
-`arfeli-select.png`, `arfeli-avatar.png`, `arfeli-combat.png`, `sw.js`, `README.md`.
-
-## Prueba
-1. Abrir **Campeones** y comprobar que Arfeli muestra el portrait grande.
-2. Deslizar verticalmente dentro del plantel.
-3. Confirmar que la ficha derecha y los botones inferiores no se mueven.
-4. Entrar a combate para confirmar que v0.5.9 se mantiene intacta.
+## Prueba recomendada
+1. Actualizar la PWA/web a v0.5.11.
+2. Iniciar un combate con Arfeli.
+3. Elegir **Mover** y desplazarla una o varias casillas.
+4. Confirmar que durante el movimiento aparecen los frames de caminata.
+5. Confirmar que al detenerse vuelve a la pose normal.
+6. Girar la cámara y comprobar que el giro por sí solo no activa la caminata.
