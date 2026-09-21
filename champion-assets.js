@@ -6,24 +6,25 @@ const COMBAT='./arfeli-combat.png';
 
 function setImage(host,src,cls,alt='Arfeli',hostClass='arfeli-image-host'){
   if(!host)return;
-  const current=host.querySelector(`img.${cls}`);
-  if(current)return;
+  if(host.querySelector(`img.${cls}`))return;
   host.textContent='';
   host.classList.add(hostClass);
   const img=document.createElement('img');
   img.src=src;img.alt=alt;img.className=cls;img.draggable=false;
   host.appendChild(img);
 }
-function isArfeliName(el){
-  return el?.textContent?.trim()==='Arfeli';
-}
-function decorateSelection(){
+function isArfeliName(el){return el?.textContent?.trim()==='Arfeli'}
+
+function decorateChampionScreens(){
+  /* Selección de partida: portrait grande */
   document.querySelectorAll('[data-champ="arfeli"] .champ-icon')
     .forEach(x=>setImage(x,SELECT,'arfeli-select-img','Arfeli','arfeli-select-host'));
 
+  /* Pantalla CAMPEONES: mismo portrait grande para identidad visual */
   document.querySelectorAll('[data-collection-champ="arfeli"] .champ-icon')
-    .forEach(x=>setImage(x,AVATAR,'arfeli-avatar-img'));
+    .forEach(x=>setImage(x,SELECT,'arfeli-select-img','Arfeli','arfeli-collection-select-host'));
 
+  /* Ficha/detalle: avatar compacto */
   document.querySelectorAll('.champion-detail').forEach(card=>{
     if(isArfeliName(card.querySelector('.champion-detail-head h3')))
       setImage(card.querySelector('.detail-icon'),AVATAR,'arfeli-avatar-img');
@@ -39,20 +40,17 @@ function decorateHud(){
     if(isArfeliName(row.querySelector('.battle-roster-copy b')))
       setImage(row.querySelector('.battle-roster-icon'),AVATAR,'arfeli-avatar-img');
   });
-
   document.querySelectorAll('.fighter-panel').forEach(panel=>{
     const name=panel.querySelector('.fighter-name b')?.textContent||'';
     if(/^Arfeli(?:\s|$|·)/i.test(name))
       setImage(panel.querySelector('.fighter-avatar'),AVATAR,'arfeli-avatar-img');
   });
-
   document.querySelectorAll('.turn-chip').forEach(chip=>{
     if(isArfeliName(chip.querySelector('.turn-name')))
       setImage(chip.querySelector('.turn-icon'),AVATAR,'arfeli-avatar-img');
   });
-
   const active=document.querySelector('.round-active');
-  if(active && /Arfeli/.test(active.textContent||'') && !active.querySelector('.arfeli-round-avatar')){
+  if(active&&/Arfeli/.test(active.textContent||'')&&!active.querySelector('.arfeli-round-avatar')){
     const team=(active.textContent||'').includes('🔴')?'🔴':'🔵';
     active.innerHTML=`<span class="arfeli-round-team">${team}</span><img class="arfeli-round-avatar" src="${AVATAR}" alt=""><span>Arfeli</span>`;
   }
@@ -67,13 +65,9 @@ function decorateBattle(){
     }
   });
 }
-function decorate(){decorateSelection();decorateHud();decorateBattle()}
+function decorate(){decorateChampionScreens();decorateHud();decorateBattle()}
 let queued=false;
-function schedule(){
-  if(queued)return;
-  queued=true;
-  requestAnimationFrame(()=>{queued=false;decorate()});
-}
+function schedule(){if(queued)return;queued=true;requestAnimationFrame(()=>{queued=false;decorate()})}
 new MutationObserver(schedule).observe(document.documentElement,{subtree:true,childList:true});
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',decorate,{once:true});else decorate();
 })();
