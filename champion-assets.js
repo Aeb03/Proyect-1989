@@ -2,21 +2,12 @@
 'use strict';
 
 const CHAMPION_ART={
-  arfeli:{
-    name:'Arfeli',
-    avatar:'./assets/champions/arfeli/arfeli-avatar.png',
-    select:'./assets/champions/arfeli/arfeli-select.png'
-  },
-  coloso:{
-    name:'Coloso',
-    avatar:'./assets/champions/coloso/coloso-avatar.png',
-    select:'./assets/champions/coloso/coloso-select.png'
-  },
-  piplus:{
-    name:'Piplus',
-    avatar:'./assets/champions/piplus/piplus-avatar.png',
-    select:'./assets/champions/piplus/piplus-select.png'
-  }
+  arfeli:{name:'Arfeli',avatar:'./assets/champions/arfeli/arfeli-avatar.png',select:'./assets/champions/arfeli/arfeli-select.png'},
+  coloso:{name:'Coloso',avatar:'./assets/champions/coloso/coloso-avatar.png',select:'./assets/champions/coloso/coloso-select.png'},
+  piplus:{name:'Piplus',avatar:'./assets/champions/piplus/piplus-avatar.png',select:'./assets/champions/piplus/piplus-select.png'},
+  onod:{name:'Onod',avatar:'./assets/champions/onod/onod-avatar.png',select:'./assets/champions/onod/onod-select.png'},
+  korgan:{name:'Korgan',avatar:'./assets/champions/korgan/korgan-avatar.png',select:'./assets/champions/korgan/korgan-select.png'},
+  houngan:{name:'Houngan',avatar:'./assets/champions/houngan/houngan-avatar.png',select:'./assets/champions/houngan/houngan-select.png'}
 };
 
 const ARFELI_COMBAT_VIEWS={
@@ -45,7 +36,6 @@ function setImage(host,src,cls,alt='',hostClass='champion-image-host'){
   img.src=src;img.alt=alt;img.className=cls;img.draggable=false;
   host.appendChild(img);
 }
-function sameName(el,name){return el?.textContent?.trim()===name}
 function championByText(text=''){
   return Object.entries(CHAMPION_ART).find(([,a])=>new RegExp(`^${a.name}(?:\\s|$|·)`,'i').test(text.trim()))?.[0]||null;
 }

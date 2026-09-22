@@ -1,10 +1,10 @@
-/* v0.5.15 — assets organizados por campeón. Arfeli conserva miniatura rígida de 4 vistas. */
+/* v0.5.16 — selección y avatar aprobados para los 6 campeones. Arfeli conserva miniatura rígida de 4 vistas. */
 .champion-image-host,.champion-select-host,.champion-collection-select-host,.arfeli-combat-host{overflow:hidden!important}
 .champion-avatar-img{width:100%!important;height:100%!important;display:block!important;object-fit:cover!important;object-position:center!important;border-radius:inherit!important}
 
 /* RETRATO GRANDE: selección de partida y pantalla Campeones */
-.select-screen [data-champ="arfeli"],.select-screen [data-champ="coloso"],.select-screen [data-champ="piplus"],
-.collection-screen [data-collection-champ="arfeli"],.collection-screen [data-collection-champ="coloso"],.collection-screen [data-collection-champ="piplus"]{
+.select-screen [data-champ="arfeli"],.select-screen [data-champ="coloso"],.select-screen [data-champ="piplus"],.select-screen [data-champ="onod"],.select-screen [data-champ="korgan"],.select-screen [data-champ="houngan"],
+.collection-screen [data-collection-champ="arfeli"],.collection-screen [data-collection-champ="coloso"],.collection-screen [data-collection-champ="piplus"],.collection-screen [data-collection-champ="onod"],.collection-screen [data-collection-champ="korgan"],.collection-screen [data-collection-champ="houngan"]{
   justify-content:flex-start!important;overflow:hidden!important;padding:0 4px 5px!important;
 }
 .select-screen .champ-icon.champion-select-host,.collection-screen .champ-icon.champion-collection-select-host{
@@ -17,14 +17,8 @@
   width:100%!important;height:100%!important;display:block!important;object-fit:cover!important;
   object-position:50% 22%!important;border-radius:inherit!important;
 }
-.select-screen [data-champ="arfeli"] b,.select-screen [data-champ="coloso"] b,.select-screen [data-champ="piplus"] b,
-.collection-screen [data-collection-champ="arfeli"] b,.collection-screen [data-collection-champ="coloso"] b,.collection-screen [data-collection-champ="piplus"] b{
-  position:relative;z-index:2;font-size:8px!important;
-}
-.select-screen [data-champ="arfeli"] small,.select-screen [data-champ="coloso"] small,.select-screen [data-champ="piplus"] small,
-.collection-screen [data-collection-champ="arfeli"] small,.collection-screen [data-collection-champ="coloso"] small,.collection-screen [data-collection-champ="piplus"] small{
-  position:relative;z-index:2;font-size:5.8px!important;
-}
+.select-screen [data-champ] b,.collection-screen [data-collection-champ] b{position:relative;z-index:2;font-size:8px!important}
+.select-screen [data-champ] small,.collection-screen [data-collection-champ] small{position:relative;z-index:2;font-size:5.8px!important}
 
 @media (orientation:landscape){
   .collection-screen>.roster-grid{

@@ -1,39 +1,43 @@
-# Liga de los Mundos v0.5.15 — Organización de assets de campeones
+# Liga de los Mundos v0.5.16 — Galería visual completa
 
 ## Cambio principal
-Se inicia la estructura definitiva de recursos gráficos por campeón:
+Se completa la integración de imágenes aprobadas de **selección + avatar** para los seis campeones actuales.
 
-`assets/champions/<campeon>/`
+## Campeones
+- Arfeli
+- Coloso
+- Piplus
+- Onod
+- Korgan
+- Houngan
 
-Arfeli conserva su avatar, selección y cuatro vistas tácticas. Coloso y Piplus incorporan sus imágenes aprobadas de selección y avatar.
+Cada campeón utiliza:
+`assets/champions/<campeon>/<campeon>-select.png`
+`assets/champions/<campeon>/<campeon>-avatar.png`
 
-## Estructura
-- `assets/champions/arfeli/`: avatar, selección y 4 vistas tácticas.
-- `assets/champions/coloso/`: avatar y selección.
-- `assets/champions/piplus/`: avatar y selección.
+Arfeli conserva además sus cuatro vistas tácticas ya validadas.
 
 ## Implementación
-- `champion-assets.js` pasa a usar un registro común de assets para Arfeli, Coloso y Piplus.
-- Selección, ficha, equipo, HUD e iniciativa reutilizan el avatar aprobado de cada campeón.
-- El hook de cuatro vistas tácticas continúa siendo exclusivo de Arfeli; no se modifican mecánicas.
-- `avatar-layout.css` generaliza el tratamiento visual del retrato sin tocar el motor.
-- `brand.js` corrige el número visible de inicio a v0.5.15.
+- `champion-assets.js`: registro visual ampliado a los 6 campeones.
+- Selección, ficha, equipo, HUD e iniciativa reutilizan el avatar correspondiente.
+- No se modifican estadísticas, habilidades, IA, movimiento ni reglas.
+- `champion-assets.css` generaliza la presentación de selección a los seis campeones.
+- `avatar-layout.css` conserva el formato de retrato validado.
+- Inicio y referencias públicas actualizadas a v0.5.16.
 
 ## PWA
-- Caché actualizado a `liga-mundos-0515`.
-- Las rutas precargadas apuntan a la nueva estructura de carpetas.
-- Se mantiene la actualización manual segura de la PWA.
-
-## Migración
-Ejecutar `migrate-assets.sh` una vez después de descomprimir este paquete en la raíz del repositorio local. El script mueve los seis assets existentes de Arfeli desde la raíz a `assets/champions/arfeli/`.
+- Caché actualizado a `liga-mundos-0516`.
+- Los seis pares selección/avatar quedan incluidos en el precache.
+- Se mantiene el mecanismo de actualización manual segura.
 
 ## Prueba recomendada
-1. Confirmar inicio v0.5.15.
-2. Revisar selección y avatar de Arfeli, Coloso y Piplus.
-3. Revisar ficha, equipo, HUD e iniciativa de los tres.
-4. Confirmar las cuatro vistas tácticas de Arfeli.
-5. Confirmar que movimiento, habilidades, turnos, IA y cámara siguen iguales.
-6. Verificar actualización de la PWA sin pantalla blanca.
+1. Confirmar que el inicio muestra v0.5.16.
+2. Abrir Campeones y revisar selección + avatar de los 6.
+3. Iniciar partidas con Onod, Korgan y Houngan.
+4. Revisar sus avatares en equipo, HUD e iniciativa.
+5. Confirmar que Arfeli, Coloso y Piplus siguen iguales.
+6. Confirmar que movimiento, habilidades, turnos, IA y cámara no cambiaron.
+7. Verificar actualización de la PWA sin pantalla blanca.
 
 ## Estado
-LISTA PARA PROBAR. No considerar validada hasta la prueba de Adrián.
+LISTA PARA PROBAR. No considerar VALIDADA hasta la prueba de Adrián.
