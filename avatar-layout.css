@@ -1,0 +1,65 @@
+/* v0.5.14 — prueba de nuevo concepto de avatar. Capa exclusivamente visual. */
+
+/* El asset maestro deja de tratarse como icono circular. */
+.arfeli-avatar-img{
+  width:100%!important;height:100%!important;display:block!important;
+  object-fit:cover!important;object-position:50% 38%!important;
+  border-radius:inherit!important;
+}
+
+/* Ficha / perfil: retrato con presencia, sin alterar la estructura funcional. */
+.detail-icon.arfeli-image-host,
+.profile-avatar.arfeli-image-host{
+  width:clamp(58px,7vw,74px)!important;
+  height:clamp(66px,8vw,84px)!important;
+  flex:0 0 auto!important;
+  border-radius:12px!important;
+  overflow:hidden!important;
+  padding:0!important;background:#17120f!important;font-size:0!important;
+  border:1px solid #8d7d50!important;
+}
+
+/* Integrantes/equipo: mismo asset en formato retrato compacto. */
+.battle-roster-icon.arfeli-image-host{
+  border-radius:9px!important;
+  overflow:hidden!important;
+  padding:0!important;background:#17120f!important;font-size:0!important;
+}
+
+/* HUD del combatiente: el avatar gana protagonismo y deja de ser circular. */
+.fighter-avatar.arfeli-image-host{
+  width:62px!important;height:70px!important;flex:0 0 62px!important;
+  border-radius:12px!important;overflow:hidden!important;
+  padding:0!important;background:#17120f!important;font-size:0!important;
+  border:1px solid #8d7d50!important;
+  box-shadow:0 3px 10px #0007!important;
+}
+
+/* Iniciativa: tratamiento especial muy pequeño, centrado en el rostro. */
+.turn-icon.arfeli-image-host{
+  display:inline-block!important;width:17px!important;height:17px!important;
+  border-radius:5px!important;overflow:hidden!important;
+  vertical-align:middle!important;font-size:0!important;
+  border:1px solid #8d7d50!important;
+}
+.turn-icon.arfeli-image-host .arfeli-avatar-img,
+.arfeli-round-avatar{
+  object-position:50% 34%!important;
+}
+.arfeli-round-avatar{
+  width:18px!important;height:18px!important;border-radius:5px!important;
+  object-fit:cover!important;vertical-align:middle!important;
+  border:1px solid #8d7d50!important;margin:0 2px!important;
+}
+
+/* En pantallas de poca altura conservamos espacio útil para la arena. */
+@media (orientation:landscape) and (max-height:430px){
+  .detail-icon.arfeli-image-host,.profile-avatar.arfeli-image-host{
+    width:54px!important;height:60px!important;
+  }
+  .fighter-avatar.arfeli-image-host{
+    width:54px!important;height:60px!important;flex-basis:54px!important;
+  }
+  .turn-icon.arfeli-image-host{width:15px!important;height:15px!important}
+  .arfeli-round-avatar{width:16px!important;height:16px!important}
+}

@@ -1,42 +1,38 @@
-# Liga de los Mundos v0.5.13 — Miniatura Arfeli 4 vistas
-
-Primera versión del nuevo enfoque de **juego de mesa digital** para los campeones en combate.
+# Liga de los Mundos v0.5.14 — Prueba de nuevo avatar de Arfeli
 
 ## Cambio principal
-Arfeli deja de usar `arfeli-combat.png`. En la arena ahora se representa como una miniatura rígida fotografiada desde cuatro ángulos isométricos:
+Prueba visual del nuevo concepto de avatar de Arfeli. El retrato deja de tratarse como un icono exclusivamente circular y gana presencia en ficha/perfil y HUD, reutilizando el mismo asset en todos los contextos.
 
-- `arfeli-combat-down-right.png`
-- `arfeli-combat-down-left.png`
-- `arfeli-combat-up-right.png`
-- `arfeli-combat-up-left.png`
+## Assets actualizados
+- `arfeli-avatar.png`: nuevo retrato cuadrado aprobado.
+- `arfeli-select.png`: nueva imagen de selección aprobada.
 
-Las cuatro imágenes fueron colocadas sobre el mismo canvas y alineadas por el centro de la peana para reducir saltos de posición o escala al cambiar de vista.
+Las cuatro vistas de la miniatura de combate permanecen sin cambios.
 
-## Orientación
-- Se conserva el `facing` que ya usa el motor v0.5.3.
-- Un último paso o un ataque puede cambiar la orientación de Arfeli exactamente como antes.
-- La vista mostrada también tiene en cuenta la rotación 0/90/180/270° de la cámara.
-- No hay animación de caminata. Arfeli es una miniatura física rígida.
+## Implementación
+Se agrega `avatar-layout.css` como capa visual independiente. No se modifica `app.js`, `champion-assets.js` ni ninguna regla de combate. El motor v0.5.3 permanece intacto.
 
-## Cambio de imagen sin parpadeo
-Las cuatro vistas se precargan al iniciar la app y se insertan superpuestas dentro del mismo contenedor. Sólo una queda visible. No se cambia el `src` durante el combate.
+El mismo `arfeli-avatar.png` se adapta mediante CSS a:
+- ficha/perfil;
+- integrantes del equipo;
+- HUD del combatiente;
+- iniciativa/orden de turno;
+- campeón activo de ronda.
 
-## Motor
-`app.js` permanece **v0.5.3 sin modificaciones**. La integración se realiza desde `champion-assets.js`, envolviendo solamente la salida visual de `renderEntity`; PA, PM, IA, alcance, LOS, turnos, cámara y reglas no cambian.
+En pantallas landscape de poca altura se aplica una variante compacta para conservar espacio de arena.
 
-## Archivos de Arfeli que se conservan
-- `arfeli-avatar.png`: HUD y elementos compactos.
-- `arfeli-select.png`: Selección y pantalla Campeones.
-
-`arfeli-combat.png` ya no es utilizado ni precargado. Una vez validada esta versión puede eliminarse manualmente del repositorio.
+## PWA
+El caché pasa a `liga-mundos-0514` y precarga la nueva capa visual y los assets aprobados. Se conserva el sistema existente de aviso de actualización y actualización manual segura.
 
 ## Prueba recomendada
-1. Confirmar que la app muestre v0.5.13.
-2. Entrar al combate con Arfeli y comprobar que se ve la peana completa.
-3. Moverla una casilla en cada dirección y comprobar las cuatro vistas.
-4. Atacar desde distintos lados y verificar que conserva la orientación resultante.
-5. Girar la cámara con ↶/↷ y confirmar que la vista cambia coherentemente.
-6. Observar especialmente si hay salto de escala/posición o un cuadro vacío al cambiar de vista.
+1. Confirmar que el título muestre v0.5.14.
+2. Revisar la nueva imagen de selección de Arfeli.
+3. Abrir ficha/perfil y comprobar el nuevo retrato.
+4. Entrar en combate y revisar el avatar del HUD.
+5. Revisar Arfeli en orden/iniciativa y campeón activo de ronda.
+6. Confirmar que el rostro siga siendo reconocible en los tamaños pequeños.
+7. Probar en horizontal, especialmente en una pantalla de poca altura.
+8. Confirmar que movimiento, habilidades, turnos, IA, cámara y las cuatro vistas de combate siguen funcionando igual que en v0.5.13.
 
-## Carga manual
-Subir todos los archivos de este ZIP a la raíz del repositorio, reemplazando los existentes cuando corresponda. `arfeli-combat.png` viejo puede quedar temporalmente: esta versión no lo referencia.
+## Estado
+LISTA PARA PROBAR. No considerar validada hasta la prueba de Adrián en GitHub Pages/PWA.
