@@ -1,10 +1,8 @@
-/* v0.5.27 — HUD superior / Ronda + Orden de turnos
-   Cambio exclusivamente gráfico.
-   Los tamaños, posiciones, contenido y funcionamiento siguen siendo los actuales. */
+/* v0.5.28 — HUD superior / Ronda + Orden de turnos
+   Ajuste gráfico del 9-slice sin cambiar tamaño/posición/función del módulo. */
 
 @media (orientation:landscape){
   .round-hud-panel{
-    /* El marco antiguo deja paso al skin 9-slice. */
     background:transparent!important;
     border:0!important;
     border-radius:0!important;
@@ -13,23 +11,25 @@
     overflow:visible!important;
   }
 
-  /* Mantener TODO el contenido dinámico por encima del nuevo marco. */
   .round-hud-panel > *{
     position:relative;
     z-index:2;
   }
 
   /*
-    MARCO HORIZONTAL — 9-slice
-    Master @2x: 940×96.
-    Slice fuente: 18 / 84 / 18 / 84 px.
-    Equivalente visual @1x: 9 / 42 / 9 / 42 px.
+    HORIZONTAL
+    El panel funcional conserva exactamente su caja actual.
+    El marco gráfico se extiende 28 px hacia izquierda y derecha para que
+    los remates dorados queden FUERA del contenido en vez de montarse encima.
   */
   .round-hud-panel::before{
     content:"";
     position:absolute;
     z-index:0;
-    inset:0;
+    top:0;
+    bottom:0;
+    left:-28px;
+    right:-28px;
     box-sizing:border-box;
     pointer-events:none;
     border-style:solid;
@@ -42,59 +42,61 @@
   }
 
   /*
-    EMBLEMA — capa independiente.
-    Queda detrás del contenido funcional para no bloquear ni alterar clicks.
+    EMBLEMA
+    Pasa al borde superior central para no competir con Ronda, temporizador
+    ni chips del orden de turnos.
   */
   .round-hud-panel::after{
     content:"";
     position:absolute;
     z-index:1;
     left:50%;
-    top:50%;
-    width:36px;
-    height:36px;
-    transform:translate(-50%,-50%);
+    top:-13px;
+    width:28px;
+    height:28px;
+    transform:translateX(-50%);
     background:url("./assets/ui/hud/round/hud-round-emblem@2x.png?v=0527") center/contain no-repeat;
     pointer-events:none;
   }
 
-  /*
-    MARCO VERTICAL — 9-slice
-    Master @2x: 352×704.
-    Slice fuente: 80 / 42 / 80 / 42 px.
-    Equivalente visual @1x: 40 / 21 / 40 / 21 px.
-  */
+  /* VERTICAL: conserva el 9-slice vertical y deja sus remates fuera del contenido. */
   .round-hud-panel.hud-vertical:not(.collapsed)::before{
+    top:-10px;
+    bottom:-10px;
+    left:-10px;
+    right:-10px;
     border-width:40px 21px;
     border-image-source:url("./assets/ui/hud/round/hud-round-vertical@2x.png?v=0527");
     border-image-slice:80 42 80 42 fill;
   }
 
-  /* En vertical, el emblema aprovecha el remate superior central del marco. */
   .round-hud-panel.hud-vertical:not(.collapsed)::after{
-    top:7px;
-    width:34px;
-    height:34px;
+    top:-14px;
+    width:28px;
+    height:28px;
     transform:translateX(-50%);
   }
 
   /*
-    PLEGADO:
-    aunque el HUD estuviera previamente orientado vertical,
-    el estado 176×34 usa el marco horizontal indicado para el paquete.
+    PLEGADO 176×34:
+    marco horizontal, pero con una salida lateral menor para no sobredimensionarlo.
   */
   .round-hud-panel.collapsed::before{
+    top:0;
+    bottom:0;
+    left:-16px;
+    right:-16px;
     border-width:9px 42px;
     border-image-source:url("./assets/ui/hud/round/hud-round-horizontal@2x.png?v=0527");
     border-image-slice:18 84 18 84 fill;
   }
 
   .round-hud-panel.collapsed::after{
-    width:26px;
-    height:26px;
+    top:-9px;
+    width:22px;
+    height:22px;
   }
 
-  /* Los controles existentes conservan su posición absoluta actual. */
   .round-hud-panel .round-hud-tools{
     position:absolute!important;
     z-index:3!important;
@@ -102,13 +104,22 @@
 }
 
 @media (orientation:landscape) and (max-height:430px){
-  /* Responsive: mismo 9-slice, sin escalar el PNG completo. */
-  .round-hud-panel::after{
-    width:32px;
-    height:32px;
+  .round-hud-panel::before{
+    left:-24px;
+    right:-24px;
   }
-  .round-hud-panel.collapsed::after{
+  .round-hud-panel::after{
+    top:-11px;
     width:24px;
     height:24px;
+  }
+  .round-hud-panel.collapsed::before{
+    left:-14px;
+    right:-14px;
+  }
+  .round-hud-panel.collapsed::after{
+    top:-8px;
+    width:20px;
+    height:20px;
   }
 }

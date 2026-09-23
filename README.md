@@ -1,97 +1,69 @@
-# Liga de los Mundos v0.5.27 — HUD superior 9-slice
+# Liga de los Mundos v0.5.28 — Ajuste HUD Ronda + limpieza Arena Central
 
-## Cambio principal
-Primera integración gráfica definitiva del módulo superior:
+## Cambio 1 — HUD superior
+Se corrige la primera integración del 9-slice del módulo:
 
 **Ronda + Orden de turnos**
 
-No se modifica su tamaño, posición, contenido ni funcionamiento.
+La caja funcional NO cambia de tamaño ni de posición.
 
-## Assets incorporados
-Ruta:
+### Corrección
+Los remates horizontales del marco se dibujan por fuera de la caja funcional:
+- normal: 28 px hacia cada lateral;
+- responsive: 24 px;
+- plegado: 16 px.
 
-`assets/ui/hud/round/`
-
-Archivos:
-- `hud-round-horizontal@2x.png`
-- `hud-round-vertical@2x.png`
-- `hud-round-emblem@2x.png`
-
-Los tres fueron verificados como PNG RGBA reales con transparencia.
-
-## Implementación
-Se agrega:
-
-`hud-round.css`
-
-El marco se renderiza mediante `border-image` / 9-slice sobre un pseudo-elemento independiente.
-
-### Horizontal
-Master: 940 × 96 px
-
-Cortes fuente:
-- TOP: 18
-- RIGHT: 84
-- BOTTOM: 18
-- LEFT: 84
-
-Se utiliza para:
-- estado normal;
-- responsive;
-- estado plegado 176 × 34.
-
-### Vertical
-Master: 352 × 704 px
-
-Cortes fuente:
-- TOP: 80
-- RIGHT: 42
-- BOTTOM: 80
-- LEFT: 42
-
-Se utiliza para el HUD vertical de 176 px de ancho y altura dinámica.
-
-### Emblema
-Master: 80 × 80 px
-
-Se monta como capa independiente.
-No participa del área estirable del 9-slice y no recibe eventos táctiles.
-
-## Contenido dinámico
-Permanece sin cambios y por encima del nuevo marco:
-- ronda;
+Esto evita que los remates se monten sobre:
+- Ronda;
 - Campeón activo;
 - temporizador;
-- orden de turnos;
-- avatares;
-- controles;
-- reset;
-- estados actuales del HUD.
+- chips del orden de turnos.
 
-## Alcance
-Cambio solamente gráfico.
+El emblema independiente pasa al borde superior central para no quedar detrás del contenido.
 
-No se modifican:
+Vertical conserva su asset específico 9-slice.
+
+## Cambio 2 — Arena Central
+Se mantiene el mismo asset y el mismo encuadre jugable de v0.5.26.
+
+Se reemplaza el recorte romboidal simple por un `clip-path` de silueta más preciso.
+
+Objetivo:
+- quitar los triángulos negros de izquierda y derecha;
+- conservar completas las torres laterales;
+- no cortar las cuatro esquinas;
+- mantener la cuadrícula dentro del suelo interior.
+
+No se modifica la cuadrícula 12×12 ni las coordenadas.
+
+## Sin cambios
 - combate;
 - IA;
-- turnos;
 - habilidades;
-- Arena Central;
-- cámara;
-- miniaturas;
-- lógica del tablero;
 - movimiento;
-- PWA salvo actualización de caché/assets.
+- alcance;
+- línea de visión;
+- miniaturas;
+- obstáculos;
+- cámara;
+- tamaños y posición funcional del HUD superior.
 
-## Prueba recomendada
-1. Confirmar que el inicio muestra v0.5.27.
-2. Revisar HUD superior horizontal normal.
-3. Revisar responsive en pantalla baja.
-4. Plegar el HUD y comprobar 176 × 34.
-5. Cambiar a orientación vertical.
-6. Comprobar que esquinas/remates no se deforman.
-7. Comprobar que todos los textos, avatares y botones siguen funcionando.
-8. Confirmar que mover/orientar/plegar el HUD funciona igual que antes.
+## PWA / caché
+- versión pública: v0.5.28
+- cache: `liga-mundos-0528`
+- `arena-central.css?v=0528`
+- `hud-round.css?v=0528`
+- `brand.js?v=0528`
+
+## Prueba
+1. Revisar HUD horizontal normal.
+2. Confirmar que los remates ya no pisan textos/chips.
+3. Revisar plegado.
+4. Revisar vertical.
+5. Confirmar que el emblema no tapa contenido.
+6. Revisar Arena Central: no deben quedar triángulos negros laterales.
+7. Confirmar que las esquinas izquierda y derecha estén completas.
+8. Confirmar cuadrícula y miniaturas alineadas.
 
 ## Estado
 LISTA PARA PROBAR.
