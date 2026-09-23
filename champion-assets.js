@@ -10,11 +10,25 @@ const CHAMPION_ART={
   houngan:{name:'Houngan',avatar:'./assets/champions/houngan/houngan-avatar.png',select:'./assets/champions/houngan/houngan-select.png'}
 };
 
-const ARFELI_COMBAT_VIEWS={
-  'down-right':'./assets/champions/arfeli/arfeli-combat-down-right.png',
-  'down-left':'./assets/champions/arfeli/arfeli-combat-down-left.png',
-  'up-right':'./assets/champions/arfeli/arfeli-combat-up-right.png',
-  'up-left':'./assets/champions/arfeli/arfeli-combat-up-left.png'
+const CHAMPION_COMBAT_VIEWS={
+  arfeli:{
+    'down-right':'./assets/champions/arfeli/arfeli-combat-down-right.png',
+    'down-left':'./assets/champions/arfeli/arfeli-combat-down-left.png',
+    'up-right':'./assets/champions/arfeli/arfeli-combat-up-right.png',
+    'up-left':'./assets/champions/arfeli/arfeli-combat-up-left.png'
+  },
+  coloso:{
+    'down-right':'./assets/champions/coloso/coloso-combat-down-right.png',
+    'down-left':'./assets/champions/coloso/coloso-combat-down-left.png',
+    'up-right':'./assets/champions/coloso/coloso-combat-up-right.png',
+    'up-left':'./assets/champions/coloso/coloso-combat-up-left.png'
+  },
+  onod:{
+    'down-right':'./assets/champions/onod/onod-combat-down-right.png',
+    'down-left':'./assets/champions/onod/onod-combat-down-left.png',
+    'up-right':'./assets/champions/onod/onod-combat-up-right.png',
+    'up-left':'./assets/champions/onod/onod-combat-up-left.png'
+  }
 };
 
 for(const art of Object.values(CHAMPION_ART)){
@@ -22,7 +36,7 @@ for(const art of Object.values(CHAMPION_ART)){
     const img=new Image();img.src=src;if(img.decode)img.decode().catch(()=>{});
   }
 }
-for(const src of Object.values(ARFELI_COMBAT_VIEWS)){
+for(const views of Object.values(CHAMPION_COMBAT_VIEWS))for(const src of Object.values(views)){
   const img=new Image();img.src=src;if(img.decode)img.decode().catch(()=>{});
 }
 
@@ -85,7 +99,7 @@ function decorateHud(){
   }
 }
 
-function arfeliVisualDirection(facing,rotation=0){
+function combatVisualDirection(facing,rotation=0){
   const vectors={derecha:[1,0],izquierda:[-1,0],abajo:[0,1],arriba:[0,-1]};
   let [dx,dy]=vectors[facing]||vectors.derecha;
   const r=((rotation%4)+4)%4;
@@ -95,29 +109,30 @@ function arfeliVisualDirection(facing,rotation=0){
   if(dy>0)return 'down-left';
   return 'up-right';
 }
-function arfeliCombatImages(active){
-  return Object.entries(ARFELI_COMBAT_VIEWS).map(([dir,src])=>
-    `<img class="arfeli-combat-img arfeli-combat-${dir}${dir===active?' is-active':''}" src="${src}" alt="" aria-hidden="true" draggable="false">`
+function championCombatImages(id,active){
+  return Object.entries(CHAMPION_COMBAT_VIEWS[id]).map(([dir,src])=>
+    `<img class="champion-combat-img champion-combat-${dir}${dir===active?' is-active':''}" src="${src}" alt="" aria-hidden="true" draggable="false">`
   ).join('');
 }
-function installArfeliBattleHook(){
-  if(typeof renderEntity!=='function'||renderEntity.__arfeliFourViews)return;
+function installChampionBattleHook(){
+  if(typeof renderEntity!=='function'||renderEntity.__championFourViews)return;
   const original=renderEntity;
   const hooked=function(z,current,view){
     let html=original(z,current,view);
-    if(!z||z.kind!=='unit'||z.championId!=='arfeli')return html;
+    const id=z?.championId;
+    if(!z||z.kind!=='unit'||!CHAMPION_COMBAT_VIEWS[id])return html;
     const rotation=(typeof B!=='undefined'&&B?.camera?.rotation)||0;
-    const dir=arfeliVisualDirection(z.facing,rotation);
-    html=html.replace('<div class="unit-piece ','<div class="unit-piece champion-arfeli ');
+    const dir=combatVisualDirection(z.facing,rotation);
+    html=html.replace('<div class="unit-piece ','<div class="unit-piece champion-'+id+' ');
     const oldIcon=`<span class="unit-icon">${z.icon}</span>`;
-    const newIcon=`<span class="unit-icon arfeli-combat-host" data-arfeli-direction="${dir}">${arfeliCombatImages(dir)}</span>`;
+    const newIcon=`<span class="unit-icon champion-combat-host" data-combat-direction="${dir}">${championCombatImages(id,dir)}</span>`;
     return html.replace(oldIcon,newIcon);
   };
-  hooked.__arfeliFourViews=true;
+  hooked.__championFourViews=true;
   renderEntity=hooked;
 }
 
-installArfeliBattleHook();
+installChampionBattleHook();
 function decorate(){decorateChampionScreens();decorateHud()}
 let queued=false;
 function schedule(){if(queued)return;queued=true;requestAnimationFrame(()=>{queued=false;decorate()})}

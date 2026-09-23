@@ -1,4 +1,4 @@
-# Liga de los Mundos v0.5.16 — Galería visual completa
+# Liga de los Mundos v0.5.17 — Prueba táctica Coloso + Onod
 
 ## Cambio principal
 Se completa la integración de imágenes aprobadas de **selección + avatar** para los seis campeones actuales.
@@ -23,7 +23,7 @@ Arfeli conserva además sus cuatro vistas tácticas ya validadas.
 - No se modifican estadísticas, habilidades, IA, movimiento ni reglas.
 - `champion-assets.css` generaliza la presentación de selección a los seis campeones.
 - `avatar-layout.css` conserva el formato de retrato validado.
-- Inicio y referencias públicas actualizadas a v0.5.16.
+- Inicio y referencias públicas actualizadas a v0.5.17.
 
 ## PWA
 - Caché actualizado a `liga-mundos-0516`.
@@ -31,7 +31,7 @@ Arfeli conserva además sus cuatro vistas tácticas ya validadas.
 - Se mantiene el mecanismo de actualización manual segura.
 
 ## Prueba recomendada
-1. Confirmar que el inicio muestra v0.5.16.
+1. Confirmar que el inicio muestra v0.5.17.
 2. Abrir Campeones y revisar selección + avatar de los 6.
 3. Iniciar partidas con Onod, Korgan y Houngan.
 4. Revisar sus avatares en equipo, HUD e iniciativa.
@@ -41,3 +41,9 @@ Arfeli conserva además sus cuatro vistas tácticas ya validadas.
 
 ## Estado
 LISTA PARA PROBAR. No considerar VALIDADA hasta la prueba de Adrián.
+
+
+## v0.5.17 — prueba táctica
+- Se integran las cuatro vistas oficiales de Coloso y Onod para probar orientación, escala y presentación en arena.
+- Arfeli conserva sus cuatro vistas ya validadas.
+- Sin cambios de mecánicas.
