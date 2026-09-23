@@ -1,0 +1,114 @@
+/* v0.5.27 — HUD superior / Ronda + Orden de turnos
+   Cambio exclusivamente gráfico.
+   Los tamaños, posiciones, contenido y funcionamiento siguen siendo los actuales. */
+
+@media (orientation:landscape){
+  .round-hud-panel{
+    /* El marco antiguo deja paso al skin 9-slice. */
+    background:transparent!important;
+    border:0!important;
+    border-radius:0!important;
+    box-shadow:none!important;
+    isolation:isolate!important;
+    overflow:visible!important;
+  }
+
+  /* Mantener TODO el contenido dinámico por encima del nuevo marco. */
+  .round-hud-panel > *{
+    position:relative;
+    z-index:2;
+  }
+
+  /*
+    MARCO HORIZONTAL — 9-slice
+    Master @2x: 940×96.
+    Slice fuente: 18 / 84 / 18 / 84 px.
+    Equivalente visual @1x: 9 / 42 / 9 / 42 px.
+  */
+  .round-hud-panel::before{
+    content:"";
+    position:absolute;
+    z-index:0;
+    inset:0;
+    box-sizing:border-box;
+    pointer-events:none;
+    border-style:solid;
+    border-width:9px 42px;
+    border-color:transparent;
+    border-image-source:url("./assets/ui/hud/round/hud-round-horizontal@2x.png?v=0527");
+    border-image-slice:18 84 18 84 fill;
+    border-image-width:1;
+    border-image-repeat:stretch;
+  }
+
+  /*
+    EMBLEMA — capa independiente.
+    Queda detrás del contenido funcional para no bloquear ni alterar clicks.
+  */
+  .round-hud-panel::after{
+    content:"";
+    position:absolute;
+    z-index:1;
+    left:50%;
+    top:50%;
+    width:36px;
+    height:36px;
+    transform:translate(-50%,-50%);
+    background:url("./assets/ui/hud/round/hud-round-emblem@2x.png?v=0527") center/contain no-repeat;
+    pointer-events:none;
+  }
+
+  /*
+    MARCO VERTICAL — 9-slice
+    Master @2x: 352×704.
+    Slice fuente: 80 / 42 / 80 / 42 px.
+    Equivalente visual @1x: 40 / 21 / 40 / 21 px.
+  */
+  .round-hud-panel.hud-vertical:not(.collapsed)::before{
+    border-width:40px 21px;
+    border-image-source:url("./assets/ui/hud/round/hud-round-vertical@2x.png?v=0527");
+    border-image-slice:80 42 80 42 fill;
+  }
+
+  /* En vertical, el emblema aprovecha el remate superior central del marco. */
+  .round-hud-panel.hud-vertical:not(.collapsed)::after{
+    top:7px;
+    width:34px;
+    height:34px;
+    transform:translateX(-50%);
+  }
+
+  /*
+    PLEGADO:
+    aunque el HUD estuviera previamente orientado vertical,
+    el estado 176×34 usa el marco horizontal indicado para el paquete.
+  */
+  .round-hud-panel.collapsed::before{
+    border-width:9px 42px;
+    border-image-source:url("./assets/ui/hud/round/hud-round-horizontal@2x.png?v=0527");
+    border-image-slice:18 84 18 84 fill;
+  }
+
+  .round-hud-panel.collapsed::after{
+    width:26px;
+    height:26px;
+  }
+
+  /* Los controles existentes conservan su posición absoluta actual. */
+  .round-hud-panel .round-hud-tools{
+    position:absolute!important;
+    z-index:3!important;
+  }
+}
+
+@media (orientation:landscape) and (max-height:430px){
+  /* Responsive: mismo 9-slice, sin escalar el PNG completo. */
+  .round-hud-panel::after{
+    width:32px;
+    height:32px;
+  }
+  .round-hud-panel.collapsed::after{
+    width:24px;
+    height:24px;
+  }
+}

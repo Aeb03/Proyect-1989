@@ -1,68 +1,97 @@
-# Liga de los Mundos v0.5.26 — Encuadre interior de Arena Central
+# Liga de los Mundos v0.5.27 — HUD superior 9-slice
 
-## Objetivo
-Corregir el encastre visual de Arena Central para que la cuadrícula 12×12 quede completamente dentro del suelo jugable.
+## Cambio principal
+Primera integración gráfica definitiva del módulo superior:
 
-## Regla visual
-La jerarquía correcta queda:
+**Ronda + Orden de turnos**
 
-1. Fondo / entorno
-2. Arena Central
-3. Suelo interior jugable
-4. Cuadrícula 12×12 generada por la app
-5. Obstáculos y elementos dinámicos
-6. Miniaturas e indicadores
+No se modifica su tamaño, posición, contenido ni funcionamiento.
 
-Las paredes, bordes y esquinas de la Arena deben quedar por fuera de la cuadrícula.
+## Assets incorporados
+Ruta:
 
-## Ajuste aplicado
-La imagen de Arena Central sigue ocupando el contenedor completo.
+`assets/ui/hud/round/`
 
-La capa lógica del tablero y la capa de entidades se colocan juntas dentro del piso interior:
+Archivos:
+- `hud-round-horizontal@2x.png`
+- `hud-round-vertical@2x.png`
+- `hud-round-emblem@2x.png`
 
-- left: 14%
-- top: 14%
-- width: 72%
-- height: 72%
+Los tres fueron verificados como PNG RGBA reales con transparencia.
 
-No se cambia ninguna coordenada lógica: sólo cambia la caja visual en la que se proyecta el tablero.
+## Implementación
+Se agrega:
 
-## Asset
-Se conserva exactamente el asset aprobado:
+`hud-round.css`
 
-`assets/arenas/central/arena-central-base.png`
+El marco se renderiza mediante `border-image` / 9-slice sobre un pseudo-elemento independiente.
 
-La cuadrícula no forma parte de la imagen; la sigue generando Código.
+### Horizontal
+Master: 940 × 96 px
 
-## Caché
-Asset solicitado con:
-`arena-central-base.png?v=0526`
+Cortes fuente:
+- TOP: 18
+- RIGHT: 84
+- BOTTOM: 18
+- LEFT: 84
 
-Service Worker:
-`liga-mundos-0526`
+Se utiliza para:
+- estado normal;
+- responsive;
+- estado plegado 176 × 34.
 
-## Sin cambios
-- reglas;
-- movimiento;
-- alcance;
-- línea de visión;
+### Vertical
+Master: 352 × 704 px
+
+Cortes fuente:
+- TOP: 80
+- RIGHT: 42
+- BOTTOM: 80
+- LEFT: 42
+
+Se utiliza para el HUD vertical de 176 px de ancho y altura dinámica.
+
+### Emblema
+Master: 80 × 80 px
+
+Se monta como capa independiente.
+No participa del área estirable del 9-slice y no recibe eventos táctiles.
+
+## Contenido dinámico
+Permanece sin cambios y por encima del nuevo marco:
+- ronda;
+- Campeón activo;
+- temporizador;
+- orden de turnos;
+- avatares;
+- controles;
+- reset;
+- estados actuales del HUD.
+
+## Alcance
+Cambio solamente gráfico.
+
+No se modifican:
+- combate;
 - IA;
-- habilidades;
 - turnos;
+- habilidades;
+- Arena Central;
 - cámara;
 - miniaturas;
-- obstáculos;
-- Pilares/Brotes/trampas;
-- HUD.
+- lógica del tablero;
+- movimiento;
+- PWA salvo actualización de caché/assets.
 
 ## Prueba recomendada
-1. Confirmar v0.5.26.
-2. Entrar al despliegue.
-3. Verificar que las cuatro puntas de la cuadrícula queden dentro del piso.
-4. Confirmar que ninguna casilla pisa las paredes.
-5. Revisar que miniaturas y rocas continúen centradas.
-6. Activar Mover y comprobar resaltados.
-7. Probar las cuatro rotaciones.
+1. Confirmar que el inicio muestra v0.5.27.
+2. Revisar HUD superior horizontal normal.
+3. Revisar responsive en pantalla baja.
+4. Plegar el HUD y comprobar 176 × 34.
+5. Cambiar a orientación vertical.
+6. Comprobar que esquinas/remates no se deforman.
+7. Comprobar que todos los textos, avatares y botones siguen funcionando.
+8. Confirmar que mover/orientar/plegar el HUD funciona igual que antes.
 
 ## Estado
 LISTA PARA PROBAR.
