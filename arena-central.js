@@ -1,10 +1,14 @@
 (()=>{'use strict';
 
-const ARENA_SRC='./assets/arenas/central/arena-central-base.png';
+const ARENA_SRC='./assets/arenas/central/arena-central-base.png?v=0525';
 
 function attachArena(){
   document.querySelectorAll('.battle-grid.iso-grid').forEach(grid=>{
-    if(grid.querySelector(':scope > .arena-central-layer'))return;
+    const current=grid.querySelector(':scope > .arena-central-layer');
+    if(current){
+      if(current.getAttribute('src')!==ARENA_SRC)current.setAttribute('src',ARENA_SRC);
+      return;
+    }
     const img=document.createElement('img');
     img.className='arena-central-layer';
     img.src=ARENA_SRC;

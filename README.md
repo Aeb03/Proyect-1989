@@ -1,57 +1,60 @@
-# Liga de los Mundos v0.5.24 — Arena Central sin cuadrícula horneada
+# Liga de los Mundos v0.5.25 — Arena Central correcta + huella original
 
 ## Cambio principal
-Se reemplaza el asset anterior de Arena Central por una nueva plataforma cuyo suelo no contiene una cuadrícula de casillas dibujada.
+Se reemplaza el asset de Arena Central por la imagen exacta aprobada por Adrián.
 
-La cuadrícula visible pasa a ser exclusivamente la cuadrícula 12×12 generada por la app.
+La imagen correcta es:
+- arena lisa;
+- sin cuadrícula integrada;
+- con emblema central;
+- marco isométrico aprobado.
 
-## Motivo
-En la versión anterior coexistían dos mallas:
-- la cuadrícula pintada dentro del arte;
-- la cuadrícula lógica generada por Código.
+## Corrección de encuadre
+La versión anterior reducía y desplazaba la cuadrícula lógica para intentar adaptarla al arte.
 
-Al no compartir exactamente la misma proyección, se veía un descuadre al mover, seleccionar o mostrar alcances.
+En v0.5.25 se hace lo contrario:
 
-## Nuevo asset
+**la geometría original de Código vuelve a ser la referencia.**
+
+La cuadrícula 12×12 vuelve a:
+- ocupar el 100% del contenedor isométrico;
+- conservar su ángulo original;
+- conservar su altura y posición originales;
+- mantener las mismas coordenadas de miniaturas y obstáculos.
+
+El asset visual se adapta al contenedor del tablero, no al revés.
+
+## Asset
 `assets/arenas/central/arena-central-base.png`
 
-Verificado:
-- PNG real;
-- RGBA;
-- transparencia exterior;
-- 1774 × 887 px;
-- proporción 2:1;
-- plataforma completa;
-- suelo limpio, sin casillas dibujadas.
+El archivo aprobado llegó como imagen RGB con fondo negro. Se conserva exactamente el dibujo y se usa un recorte romboidal CSS para evitar que el fondo rectangular invada el escenario.
 
-## Arquitectura visual
-1. Arena Central / plataforma.
-2. Cuadrícula lógica 12×12 de la app.
-3. Obstáculos y elementos dinámicos.
-4. Miniaturas.
-5. Indicadores.
+## Caché
+El asset se solicita como:
+`arena-central-base.png?v=0525`
 
-## Se conserva
-- coordenadas 12×12;
+Esto fuerza a la app y al Service Worker a dejar de reutilizar la imagen anterior.
+
+## Sin cambios
+- mecánicas;
+- 12×12 lógico;
 - movimiento;
 - alcance;
 - línea de visión;
-- obstáculos;
-- Pilares/Brotes/trampas;
-- cámara y rotaciones;
-- HUD;
-- habilidades;
 - IA;
-- miniaturas.
+- habilidades;
+- HUD;
+- miniaturas;
+- obstáculos;
+- cámara.
 
-## Prueba recomendada
-1. Confirmar v0.5.24.
-2. Verificar que sólo existe una cuadrícula visible.
-3. Revisar que las cuatro puntas de la cuadrícula queden dentro del piso de la Arena.
-4. Activar Mover y comprobar que el resaltado coincide exactamente con la malla.
-5. Probar rotación de cámara.
-6. Confirmar miniaturas y obstáculos centrados en sus casillas.
+## Prueba
+1. Confirmar v0.5.25.
+2. Verificar que aparece la Arena correcta.
+3. Confirmar que la cuadrícula tiene el mismo tamaño/posición que antes de integrar imágenes.
+4. Revisar las cuatro puntas.
+5. Activar Mover y comprobar que miniaturas, casillas y resaltados siguen coincidiendo.
+6. Probar las cuatro rotaciones.
 
 ## Estado
 LISTA PARA PROBAR.
-El siguiente ajuste, si hiciera falta, será únicamente de encuadre del rombo sobre el piso.

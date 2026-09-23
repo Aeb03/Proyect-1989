@@ -1,17 +1,19 @@
-/* v0.5.24 — Arena Central sin cuadrícula dibujada.
-   El asset aporta plataforma/suelo; la app aporta la cuadrícula 12x12. */
+/* v0.5.25 — Arena Central: asset correcto + huella original del tablero.
+   Regla: la geometría 12x12 de Código manda; la imagen se adapta a ella. */
 
 @media (orientation:landscape){
   .battle-grid.iso-grid{
     background:transparent!important;
   }
 
+  /* No usar la vieja plataforma verde. */
   .battle-grid.iso-grid::before,
   .battle-grid.iso-grid::after{
     content:none!important;
     display:none!important;
   }
 
+  /* Asset aprobado: ocupa exactamente el mismo contenedor 2:1 del tablero lógico. */
   .battle-grid.iso-grid > .arena-central-layer{
     position:absolute!important;
     z-index:0!important;
@@ -24,28 +26,43 @@
     pointer-events:none!important;
     user-select:none!important;
     -webkit-user-select:none!important;
+
+    /* El archivo aprobado llegó con fondo negro.
+       Se recorta al rombo exterior sin alterar el dibujo de la Arena. */
+    clip-path:polygon(50% 0%,100% 50%,50% 100%,0% 50%)!important;
   }
 
-  /* La malla lógica queda alineada sobre el piso interior de la plataforma. */
+  /*
+    RESTAURAMOS LA HUELLA ORIGINAL DE CÓDIGO.
+    La cuadrícula vuelve a ocupar el 100% del tablero isométrico:
+    no se achica, no se desplaza, no se cambia su inclinación.
+  */
   .battle-grid.iso-grid .iso-floor{
-    left:14%!important;
-    top:10%!important;
-    right:auto!important;
-    bottom:auto!important;
-    width:72%!important;
-    height:72%!important;
-    transform:scaleX(1.111111)!important;
+    position:absolute!important;
+    z-index:2!important;
+    inset:0!important;
+    left:0!important;
+    top:0!important;
+    right:0!important;
+    bottom:0!important;
+    width:100%!important;
+    height:100%!important;
+    transform:none!important;
     transform-origin:center center!important;
     filter:none!important;
   }
 
+  /* Las entidades vuelven también a la geometría original. */
   .battle-grid.iso-grid .iso-entities{
-    left:10%!important;
-    top:10%!important;
-    right:auto!important;
-    bottom:auto!important;
-    width:80%!important;
-    height:72%!important;
+    position:absolute!important;
+    z-index:3!important;
+    inset:0!important;
+    left:0!important;
+    top:0!important;
+    right:0!important;
+    bottom:0!important;
+    width:100%!important;
+    height:100%!important;
   }
 
   /* Única cuadrícula visible: la generada por la app. */
@@ -53,14 +70,14 @@
   .battle-grid.iso-grid .iso-floor .tile.iso-tone-a,
   .battle-grid.iso-grid .iso-floor .tile.iso-tone-b{
     fill:transparent!important;
-    stroke:#9aa58ddd!important;
-    stroke-width:1!important;
+    stroke:#a4b47bcc!important;
+    stroke-width:1.05!important;
     filter:none!important;
   }
 
   .battle-grid.iso-grid .iso-floor .tile.obstacle{
-    fill:#39443e55!important;
-    stroke:#889483cc!important;
+    fill:#46544155!important;
+    stroke:#69765dcc!important;
   }
   .battle-grid.iso-grid .iso-floor .tile.move{
     fill:#3e8d7088!important;
