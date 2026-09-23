@@ -1,45 +1,65 @@
-# Liga de los Mundos v0.5.21 — Información de habilidades por pulsación larga
+# Liga de los Mundos v0.5.22 — Arena Central
 
 ## Cambio principal
-La descripción de una habilidad ya no queda abierta al seleccionarla.
+Primera integración real de la nueva Arena Central como escenario visual del tablero táctico.
 
-## Nuevo comportamiento
-- Toque normal sobre una habilidad: la selecciona exactamente como antes.
-- Mantener el dedo apoyado durante 1,5 segundos: aparece una tarjeta flotante con la información de esa habilidad.
-- Mientras el dedo siga apoyado, la información permanece visible.
-- Al levantar el dedo, la tarjeta desaparece.
-- Después de levantar el dedo, el toque sigue seleccionando la habilidad normalmente.
-- La tarjeta aparece alejada de la barra inferior para que el dedo no tape el texto.
-- Se evita el menú contextual del navegador durante la pulsación larga.
+## Asset
+Se incorpora:
 
-## Alcance del cambio
-- No cambia costes, alcance, daño ni reglas.
-- No cambia selección de objetivos ni resaltado de casillas.
-- No cambia movimiento, IA, turnos ni cámara.
-- No cambia miniaturas ni recursos gráficos.
-- Se mantiene el indicador normal de habilidad seleccionada.
+`assets/arenas/central/arena-central-base.png`
 
-## Implementación
-Se incorpora una capa aislada:
-- `skill-hold-info.js`
-- `skill-hold-info.css`
+Características verificadas:
+- PNG real.
+- RGBA con transparencia.
+- 1774 × 887 px.
+- proporción 2:1.
+- plataforma completa con marco, suelo, símbolo central y luces.
 
-Esto permite añadir la interacción sin modificar el motor táctico principal (`app.js`).
+## Integración
+Se agrega `arena-central.css` como una capa exclusivamente visual.
+
+La Arena reemplaza la antigua base verde generada por CSS, pero se conservan por separado:
+- las 144 casillas lógicas;
+- coordenadas x/y;
+- movimiento;
+- alcance;
+- selección;
+- línea de visión;
+- obstáculos;
+- Pilares/Brotes/trampas;
+- miniaturas;
+- rotación de cámara.
+
+La capa SVG sigue existiendo encima del arte para clics y resaltados tácticos.
+
+## Ajuste de encaje
+El rombo lógico se coloca sobre la superficie útil dibujada de la Arena.
+La cuadrícula normal queda casi transparente y los estados tácticos usan transparencias para no ocultar el nuevo suelo.
+
+## Sin cambios
+- Campeones y miniaturas.
+- Habilidades y estadísticas.
+- IA.
+- turnos.
+- reglas.
+- HUD.
+- pulsación larga de habilidades de v0.5.21.
 
 ## PWA / versión
-- Inicio actualizado a v0.5.21.
-- Nuevo JS/CSS cacheado por el Service Worker.
-- Caché actualizado a `liga-mundos-0521`.
+- Inicio actualizado a v0.5.22.
+- `arena-central.css` añadido a la carga.
+- Asset de Arena añadido al precache.
+- Caché actualizado a `liga-mundos-0522`.
 
 ## Prueba recomendada
-1. Confirmar que el inicio muestra v0.5.21.
-2. Tocar rápidamente una habilidad y comprobar que se selecciona sin abrir su descripción.
-3. Mantener una habilidad durante menos de 1,5 s y comprobar que no aparece información.
-4. Mantenerla durante 1,5 s: debe aparecer la tarjeta.
-5. Seguir manteniendo el dedo: la tarjeta debe permanecer visible.
-6. Soltar: la tarjeta debe desaparecer y la habilidad quedar seleccionada.
-7. Probar varias habilidades y comprobar que no aparece el menú contextual de Android/Chrome.
-8. Confirmar que el tablero, objetivos, alcance y ejecución de habilidades siguen funcionando igual.
+1. Confirmar que inicio muestra v0.5.22.
+2. Entrar a despliegue y comprobar el encaje del 12×12 sobre el suelo.
+3. Confirmar que las miniaturas pisan el centro de las casillas.
+4. Probar movimiento y resaltado de alcance.
+5. Probar las cuatro rotaciones de cámara.
+6. Confirmar que rocas, Pilares, Brotes y trampas siguen anclados a casillas.
+7. Comprobar que el HUD y la pulsación larga de habilidades siguen iguales.
 
 ## Estado
-LISTA PARA PROBAR. No considerar VALIDADA hasta la prueba de Adrián.
+LISTA PARA PROBAR.
+El encaje visual podrá afinarse después de verlo en el teléfono real.
