@@ -1,34 +1,35 @@
-# Liga de los Mundos v0.5.18 — Corrección Arfeli + orientación Coloso/Onod
+# Liga de los Mundos v0.5.19 — Corrección final de orientación de Coloso
 
 ## Cambio principal
-Versión de corrección sobre v0.5.17 para continuar la prueba de miniaturas tácticas sin tocar mecánicas.
+Corrección mínima sobre v0.5.18 para invertir izquierda/derecha en las cuatro vistas tácticas de Coloso.
 
-## Correcciones
-- Arfeli recupera su tratamiento visual específico ya validado (`arfeli-combat-host` / `arfeli-combat-img`), evitando la miniatura gigante durante el despliegue.
-- Coloso corrige el mapeo de sus cuatro vistas:
-  - archivo `up-right` -> dirección lógica `down-right`
-  - archivo `up-left` -> dirección lógica `down-left`
-  - archivo `down-right` -> dirección lógica `up-left`
-  - archivo `down-left` -> dirección lógica `up-right`
-- Onod intercambia sus vistas superiores:
-  - archivo `up-right` -> dirección lógica `up-left`
-  - archivo `up-left` -> dirección lógica `up-right`
-  - `down-right` y `down-left` permanecen igual.
-- Se corrige la referencia de versión de `brand.js` en `index.html`.
-- Caché PWA actualizado a `liga-mundos-0518`.
+## Corrección de Coloso
+Se conserva el mismo arte y solo cambia la asignación lógica:
 
-## Sin cambios
-- No se modifican estadísticas.
-- No se modifican habilidades.
-- No se modifican movimiento, IA, turnos, cámara ni reglas.
-- No se regeneran ni editan imágenes.
+- `down-right` usa `coloso-combat-up-left.png`
+- `down-left` usa `coloso-combat-up-right.png`
+- `up-right` usa `coloso-combat-down-right.png`
+- `up-left` usa `coloso-combat-down-left.png`
+
+## Se conserva
+- Arfeli con el tratamiento visual específico corregido en v0.5.18.
+- Onod con su mapeo corregido en v0.5.18.
+- Selección, avatares, HUD e iniciativa.
+- Movimiento, habilidades, IA, turnos, cámara y reglas sin cambios.
+- Ninguna imagen fue regenerada ni editada.
+
+## PWA / versión
+- Inicio actualizado a v0.5.19.
+- `champion-assets.js` actualizado a `v=0519`.
+- `brand.js` actualizado a `v=0519`.
+- Caché actualizado a `liga-mundos-0519`.
 
 ## Prueba recomendada
-1. Confirmar que el inicio muestra v0.5.18.
-2. Entrar a despliegue con Arfeli y confirmar que ya no aparece gigante.
-3. Probar Coloso y girar la cámara por las cuatro orientaciones.
-4. Si Coloso queda correcto, probar Onod del mismo modo.
-5. Confirmar que movimiento, habilidades, turnos e IA siguen iguales.
+1. Confirmar que el inicio muestra v0.5.19.
+2. Probar Coloso en las cuatro orientaciones.
+3. Confirmar que `down-right` y `down-left` ya no están cruzadas.
+4. Confirmar que `up-right` y `up-left` ya no están cruzadas.
+5. Verificar que Arfeli y Onod siguen correctos.
 
 ## Estado
 LISTA PARA PROBAR. No considerar VALIDADA hasta la prueba de Adrián.

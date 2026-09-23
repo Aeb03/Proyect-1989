@@ -18,10 +18,10 @@ const CHAMPION_COMBAT_VIEWS={
     'up-left':'./assets/champions/arfeli/arfeli-combat-up-left.png'
   },
   coloso:{
-    'down-right':'./assets/champions/coloso/coloso-combat-up-right.png',
-    'down-left':'./assets/champions/coloso/coloso-combat-up-left.png',
-    'up-right':'./assets/champions/coloso/coloso-combat-down-left.png',
-    'up-left':'./assets/champions/coloso/coloso-combat-down-right.png'
+    'down-right':'./assets/champions/coloso/coloso-combat-up-left.png',
+    'down-left':'./assets/champions/coloso/coloso-combat-up-right.png',
+    'up-right':'./assets/champions/coloso/coloso-combat-down-right.png',
+    'up-left':'./assets/champions/coloso/coloso-combat-down-left.png'
   },
   onod:{
     'down-right':'./assets/champions/onod/onod-combat-down-right.png',
