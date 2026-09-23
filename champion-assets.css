@@ -1,4 +1,4 @@
-/* v0.5.17 — selección/avatar aprobados; prueba táctica de 4 vistas para Arfeli, Coloso y Onod. */
+/* v0.5.18 — selección/avatar aprobados; Arfeli restaura tratamiento específico y Coloso/Onod mantienen sistema general. */
 .champion-image-host,.champion-select-host,.champion-collection-select-host,.arfeli-combat-host{overflow:hidden!important}
 .champion-avatar-img{width:100%!important;height:100%!important;display:block!important;object-fit:cover!important;object-position:center!important;border-radius:inherit!important}
 
@@ -44,7 +44,7 @@
 .champion-round-avatar{width:14px;height:14px;border-radius:50%;object-fit:cover;vertical-align:middle;border:1px solid #8d7d50;margin:0 2px}
 .round-active{display:inline-flex!important;align-items:center!important;gap:2px}
 
-/* TABLERO — Arfeli conserva sus cuatro vistas. */
+/* TABLERO — Arfeli conserva su tratamiento específico validado. */
 @media (orientation:landscape){
   .iso-combat-entity .unit-piece.champion-arfeli{width:clamp(46px,5.4vw,62px)!important;height:clamp(62px,7.4vw,82px)!important}
   .iso-combat-entity .unit-piece.champion-arfeli .unit-icon.arfeli-combat-host{
@@ -68,7 +68,7 @@
   .iso-combat-entity .unit-piece.champion-arfeli .unit-icon.arfeli-combat-host{width:58px!important;height:61px!important}
 }
 
-/* v0.5.17 — prueba táctica: Coloso y Onod incorporan 4 vistas rígidas. */
+/* TABLERO — Coloso y Onod usan el sistema general de cuatro vistas rígidas. */
 @media (orientation:landscape){
   .iso-combat-entity .unit-piece.champion-coloso,
   .iso-combat-entity .unit-piece.champion-onod{width:clamp(46px,5.4vw,62px)!important;height:clamp(62px,7.4vw,82px)!important}

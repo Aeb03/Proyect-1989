@@ -18,16 +18,16 @@ const CHAMPION_COMBAT_VIEWS={
     'up-left':'./assets/champions/arfeli/arfeli-combat-up-left.png'
   },
   coloso:{
-    'down-right':'./assets/champions/coloso/coloso-combat-down-right.png',
-    'down-left':'./assets/champions/coloso/coloso-combat-down-left.png',
-    'up-right':'./assets/champions/coloso/coloso-combat-up-right.png',
-    'up-left':'./assets/champions/coloso/coloso-combat-up-left.png'
+    'down-right':'./assets/champions/coloso/coloso-combat-up-right.png',
+    'down-left':'./assets/champions/coloso/coloso-combat-up-left.png',
+    'up-right':'./assets/champions/coloso/coloso-combat-down-left.png',
+    'up-left':'./assets/champions/coloso/coloso-combat-down-right.png'
   },
   onod:{
     'down-right':'./assets/champions/onod/onod-combat-down-right.png',
     'down-left':'./assets/champions/onod/onod-combat-down-left.png',
-    'up-right':'./assets/champions/onod/onod-combat-up-right.png',
-    'up-left':'./assets/champions/onod/onod-combat-up-left.png'
+    'up-right':'./assets/champions/onod/onod-combat-up-left.png',
+    'up-left':'./assets/champions/onod/onod-combat-up-right.png'
   }
 };
 
@@ -110,8 +110,10 @@ function combatVisualDirection(facing,rotation=0){
   return 'up-right';
 }
 function championCombatImages(id,active){
+  const arfeli=id==='arfeli';
+  const baseClass=arfeli?'arfeli-combat-img':'champion-combat-img';
   return Object.entries(CHAMPION_COMBAT_VIEWS[id]).map(([dir,src])=>
-    `<img class="champion-combat-img champion-combat-${dir}${dir===active?' is-active':''}" src="${src}" alt="" aria-hidden="true" draggable="false">`
+    `<img class="${baseClass} ${id}-combat-${dir}${dir===active?' is-active':''}" src="${src}" alt="" aria-hidden="true" draggable="false">`
   ).join('');
 }
 function installChampionBattleHook(){
@@ -125,7 +127,9 @@ function installChampionBattleHook(){
     const dir=combatVisualDirection(z.facing,rotation);
     html=html.replace('<div class="unit-piece ','<div class="unit-piece champion-'+id+' ');
     const oldIcon=`<span class="unit-icon">${z.icon}</span>`;
-    const newIcon=`<span class="unit-icon champion-combat-host" data-combat-direction="${dir}">${championCombatImages(id,dir)}</span>`;
+    const hostClass=id==='arfeli'?'arfeli-combat-host':'champion-combat-host';
+    const dataAttr=id==='arfeli'?`data-arfeli-direction="${dir}"`:`data-combat-direction="${dir}"`;
+    const newIcon=`<span class="unit-icon ${hostClass}" ${dataAttr}>${championCombatImages(id,dir)}</span>`;
     return html.replace(oldIcon,newIcon);
   };
   hooked.__championFourViews=true;
