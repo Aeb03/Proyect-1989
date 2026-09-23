@@ -1,62 +1,57 @@
-# Liga de los Mundos v0.5.23 — Corrección de carga de Arena Central
+# Liga de los Mundos v0.5.24 — Arena Central sin cuadrícula horneada
 
-## Diagnóstico
-En v0.5.22 se cargó correctamente la nueva hoja de estilos: por eso la cuadrícula lógica apareció reducida y reposicionada.
+## Cambio principal
+Se reemplaza el asset anterior de Arena Central por una nueva plataforma cuyo suelo no contiene una cuadrícula de casillas dibujada.
 
-Sin embargo, el asset visual de la Arena Central no apareció en pantalla.
+La cuadrícula visible pasa a ser exclusivamente la cuadrícula 12×12 generada por la app.
 
-El archivo sí estaba presente en el repositorio, por lo que el problema se aisló a la forma de montaje visual mediante `background-image`.
+## Motivo
+En la versión anterior coexistían dos mallas:
+- la cuadrícula pintada dentro del arte;
+- la cuadrícula lógica generada por Código.
 
-## Corrección
-La Arena Central deja de depender de `background-image`.
+Al no compartir exactamente la misma proyección, se veía un descuadre al mover, seleccionar o mostrar alcances.
 
-Se agrega:
-- `arena-central.js`
-
-Esta capa inserta automáticamente un elemento `<img>` real dentro de cada tablero isométrico:
-- al entrar al despliegue;
-- al entrar al combate;
-- después de cada re-render;
-- después de rotar la cámara.
-
-El archivo visual sigue siendo:
-
+## Nuevo asset
 `assets/arenas/central/arena-central-base.png`
 
-## Arquitectura
-Orden visual:
-1. Arena Central (`<img>`)
-2. SVG lógico 12×12
-3. obstáculos / elementos dinámicos
-4. miniaturas
+Verificado:
+- PNG real;
+- RGBA;
+- transparencia exterior;
+- 1774 × 887 px;
+- proporción 2:1;
+- plataforma completa;
+- suelo limpio, sin casillas dibujadas.
 
-La lógica táctica no cambia.
+## Arquitectura visual
+1. Arena Central / plataforma.
+2. Cuadrícula lógica 12×12 de la app.
+3. Obstáculos y elementos dinámicos.
+4. Miniaturas.
+5. Indicadores.
 
 ## Se conserva
-- 12×12 lógico.
-- movimiento.
-- alcance.
-- línea de visión.
-- obstáculos.
-- Pilares/Brotes/trampas.
+- coordenadas 12×12;
+- movimiento;
+- alcance;
+- línea de visión;
+- obstáculos;
+- Pilares/Brotes/trampas;
+- cámara y rotaciones;
+- HUD;
+- habilidades;
+- IA;
 - miniaturas.
-- cámara y cuatro rotaciones.
-- HUD.
-- pulsación larga de habilidades.
-
-## PWA / versión
-- Inicio actualizado a v0.5.23.
-- `arena-central.css` actualizado a `v=0523`.
-- `arena-central.js` añadido con `v=0523`.
-- Caché actualizado a `liga-mundos-0523`.
 
 ## Prueba recomendada
-1. Confirmar v0.5.23.
-2. Entrar a combate.
-3. Confirmar que aparece la plataforma completa debajo de la cuadrícula.
-4. Verificar el encaje de las casillas sobre el suelo.
-5. Probar las cuatro rotaciones.
-6. Confirmar que miniaturas y obstáculos siguen centrados.
+1. Confirmar v0.5.24.
+2. Verificar que sólo existe una cuadrícula visible.
+3. Revisar que las cuatro puntas de la cuadrícula queden dentro del piso de la Arena.
+4. Activar Mover y comprobar que el resaltado coincide exactamente con la malla.
+5. Probar rotación de cámara.
+6. Confirmar miniaturas y obstáculos centrados en sus casillas.
 
 ## Estado
 LISTA PARA PROBAR.
+El siguiente ajuste, si hiciera falta, será únicamente de encuadre del rombo sobre el piso.
