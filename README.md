@@ -1,60 +1,68 @@
-# Liga de los Mundos v0.5.25 — Arena Central correcta + huella original
+# Liga de los Mundos v0.5.26 — Encuadre interior de Arena Central
 
-## Cambio principal
-Se reemplaza el asset de Arena Central por la imagen exacta aprobada por Adrián.
+## Objetivo
+Corregir el encastre visual de Arena Central para que la cuadrícula 12×12 quede completamente dentro del suelo jugable.
 
-La imagen correcta es:
-- arena lisa;
-- sin cuadrícula integrada;
-- con emblema central;
-- marco isométrico aprobado.
+## Regla visual
+La jerarquía correcta queda:
 
-## Corrección de encuadre
-La versión anterior reducía y desplazaba la cuadrícula lógica para intentar adaptarla al arte.
+1. Fondo / entorno
+2. Arena Central
+3. Suelo interior jugable
+4. Cuadrícula 12×12 generada por la app
+5. Obstáculos y elementos dinámicos
+6. Miniaturas e indicadores
 
-En v0.5.25 se hace lo contrario:
+Las paredes, bordes y esquinas de la Arena deben quedar por fuera de la cuadrícula.
 
-**la geometría original de Código vuelve a ser la referencia.**
+## Ajuste aplicado
+La imagen de Arena Central sigue ocupando el contenedor completo.
 
-La cuadrícula 12×12 vuelve a:
-- ocupar el 100% del contenedor isométrico;
-- conservar su ángulo original;
-- conservar su altura y posición originales;
-- mantener las mismas coordenadas de miniaturas y obstáculos.
+La capa lógica del tablero y la capa de entidades se colocan juntas dentro del piso interior:
 
-El asset visual se adapta al contenedor del tablero, no al revés.
+- left: 14%
+- top: 14%
+- width: 72%
+- height: 72%
+
+No se cambia ninguna coordenada lógica: sólo cambia la caja visual en la que se proyecta el tablero.
 
 ## Asset
+Se conserva exactamente el asset aprobado:
+
 `assets/arenas/central/arena-central-base.png`
 
-El archivo aprobado llegó como imagen RGB con fondo negro. Se conserva exactamente el dibujo y se usa un recorte romboidal CSS para evitar que el fondo rectangular invada el escenario.
+La cuadrícula no forma parte de la imagen; la sigue generando Código.
 
 ## Caché
-El asset se solicita como:
-`arena-central-base.png?v=0525`
+Asset solicitado con:
+`arena-central-base.png?v=0526`
 
-Esto fuerza a la app y al Service Worker a dejar de reutilizar la imagen anterior.
+Service Worker:
+`liga-mundos-0526`
 
 ## Sin cambios
-- mecánicas;
-- 12×12 lógico;
+- reglas;
 - movimiento;
 - alcance;
 - línea de visión;
 - IA;
 - habilidades;
-- HUD;
+- turnos;
+- cámara;
 - miniaturas;
 - obstáculos;
-- cámara.
+- Pilares/Brotes/trampas;
+- HUD.
 
-## Prueba
-1. Confirmar v0.5.25.
-2. Verificar que aparece la Arena correcta.
-3. Confirmar que la cuadrícula tiene el mismo tamaño/posición que antes de integrar imágenes.
-4. Revisar las cuatro puntas.
-5. Activar Mover y comprobar que miniaturas, casillas y resaltados siguen coincidiendo.
-6. Probar las cuatro rotaciones.
+## Prueba recomendada
+1. Confirmar v0.5.26.
+2. Entrar al despliegue.
+3. Verificar que las cuatro puntas de la cuadrícula queden dentro del piso.
+4. Confirmar que ninguna casilla pisa las paredes.
+5. Revisar que miniaturas y rocas continúen centradas.
+6. Activar Mover y comprobar resaltados.
+7. Probar las cuatro rotaciones.
 
 ## Estado
 LISTA PARA PROBAR.

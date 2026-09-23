@@ -1,19 +1,18 @@
-/* v0.5.25 — Arena Central: asset correcto + huella original del tablero.
-   Regla: la geometría 12x12 de Código manda; la imagen se adapta a ella. */
+/* v0.5.26 — Arena Central: cuadrícula dentro del suelo jugable.
+   El marco/paredes quedan por fuera. No cambia la lógica 12x12. */
 
 @media (orientation:landscape){
   .battle-grid.iso-grid{
     background:transparent!important;
   }
 
-  /* No usar la vieja plataforma verde. */
   .battle-grid.iso-grid::before,
   .battle-grid.iso-grid::after{
     content:none!important;
     display:none!important;
   }
 
-  /* Asset aprobado: ocupa exactamente el mismo contenedor 2:1 del tablero lógico. */
+  /* Arena aprobada: llena el contenedor visual completo. */
   .battle-grid.iso-grid > .arena-central-layer{
     position:absolute!important;
     z-index:0!important;
@@ -26,46 +25,47 @@
     pointer-events:none!important;
     user-select:none!important;
     -webkit-user-select:none!important;
-
-    /* El archivo aprobado llegó con fondo negro.
-       Se recorta al rombo exterior sin alterar el dibujo de la Arena. */
     clip-path:polygon(50% 0%,100% 50%,50% 100%,0% 50%)!important;
   }
 
   /*
-    RESTAURAMOS LA HUELLA ORIGINAL DE CÓDIGO.
-    La cuadrícula vuelve a ocupar el 100% del tablero isométrico:
-    no se achica, no se desplaza, no se cambia su inclinación.
+    ENCAJE v0.5.26
+    La cuadrícula deja de ocupar todo el rombo exterior.
+    Se centra dentro del piso interior de la Arena:
+      margen X ≈ 14%
+      margen Y ≈ 14%
+      área útil ≈ 72% × 72%
+
+    Así el marco, las paredes y las cuatro esquinas quedan por fuera
+    de las casillas jugables.
   */
   .battle-grid.iso-grid .iso-floor{
     position:absolute!important;
     z-index:2!important;
-    inset:0!important;
-    left:0!important;
-    top:0!important;
-    right:0!important;
-    bottom:0!important;
-    width:100%!important;
-    height:100%!important;
+    left:14%!important;
+    top:14%!important;
+    right:auto!important;
+    bottom:auto!important;
+    width:72%!important;
+    height:72%!important;
     transform:none!important;
     transform-origin:center center!important;
     filter:none!important;
   }
 
-  /* Las entidades vuelven también a la geometría original. */
+  /* Las entidades usan exactamente la misma caja que la cuadrícula. */
   .battle-grid.iso-grid .iso-entities{
     position:absolute!important;
     z-index:3!important;
-    inset:0!important;
-    left:0!important;
-    top:0!important;
-    right:0!important;
-    bottom:0!important;
-    width:100%!important;
-    height:100%!important;
+    left:14%!important;
+    top:14%!important;
+    right:auto!important;
+    bottom:auto!important;
+    width:72%!important;
+    height:72%!important;
   }
 
-  /* Única cuadrícula visible: la generada por la app. */
+  /* Única cuadrícula visible: la generada por Código. */
   .battle-grid.iso-grid .iso-floor .tile,
   .battle-grid.iso-grid .iso-floor .tile.iso-tone-a,
   .battle-grid.iso-grid .iso-floor .tile.iso-tone-b{

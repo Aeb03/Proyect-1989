@@ -1,6 +1,6 @@
 (()=>{'use strict';
 
-const ARENA_SRC='./assets/arenas/central/arena-central-base.png?v=0525';
+const ARENA_SRC='./assets/arenas/central/arena-central-base.png?v=0526';
 
 function attachArena(){
   document.querySelectorAll('.battle-grid.iso-grid').forEach(grid=>{
