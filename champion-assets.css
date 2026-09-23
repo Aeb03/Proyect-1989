@@ -1,4 +1,4 @@
-/* v0.5.18 — selección/avatar aprobados; Arfeli restaura tratamiento específico y Coloso/Onod mantienen sistema general. */
+/* v0.5.20 — selección/avatar aprobados; Arfeli específica, Coloso/Onod generales; ajuste puntual Coloso down-left. */
 .champion-image-host,.champion-select-host,.champion-collection-select-host,.arfeli-combat-host{overflow:hidden!important}
 .champion-avatar-img{width:100%!important;height:100%!important;display:block!important;object-fit:cover!important;object-position:center!important;border-radius:inherit!important}
 
@@ -90,6 +90,12 @@
   .iso-combat-entity .unit-piece.champion-onod.team-player:before,
   .iso-combat-entity .unit-piece.champion-onod.team-enemy:before{
     width:54%!important;height:7%!important;bottom:-1%!important;border-width:1px!important;opacity:.46!important;box-shadow:0 0 3px #0005!important;
+  }
+
+  /* Ajuste puntual: esta vista quedó visualmente más chica dentro de su PNG. */
+  .iso-combat-entity .unit-piece.champion-coloso .coloso-combat-down-left{
+    transform:scale(1.12)!important;
+    transform-origin:center bottom!important;
   }
 }
 @media (orientation:landscape) and (max-height:430px){
