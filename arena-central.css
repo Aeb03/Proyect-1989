@@ -1,19 +1,32 @@
-/* v0.5.22 — Arena Central.
-   Capa visual únicamente: no modifica lógica 12x12, coordenadas ni reglas. */
+/* v0.5.23 — Arena Central.
+   La arena se monta como una capa <img> real para evitar fallos de background-image.
+   No modifica lógica 12x12, coordenadas ni reglas. */
 
 @media (orientation:landscape){
   .battle-grid.iso-grid{
-    background-image:url("./assets/arenas/central/arena-central-base.png")!important;
-    background-size:100% 100%!important;
-    background-position:center!important;
-    background-repeat:no-repeat!important;
+    background:transparent!important;
   }
 
-  /* Se retira la vieja plataforma verde generada por pseudo-elementos. */
+  /* Se retira la antigua plataforma verde generada por pseudo-elementos. */
   .battle-grid.iso-grid::before,
   .battle-grid.iso-grid::after{
     content:none!important;
     display:none!important;
+  }
+
+  /* Asset visual real de la Arena Central. */
+  .battle-grid.iso-grid > .arena-central-layer{
+    position:absolute!important;
+    z-index:0!important;
+    inset:0!important;
+    width:100%!important;
+    height:100%!important;
+    display:block!important;
+    object-fit:fill!important;
+    object-position:center!important;
+    pointer-events:none!important;
+    user-select:none!important;
+    -webkit-user-select:none!important;
   }
 
   /*
@@ -21,8 +34,8 @@
     X: 10% → 90%
     Y: 10% → 82%
 
-    El SVG lógico conserva su proyección 2:1 y se estira sólo en X
-    para coincidir con el rombo dibujado, sin alterar coordenadas.
+    El SVG lógico conserva la proyección 2:1 y se ajusta visualmente
+    sobre el suelo del asset sin tocar coordenadas.
   */
   .battle-grid.iso-grid .iso-floor{
     left:14%!important;
@@ -36,7 +49,7 @@
     filter:none!important;
   }
 
-  /* Las entidades usan exactamente la caja visual del suelo. */
+  /* Entidades ancladas a la misma superficie visual. */
   .battle-grid.iso-grid .iso-entities{
     left:10%!important;
     top:10%!important;
@@ -46,8 +59,8 @@
     height:72%!important;
   }
 
-  /* El arte aporta el suelo y su cuadrícula.
-     Los polígonos SVG quedan como capa funcional/clickeable. */
+  /* El arte aporta el suelo y la cuadrícula.
+     El SVG queda como capa funcional y de resaltados. */
   .battle-grid.iso-grid .iso-floor .tile,
   .battle-grid.iso-grid .iso-floor .tile.iso-tone-a,
   .battle-grid.iso-grid .iso-floor .tile.iso-tone-b{
@@ -57,7 +70,6 @@
     filter:none;
   }
 
-  /* Estados tácticos: semitransparentes para no tapar el nuevo suelo. */
   .battle-grid.iso-grid .iso-floor .tile.obstacle{
     fill:#39443e66!important;
     stroke:#889483aa!important;
