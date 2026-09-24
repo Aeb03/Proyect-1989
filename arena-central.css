@@ -1,7 +1,44 @@
-/* v0.5.28 — Arena Central: mismo encuadre jugable de v0.5.26,
-   corrige únicamente el recorte visual del PNG con fondo negro. */
+/* v0.5.35 — Arena Central: integración del fondo del Coliseo.
+   IMPORTANTE:
+   - no cambia la lógica 12×12;
+   - no cambia coordenadas, rotación ni cámara;
+   - la plataforma actual conserva exactamente su encuadre;
+   - el nuevo fondo es sólo una capa visual detrás del tablero. */
 
 @media (orientation:landscape){
+  /*
+    CAPA 0 — FONDO DEL COLISEO
+    Se fija a la pantalla de combate y NO rota junto con la cuadrícula.
+    object-fit equivalente: cover, anclado arriba para preservar la arquitectura.
+  */
+  .battle-screen{
+    isolation:isolate!important;
+    background:#0d1511!important;
+  }
+
+  .battle-screen::before{
+    content:"";
+    position:absolute!important;
+    z-index:0!important;
+    inset:0!important;
+    pointer-events:none!important;
+    user-select:none!important;
+    -webkit-user-select:none!important;
+
+    background-image:url("./assets/arenas/central/arena-central-background.png?v=0535");
+    background-repeat:no-repeat;
+    background-size:cover;
+    background-position:center top;
+  }
+
+  /*
+    Toda la estructura funcional existente sigue por encima.
+    No se cambian tamaños ni posiciones.
+  */
+  .battle-screen > .battle-layout{
+    z-index:1!important;
+  }
+
   .battle-grid.iso-grid{
     background:transparent!important;
   }
@@ -13,11 +50,8 @@
   }
 
   /*
-    Arena aprobada.
-    El archivo tiene fondo negro real; este clip-path sigue la silueta exterior
-    de la plataforma con más puntos que el rombo simple anterior.
-    Objetivo: eliminar los triángulos negros laterales SIN cortar las torres
-    izquierda/derecha ni las cuatro puntas.
+    CAPA 1 — PLATAFORMA APROBADA
+    Se conserva SIN reinterpretación.
   */
   .battle-grid.iso-grid > .arena-central-layer{
     position:absolute!important;
@@ -46,8 +80,9 @@
   }
 
   /*
-    Se conserva el encuadre interior validado conceptualmente:
-    la cuadrícula 12×12 está dentro del suelo y las paredes quedan por fuera.
+    CAPA 2 — SVG FUNCIONAL 12×12.
+    Conserva exactamente el encuadre validado:
+    la cuadrícula vive dentro del suelo de la plataforma.
   */
   .battle-grid.iso-grid .iso-floor{
     position:absolute!important;
@@ -63,6 +98,9 @@
     filter:none!important;
   }
 
+  /*
+    CAPAS 3+ — obstáculos, objetos dinámicos y Campeones.
+  */
   .battle-grid.iso-grid .iso-entities{
     position:absolute!important;
     z-index:3!important;
@@ -74,6 +112,7 @@
     height:72%!important;
   }
 
+  /* Cuadrícula funcional: mismos estados visuales previos. */
   .battle-grid.iso-grid .iso-floor .tile,
   .battle-grid.iso-grid .iso-floor .tile.iso-tone-a,
   .battle-grid.iso-grid .iso-floor .tile.iso-tone-b{
