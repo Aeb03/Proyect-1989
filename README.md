@@ -1,112 +1,125 @@
-# Liga de los Mundos v0.5.35 — Integración Arena Central / Coliseo
+# Liga de los Mundos v0.5.36 — Arena transparente + parallax
 
 ## Estado
 🟡 EN PRUEBA
 
-Primera integración del fondo completo de la Sede de la Liga con la plataforma jugable actual.
+Corrección visual puntual de Arena Central sobre v0.5.35.
 
-## Nuevo recurso
+## 1. Plataforma RGBA real
+
+Se reemplaza:
+
+`assets/arenas/central/arena-central-base.png`
+
+por una versión técnica:
+
+- PNG;
+- RGBA;
+- 1920 × 960;
+- proporción 2:1;
+- fondo exterior realmente transparente;
+- sin halo negro exterior.
+
+El asset conserva el diseño de la plataforma.
+
+## 2. Se elimina el recorte artificial
+
+La versión anterior necesitaba un `clip-path` aproximado para esconder el negro del PNG.
+
+Ese recorte queda eliminado:
+
+`clip-path: none`
+
+La transparencia ahora pertenece al propio archivo.
+
+## 3. Parallax del Coliseo
+
+El fondo del Coliseo continúa siendo:
 
 `assets/arenas/central/arena-central-background.png`
 
-El archivo se incorpora exactamente como fue entregado:
-- 1536 × 864 px;
-- no se redibuja;
-- no se recorta;
-- no se recomprime;
-- no se altera su diseño.
+No rota físicamente.
 
-## Orden de capas
+Ahora acompaña suavemente el desplazamiento de la cámara:
 
-1. Fondo del Coliseo.
-2. Plataforma `arena-central-base.png`.
-3. SVG funcional 12×12.
-4. Obstáculos.
-5. Pilares / Brotes / trampas / Muñeco y demás objetos.
-6. Campeones + PV + estados.
-7. HUD e interfaz.
+- horizontal: 22% del desplazamiento del tablero;
+- vertical: 14%;
+- límite horizontal: ±56 px;
+- límite vertical: ±20 px.
 
-## Fondo
-El Coliseo se aplica exclusivamente a `.battle-screen`.
+Esto evita que el Coliseo parezca una fotografía completamente fija detrás de una plataforma móvil.
 
-Características:
-- cubre el viewport en horizontal;
-- `background-size: cover`;
-- anclado arriba para conservar la arquitectura monumental;
-- no recibe clics;
-- no forma parte de la lógica del tablero;
-- no rota con la cámara.
+## 4. Cómo se sincroniza
 
-## Plataforma
-Se conserva la misma integración de la plataforma vigente.
+`arena-central.js` observa la cámara ya existente.
 
-No se modifican:
-- imagen;
-- escala actual del tablero;
-- posición actual;
-- clip vigente;
-- cuadrícula 12×12.
+Después de que `applyBattleCamera()` termina su cálculo normal:
 
-## Cuadrícula
-Se mantiene:
-- `left: 14%`;
-- `top: 14%`;
-- `width: 72%`;
-- `height: 72%`.
+1. NO altera `B.camera`;
+2. NO modifica la transformación del tablero;
+3. lee `camera.x / camera.y`;
+4. actualiza únicamente dos variables CSS del fondo.
 
-No cambia ninguna coordenada lógica.
+Por eso el parallax no participa en ninguna regla del juego.
 
-## Rotación
-La plataforma y el fondo visual se reutilizan en las 4 vistas.
+## 5. Rotación
 
-La rotación sigue ocurriendo únicamente a través del sistema lógico actual de `isoViewCoords`.
+La cámara lógica mantiene exactamente sus cuatro rotaciones actuales.
 
-Esta prueba NO introduce assets r0/r1/r2/r3.
+La plataforma continúa reutilizándose en las cuatro vistas.
 
-## Cámara
-No se cambia el desplazamiento de cámara actual.
-
-Mover/rotar la cámara continúa funcionando como antes.
+El Coliseo:
+- no gira;
+- conserva orientación arquitectónica;
+- acompaña cualquier recentrado/desplazamiento que produzca la rotación.
 
 ## Sin cambios
-Esta versión NO modifica:
-- combate;
+
+No se modifica:
+
+- tablero lógico 12×12;
+- `isoViewCoords`;
+- selección;
+- movimiento;
+- alcance;
+- LoS;
+- obstáculos;
+- Campeones;
+- objetos dinámicos;
 - daño;
 - PA;
 - PM;
 - estados;
-- IA;
 - balance;
+- IA;
 - VFX;
-- obstáculos;
-- movimiento;
-- alcance;
-- LoS;
-- Campeones;
-- miniaturas.
+- HUD.
 
 ## Archivos modificados
+
 - `arena-central.css`
+- `arena-central.js`
 - `index.html`
 - `brand.js`
 - `sw.js`
 - `README.md`
 
-## Archivo nuevo
-- `assets/arenas/central/arena-central-background.png`
+## Asset reemplazado
+
+- `assets/arenas/central/arena-central-base.png`
 
 ## Prueba prioritaria
-1. Iniciar combate real.
-2. Revisar escala del Coliseo.
-3. Revisar lectura de la plataforma.
-4. Confirmar que el SVG sigue perfectamente funcional.
-5. Seleccionar movimiento/alcance y comprobar resaltados.
-6. Rotar las 4 cámaras.
-7. Arrastrar cámara.
-8. Revisar obstáculos y miniaturas sobre el nuevo fondo.
-9. Revisar HUDs flotantes.
-10. Confirmar que ninguna interacción cambió.
+
+1. Comprobar que desapareció el halo negro.
+2. Arrastrar lentamente la arena en las cuatro direcciones.
+3. Confirmar que el Coliseo acompaña de forma suave, pero menos que la plataforma.
+4. Rotar cámara varias veces.
+5. Confirmar que el fondo no gira físicamente.
+6. Confirmar que el recentrado tras rotar también produce parallax.
+7. Probar selección/movimiento/alcance.
+8. Confirmar que cuadrícula, piezas y clics siguen exactamente alineados.
 
 ## Versión
-- pública: v0.5.35
-- cache PWA: `liga-mundos-0535`
+
+- pública: v0.5.36
+- cache PWA: `liga-mundos-0536`
