@@ -1,118 +1,184 @@
-# Liga de los Mundos v0.5.30 — Balance consolidado de playtest
+# Liga de los Mundos v0.5.31 — IA táctica general
 
 ## Estado
 🟡 EN PRUEBA
 
-Esta versión implementa el paquete consolidado aprobado para los 6 Campeones y reemplaza versiones intermedias cuando existe conflicto.
+Esta versión mantiene el balance consolidado de v0.5.30 y reemplaza la IA secuencial anterior por una primera IA táctica general.
 
-## Reglas globales
+## Corrección adicional
+Se corrige el fallo visual de versión que podía producir textos como:
 
-### Herida
-- máximo 3;
-- daño por CADA casilla recorrida igual a las acumulaciones actuales;
-- funciona con PM, habilidades, empujes, atracciones y desplazamientos forzados;
-- al final del turno se reduce a la mitad redondeando hacia abajo.
+`v0.5.300000000...`
 
-### Veneno
-- máximo 6;
-- cada habilidad utilizada causa daño igual al Veneno actual;
-- al final del turno se reduce a la mitad redondeando hacia abajo.
+La causa era el reemplazo repetido de `v0.5.3` dentro de versiones más largas.
 
-### Quemadura
-- máximo 8;
-- daño al inicio del turno;
-- mismo daño al final;
-- después se reduce a la mitad redondeando hacia abajo.
+Ahora:
+- versión pública: `v0.5.31`;
+- reemplazo de versión estable;
+- la pantalla inicial fuerza exactamente `v0.5.31`.
 
-### Escudos
-- duración global actualizada a 1 turno o hasta ser destruidos.
+## IA aliada y enemiga
+Usan exactamente el mismo motor.
 
-Parálisis no se modifica.
+La única diferencia es qué unidades considera:
+- aliadas;
+- enemigas.
 
-## Arfeli
-- Corte con Espada: máximo 1 uso/turno.
-- Portación de Escudo: 3 PA, 20 Escudo.
-- Golpe de Martillo: sólo 4 casillas ortogonales.
+No existen reglas especiales de inteligencia para favorecer o perjudicar al jugador.
 
-## Coloso
-- Absorción Rocosa: 2 PA.
-- Fusión de Pilar: 3 PA.
-- Réplica: detección sólo ortogonal.
-- Cada Pilar participa máximo una vez por Golpe Sísmico.
-- Se conserva colocación de Pilar adyacente a enemigos.
+## Selección de 4 habilidades
+Cada Campeón IA elige 4 habilidades mediante configuraciones coherentes con aleatoriedad ponderada.
 
-## Piplus
-- Impulso ya no evita Herida.
-- Ruptura de Marca: 16 daño, empuje 2.
+La elección depende únicamente del Campeón.
 
-## Onod
-- máximo 3 Brotes;
-- Retirar Brote: máximo 1/turno;
-- Espina Venenosa: máximo 2 usos/turno;
-- Savia Vital usa adyacencia ortogonal;
-- Esporas Tóxicas: 8 daño;
-- Despertar del Bosque activa simultáneamente TODOS los Brotes, 8 daño por Brote ortogonal, sin consumirlos ni empujar;
-- Simbiosis usa adyacencia ortogonal.
+No consulta:
+- rival;
+- loadout del jugador;
+- habilidades enemigas ocultas.
 
-## Korgan
-- máximo 3 trampas activas;
-- trampas enemigas invisibles;
-- trampas propias/aliadas translúcidas;
-- desarmar 1 trampa propia/turno a 0 PA;
-- Pinchos: 3 PA, 10 daño + Herida 1, máximo 2 colocaciones/turno;
-- Mina Eléctrica: 3 PA, 8 daño, -1 PA próximo turno, máximo 1 colocación/turno;
-- Granada reemplaza Carga Explosiva y deja de ser trampa;
-- Disparo de Caza: 12 daño, alcance 5 lineal;
-- Gancho: 6 daño, atracción hasta 2 casillas;
-- Paso del Cazador respeta Herida.
+La configuración queda bloqueada durante el combate.
 
-## Hougan
-- Vínculo admite enemigo o aliado, máximo 1;
-- Aguja Vudú daña enemigo o cura aliado 7 y aplica Vínculo;
-- Muñeco enemigo: 16 PV / movimiento 3;
-- Muñeco aliado: 30 PV / PM 4 / cura 50% del daño recibido redondeando hacia arriba;
-- Transferencia: 2 PA;
-- Maldición: 3 PA, alcance 3, 9 daño + Veneno 1, máximo 1 uso/turno, sin requisito de Vínculo;
-- Dolor Reflejado eliminado;
-- Transferencia de Dolor implementada: reparto 50/50, impar mayor a Hougan, persistente hasta desaparecer el Muñeco;
-- Ritual del Dolor: 14 base, +6 con Muñeco asociado ortogonal, consume Vínculo.
+## Planificación
+La IA genera planes simples para el turno actual:
 
-## Implementación técnica
-Para reducir riesgo de regresión, las nuevas reglas se aplican mediante:
+- habilidad;
+- movimiento → habilidad;
+- habilidad → reevaluación;
+- habilidad → habilidad mediante bonificaciones de sinergia;
+- Impulso/reposicionamiento cuando mejora claramente el plan.
 
-- `balance-playtest.js`
-- `balance-playtest.css`
+Después de cada acción vuelve a evaluar si:
+- murió el objetivo;
+- cambió la posición;
+- apareció/desapareció una entidad;
+- cambió la oportunidad táctica.
 
-La base `app.js` no se reconstruye.
+No realiza búsqueda profunda de varios turnos.
 
-Se mantienen los IDs históricos de algunas habilidades para preservar loadouts:
-- `trap_snare` = Mina Eléctrica;
-- `trap_bomb` = Granada;
-- `reflected` = Transferencia de Dolor.
+## Sentido común implementado
+La IA penaliza:
+- movimientos innecesarios;
+- daño de Herida por desplazamiento;
+- daño de Veneno por habilidades de poco valor;
+- curación desperdiciada;
+- escudos sin exposición;
+- sobre-daño inútil;
+- acercamiento gratuito de Campeones de rango;
+- acciones de bajo valor sólo para gastar PA.
 
-## Sin cambios intencionales
-- HUD superior v0.5.29;
+Bonifica:
+- eliminación;
+- daño efectivo;
+- curación efectiva;
+- control real;
+- posición;
+- sinergias sencillas;
+- amenazas tácticas visibles.
+
+## Trampas ocultas
+La IA sólo consulta trampas de su propio equipo.
+
+Nunca usa la posición de trampas enemigas invisibles para decidir ruta, Gancho, Granada o posicionamiento.
+
+Si entra en una trampa enemiga oculta, la descubre mediante la resolución normal del juego.
+
+## Persistencia de objetivo
+Cada IA conserva un objetivo razonable y no cambia por diferencias mínimas.
+
+Puede cambiar si aparece una oportunidad claramente superior.
+
+## Objetos tácticos
+Puede valorar atacar:
+- Brotes;
+- Pilares;
+- Muñecos.
+
+El valor depende de la amenaza visible y de la posibilidad de destruirlos.
+
+## Identidad por Campeón
+
+### Arfeli
+- favorece daño directo;
+- valora Herida cuando tendrá impacto;
+- prefiere Arco si evita movimiento innecesario;
+- valora -1 PA del Martillo;
+- no se daña deliberadamente para activar Berserker.
+
+### Coloso
+- Pilares reciben valor por posición y sinergias;
+- Réplica actual se reconoce en el turno;
+- Absorción considera curación efectiva vs. perder Pilar;
+- Monolito se usa sólo con una razón táctica.
+
+### Piplus
+- Marca no se aplica sólo por PV bajo;
+- Preciso/Tirón/Ruptura compiten por valor;
+- Ruptura considera el costo de consumir Marca;
+- Impulso sólo se usa si mejora posición/seguridad/plan.
+
+### Onod
+- no coloca Brotes sólo para llegar a 3;
+- Despertar calcula impactos reales actuales;
+- Esporas valora múltiples blancos;
+- Savia considera bonus ortogonal;
+- mantiene preparación simple, no multironda perfecta.
+
+### Korgan
+- coloca trampas cerca de rutas/combate;
+- Gancho y Granada valoran trampas conocidas propias/aliadas;
+- Disparo de Caza valora alineación;
+- Paso del Cazador sólo si mejora realmente la posición.
+
+### Hougan
+Mantiene un modo con histéresis:
+- ofensivo;
+- apoyo.
+
+No alterna por diferencias pequeñas.
+
+Valora:
+- continuidad Vínculo + Muñeco;
+- Maldición independiente;
+- Ritual como ejecución;
+- Muñeco aliado como recurso defensivo;
+- Transferencia de Dolor según exposición real.
+
+No se expone deliberadamente para generar curación.
+
+## Imperfección controlada
+Si varias opciones son cercanas en valor, la IA puede elegir entre ellas con azar ponderado.
+
+Si una opción es claramente superior, la preferencia es fuerte.
+
+## Arquitectura
+Se agrega:
+
+- `ai-tactical.js`
+- `ai-tactical.css`
+
+Se carga después de `balance-playtest.js`, por lo que trabaja sobre las reglas vigentes de v0.5.30 sin reconstruir `app.js`.
+
+## Sin cambios
+- balance aprobado v0.5.30;
 - Arena Central;
+- HUD superior v0.5.29;
 - cámara;
-- selección de Campeones;
 - miniaturas;
-- estructura PWA;
-- reglas no incluidas en el paquete aprobado.
+- selección humana;
+- reglas no incluidas en IA.
 
-## Pruebas prioritarias
-1. Herida con PM, Impulso, Gancho, empujes y Paso del Cazador.
-2. Veneno con múltiples habilidades y reducción al final.
-3. Quemadura inicio/fin.
-4. Escudos.
-5. Réplica ortogonal de Coloso.
-6. Tres Brotes + Despertar del Bosque.
-7. Trampas ocultas + Mina + desarmar.
-8. Granada centro/cardinales.
-9. Vínculo aliado/enemigo de Hougan.
-10. Muñeco aliado y redondeo hacia arriba.
-11. Transferencia de Dolor con daño par/impar.
-12. Ritual +6 sólo ortogonal y con Muñeco asociado.
+## Prueba prioritaria
+1. 1v1 contra cada Campeón.
+2. 2v2 observando especialmente IA aliada.
+3. Ver si evita movimientos sin propósito.
+4. Herida: comprobar que no camina gratuitamente.
+5. Veneno: comprobar que no encadena habilidades inútiles.
+6. Objetivos: observar persistencia.
+7. Korgan: verificar que no evita trampas enemigas ocultas.
+8. Onod/Coloso: observar preparación sencilla.
+9. Hougan: observar continuidad ofensivo/apoyo.
+10. Repetir enfrentamientos para confirmar variedad de loadouts.
 
 ## Versión
-- pública: v0.5.30
-- cache PWA: `liga-mundos-0530`
+- pública: v0.5.31
+- cache PWA: `liga-mundos-0531`
