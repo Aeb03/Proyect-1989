@@ -1,5 +1,6 @@
-/* v0.5.28 — HUD superior / Ronda + Orden de turnos
-   Ajuste gráfico del 9-slice sin cambiar tamaño/posición/función del módulo. */
+/* v0.5.29 — HUD superior / Ronda + Orden de turnos
+   Ajuste exclusivamente gráfico: el skin crece alrededor del panel funcional
+   para contener también los 3 botones laterales del módulo. */
 
 @media (orientation:landscape){
   .round-hud-panel{
@@ -17,19 +18,21 @@
   }
 
   /*
-    HORIZONTAL
-    El panel funcional conserva exactamente su caja actual.
-    El marco gráfico se extiende 28 px hacia izquierda y derecha para que
-    los remates dorados queden FUERA del contenido en vez de montarse encima.
+    HORIZONTAL NORMAL
+    La caja funcional NO cambia.
+    Agrandamos solamente el skin:
+    - más espacio a izquierda para abrazar los 3 controles;
+    - un poco más de aire arriba/abajo;
+    - remate derecho también se separa del último chip.
   */
   .round-hud-panel::before{
     content:"";
     position:absolute;
     z-index:0;
-    top:0;
-    bottom:0;
-    left:-28px;
-    right:-28px;
+    top:-7px;
+    bottom:-7px;
+    left:-46px;
+    right:-34px;
     box-sizing:border-box;
     pointer-events:none;
     border-style:solid;
@@ -41,17 +44,13 @@
     border-image-repeat:stretch;
   }
 
-  /*
-    EMBLEMA
-    Pasa al borde superior central para no competir con Ronda, temporizador
-    ni chips del orden de turnos.
-  */
+  /* Emblema independiente, centrado sobre el remate superior. */
   .round-hud-panel::after{
     content:"";
     position:absolute;
     z-index:1;
     left:50%;
-    top:-13px;
+    top:-17px;
     width:28px;
     height:28px;
     transform:translateX(-50%);
@@ -59,66 +58,81 @@
     pointer-events:none;
   }
 
-  /* VERTICAL: conserva el 9-slice vertical y deja sus remates fuera del contenido. */
+  /*
+    Los tres botones (arrastre / orientación / plegado) mantienen exactamente
+    su posición funcional, pero el skin ahora queda por detrás de toda la columna.
+  */
+  .round-hud-panel .round-hud-tools{
+    position:absolute!important;
+    z-index:3!important;
+  }
+
+  /*
+    VERTICAL
+    El mismo criterio: agrandar el marco visual sin alterar el ancho funcional.
+  */
   .round-hud-panel.hud-vertical:not(.collapsed)::before{
-    top:-10px;
-    bottom:-10px;
-    left:-10px;
-    right:-10px;
+    top:-16px;
+    bottom:-16px;
+    left:-18px;
+    right:-18px;
     border-width:40px 21px;
     border-image-source:url("./assets/ui/hud/round/hud-round-vertical@2x.png?v=0527");
     border-image-slice:80 42 80 42 fill;
   }
 
   .round-hud-panel.hud-vertical:not(.collapsed)::after{
-    top:-14px;
+    top:-20px;
     width:28px;
     height:28px;
     transform:translateX(-50%);
   }
 
   /*
-    PLEGADO 176×34:
-    marco horizontal, pero con una salida lateral menor para no sobredimensionarlo.
+    PLEGADO 176×34
+    También crece el skin para que la botonera siga visualmente dentro del marco.
   */
   .round-hud-panel.collapsed::before{
-    top:0;
-    bottom:0;
-    left:-16px;
-    right:-16px;
+    top:-6px;
+    bottom:-6px;
+    left:-38px;
+    right:-24px;
     border-width:9px 42px;
     border-image-source:url("./assets/ui/hud/round/hud-round-horizontal@2x.png?v=0527");
     border-image-slice:18 84 18 84 fill;
   }
 
   .round-hud-panel.collapsed::after{
-    top:-9px;
+    top:-13px;
     width:22px;
     height:22px;
-  }
-
-  .round-hud-panel .round-hud-tools{
-    position:absolute!important;
-    z-index:3!important;
   }
 }
 
 @media (orientation:landscape) and (max-height:430px){
+  /* En pantallas bajas crece menos para no ocupar demasiado espacio. */
   .round-hud-panel::before{
-    left:-24px;
-    right:-24px;
+    top:-5px;
+    bottom:-5px;
+    left:-40px;
+    right:-30px;
   }
+
   .round-hud-panel::after{
-    top:-11px;
+    top:-14px;
     width:24px;
     height:24px;
   }
+
   .round-hud-panel.collapsed::before{
-    left:-14px;
-    right:-14px;
+    top:-4px;
+    bottom:-4px;
+    left:-34px;
+    right:-22px;
   }
+
   .round-hud-panel.collapsed::after{
-    top:-8px;
+    top:-11px;
     width:20px;
     height:20px;
   }

@@ -1,69 +1,65 @@
-# Liga de los Mundos v0.5.28 — Ajuste HUD Ronda + limpieza Arena Central
+# Liga de los Mundos v0.5.29 — HUD superior más envolvente
 
-## Cambio 1 — HUD superior
-Se corrige la primera integración del 9-slice del módulo:
+## Cambio principal
+Se ajusta únicamente el skin 9-slice del HUD superior:
 
 **Ronda + Orden de turnos**
 
-La caja funcional NO cambia de tamaño ni de posición.
+La estructura funcional NO cambia.
 
-### Corrección
-Los remates horizontales del marco se dibujan por fuera de la caja funcional:
-- normal: 28 px hacia cada lateral;
-- responsive: 24 px;
-- plegado: 16 px.
+## Objetivo
+Hacer que el marco gráfico abrace también la columna de controles laterales:
 
-Esto evita que los remates se monten sobre:
-- Ronda;
-- Campeón activo;
-- temporizador;
-- chips del orden de turnos.
+- arrastrar;
+- cambiar orientación;
+- plegar/desplegar.
 
-El emblema independiente pasa al borde superior central para no quedar detrás del contenido.
+En v0.5.28 esos botones seguían viéndose demasiado pegados al borde exterior del skin.
 
-Vertical conserva su asset específico 9-slice.
+## Ajuste horizontal
+La caja funcional conserva exactamente el mismo tamaño y posición.
 
-## Cambio 2 — Arena Central
-Se mantiene el mismo asset y el mismo encuadre jugable de v0.5.26.
+Sólo crece el skin visual:
+- izquierda: 46 px hacia afuera;
+- derecha: 34 px hacia afuera;
+- arriba/abajo: 7 px.
 
-Se reemplaza el recorte romboidal simple por un `clip-path` de silueta más preciso.
+El remate izquierdo ahora envuelve visualmente la botonera completa.
 
-Objetivo:
-- quitar los triángulos negros de izquierda y derecha;
-- conservar completas las torres laterales;
-- no cortar las cuatro esquinas;
-- mantener la cuadrícula dentro del suelo interior.
+## Ajuste vertical
+El skin vertical también gana aire exterior:
+- 18 px laterales;
+- 16 px arriba/abajo.
 
-No se modifica la cuadrícula 12×12 ni las coordenadas.
+## Estado plegado
+El marco horizontal plegado se amplía sin modificar el tamaño funcional 176 × 34.
 
 ## Sin cambios
+- contenido del HUD;
+- botones y eventos;
+- posición del módulo;
+- dimensiones funcionales;
+- turnos;
 - combate;
-- IA;
-- habilidades;
-- movimiento;
-- alcance;
-- línea de visión;
-- miniaturas;
-- obstáculos;
+- Arena Central;
 - cámara;
-- tamaños y posición funcional del HUD superior.
+- miniaturas;
+- habilidades;
+- PWA salvo actualización de versión/caché.
 
 ## PWA / caché
-- versión pública: v0.5.28
-- cache: `liga-mundos-0528`
-- `arena-central.css?v=0528`
-- `hud-round.css?v=0528`
-- `brand.js?v=0528`
+- versión pública: v0.5.29
+- caché: `liga-mundos-0529`
+- `hud-round.css?v=0529`
+- `brand.js?v=0529`
 
 ## Prueba
 1. Revisar HUD horizontal normal.
-2. Confirmar que los remates ya no pisan textos/chips.
-3. Revisar plegado.
-4. Revisar vertical.
-5. Confirmar que el emblema no tapa contenido.
-6. Revisar Arena Central: no deben quedar triángulos negros laterales.
-7. Confirmar que las esquinas izquierda y derecha estén completas.
-8. Confirmar cuadrícula y miniaturas alineadas.
+2. Confirmar que los tres botones laterales queden visualmente dentro del skin.
+3. Confirmar que no se pisan textos ni chips.
+4. Probar plegado/desplegado.
+5. Probar orientación vertical.
+6. Confirmar que arrastre y controles siguen funcionando igual.
 
 ## Estado
 LISTA PARA PROBAR.
