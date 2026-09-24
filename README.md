@@ -1,167 +1,217 @@
-# Liga de los Mundos v0.5.33 — Sistema general de VFX
+# Liga de los Mundos v0.5.34 — VFX general ampliado
 
 ## Estado
 🟡 EN PRUEBA
 
-Primera capa general reutilizable de efectos visuales de combate.
+Esta versión amplía y ordena el sistema general de efectos visuales iniciado en v0.5.33.
 
-## Regla principal
-Los VFX son exclusivamente una capa de presentación.
+## Principio de arquitectura
+La mecánica siempre se resuelve primero.
 
-No modifican:
-- daño;
-- curación;
-- PA;
-- PM;
-- alcance;
-- estados;
-- movimiento;
-- IA;
-- orden de resolución.
+Después la capa VFX observa el resultado y reproduce la presentación correspondiente.
 
-Si un VFX falla, la mecánica debe continuar normalmente.
+Una animación:
+- no decide si una acción impactó;
+- no decide daño;
+- no decide curación;
+- no decide escudo;
+- no decide estados;
+- no decide desplazamiento;
+- no decide trampas;
+- no modifica IA.
 
-## Arquitectura
-Se agregan:
+Si un VFX falla, la partida continúa.
 
-- `visual-effects.js`
-- `visual-effects.css`
+## Importante — MISS / FALLO
+Actualmente Liga de los Mundos no tiene mecánica de MISS/FALLO.
 
-Existe una API general:
+Esta versión:
+- NO agrega MISS;
+- NO agrega FALLO;
+- NO agrega animación asociada a algo que no existe mecánicamente.
 
-`window.LigaVFX`
+## API reutilizable
+`window.LigaVFX` expone:
 
-Métodos:
-- `damage(subject, n)`
-- `heal(subject, n)`
-- `impact(subject, variant)`
-- `projectile(from, to, variant)`
+- `damage(subject,n)`
+- `heal(subject,n)`
+- `impact(subject,variant)`
+- `projectile(from,to,variant)`
 - `shield(subject)`
-- `area(cells, variant)`
-- `status(subject, icon, label)`
-- `spawn(subject, variant)`
-- `vanish(subject, variant)`
+- `shieldBreak(subject)`
+- `area(cells,variant)`
+- `statusApplied(subject,icon,label)`
+- `statusActivation(subject,icon,label)`
+- `forced(subject,source,away)`
+- `spawn(subject,variant)`
+- `vanish(subject,variant)`
+- `transfer(from,to,variant)`
+- `trapActivation(subject,type)`
+- `relation(from,to,kind,mode)`
+- `transform(subject,variant)`
+- `activationPulse(subject,variant)`
 - `ko(subject)`
-- `forced(subject, source, away)`
 
-Esto permite reutilizar el mismo motor con estilos futuros por Campeón.
+## Sistemas
 
-## Sistemas incorporados
-
-### Daño flotante
-Cualquier pérdida real de PV genera:
-- impacto breve;
-- número negativo;
-- desplazamiento hacia arriba;
-- desaparición automática.
-
-Si un Escudo absorbe todo el golpe, se muestra pérdida de Escudo.
-
-### Curación
-Cualquier recuperación real de PV muestra un número positivo.
+### Daño / curación
+Números flotantes basados en la pérdida/recuperación REAL de PV.
 
 ### Impacto
-Flash/chispa breve localizado sobre la pieza.
+Flash breve sobre la pieza afectada.
 
 ### Proyectil
-Sistema genérico de origen → objetivo.
-
-Primera conexión en:
-- Arfeli: Arco;
-- Coloso: Roca;
-- Onod: Espina;
-- Piplus: Marcador / Preciso / Vectorial;
-- Korgan: Disparo de Caza;
-- Hougan: Aguja / Maldición.
+Origen → objetivo reutilizable.
 
 ### Escudo
-Pulso protector breve al aplicar Escudo.
+Pulso al obtener Escudo.
+
+### Ruptura de Escudo
+Si un golpe deja el Escudo en 0:
+- quiebre;
+- fragmentos energéticos;
+- destello breve.
+
+No cambia el cálculo del Escudo.
 
 ### Área
-Pulso por casilla.
-
-Primera conexión:
-- Esporas Tóxicas;
-- Granada;
-- Golpe Sísmico;
-- Despertar del Bosque.
+Casilla central + casillas afectadas según la habilidad ya resuelta.
 
 ### Estado aplicado
-Feedback breve para:
+Feedback al recibir:
 - Herida;
 - Veneno;
 - Quemadura;
 - Marca;
 - Vínculo;
-- pérdida de PA;
-- pérdida de PM.
+- reducción de PA;
+- reducción de PM.
 
-El indicador permanente sigue perteneciendo al HUD/motor existente.
+### Estado activado
+Diferenciado de la aplicación.
+
+Primeras conexiones:
+- Veneno cuando una habilidad activa su daño;
+- Herida al recorrer una casilla;
+- Quemadura al inicio/final;
+- reducción de PA/PM al comenzar turno.
 
 ### Empuje / atracción
-Se muestra un impulso direccional antes/durante el movimiento forzado.
+Feedback direccional sólo cuando el motor realmente cambió la posición.
 
-No anima caminata.
-La pieza sigue siendo movida por el sistema mecánico existente.
+### Aparición
+Pilar, Brote, Muñeco, trampa y futuras piezas.
 
-### Aparición de piezas
-Pulso reutilizable para:
-- Pilares;
-- Brotes;
-- Muñecos;
-- trampas.
+### Desaparición
+Objeto destruido, consumido o retirado.
 
-No crea ni modifica el asset de la pieza.
+### Consumo / transferencia
+Rastro entre pieza origen y destino.
 
-### Desaparición / destrucción
-Efecto general para objetos destruidos, consumidos o retirados.
+Primeros ejemplos:
+- Absorción Rocosa;
+- Fusión de Pilar;
+- Consumir Pilar en Monolito;
+- Transferencia de Hougan.
+
+### Trampas
+Se distingue:
+- colocar = aparición;
+- activar = pulso específico;
+- desaparecer = efecto posterior.
+
+La trampa sólo se activa porque el motor lo resolvió.
+
+### Marca / Vínculo
+Conexión breve y limpia:
+- al aplicar;
+- al utilizar la relación.
+
+No se dibuja una línea permanente por el tablero.
+
+Los indicadores permanentes de 🎯 Marcado y 🪡 Vinculado siguen siendo los existentes en el sistema de estados.
+
+### Transformación
+Transición genérica.
+
+Primera conexión:
+- Coloso → Monolito;
+- salida de Monolito.
+
+No anima el cuerpo ni agrega frames.
+
+### Pulso del ejecutor
+Toda habilidad resuelta correctamente genera un pulso corto sobre quien la ejecuta.
 
 ### KO
-Indicador deportivo `KO`.
+Feedback deportivo:
+`KO / FUERA`
 
 No representa muerte.
 
+## Secuencia
+Durante una habilidad los eventos mecánicos se capturan sólo para PRESENTACIÓN.
+
+Luego se reproducen aproximadamente:
+
+pulso ejecutor
+→ proyectil / área / relación / transferencia
+→ impacto
+→ ruptura de escudo, si corresponde
+→ daño/curación
+→ estado
+
+La resolución mecánica ya ocurrió y no espera la animación.
+
 ## Rendimiento
-- capa global única;
+- una sola capa global;
 - `pointer-events:none`;
-- máximo 60 nodos simultáneos;
+- máximo 72 nodos VFX;
 - limpieza automática;
-- animaciones breves;
+- Web Animations API;
+- sin canvas;
+- sin assets adicionales;
 - sin timers permanentes;
-- sin canvas pesado;
-- sin assets adicionales.
+- las animaciones no bloquean el turno.
 
 ## Compatibilidad
-Se conserva:
+Se conservan:
 - balance v0.5.30;
 - IA táctica v0.5.31;
-- aproximación IA v0.5.32;
+- aproximación v0.5.32;
 - Arena Central;
-- HUD superior;
-- miniaturas rígidas;
-- cámara.
+- HUD;
+- cámara;
+- miniaturas rígidas.
 
 ## Fuera de esta versión
-NO se incorpora:
+No se incorporan:
 - caminata;
 - balanceo de peana;
-- animación corporal;
+- ataques corporales;
 - cambio de pose;
-- frames extra de Campeones.
+- frames adicionales;
+- animaciones de MISS/FALLO.
 
-## Prueba prioritaria
-1. Atacar y comprobar impacto + daño flotante.
-2. Curar y comprobar número positivo.
-3. Aplicar Escudo.
-4. Usar Arco/Roca/Espina para ver proyectil.
-5. Usar Esporas o Granada para ver área.
-6. Aplicar Herida/Veneno.
-7. Crear Pilar/Brote/Muñeco/trampa.
-8. Destruir o consumir una pieza.
-9. Empujar/atraer.
-10. Llevar un Campeón a 0 PV y comprobar KO.
-11. Confirmar que todas las mecánicas siguen resolviendo aunque haya varios VFX seguidos.
+## Pruebas prioritarias
+1. Daño a PV.
+2. Curación.
+3. Escudo que absorbe parcialmente.
+4. Escudo que llega exactamente a 0.
+5. Arco/Roca/Espina/disparo como proyectil.
+6. Esporas/Granada/Golpe Sísmico.
+7. Aplicar Veneno y luego activarlo.
+8. Herida al desplazarse.
+9. Empuje/atracción.
+10. Crear y destruir Pilar/Brote/Muñeco/trampa.
+11. Absorber/Fusionar Pilar.
+12. Activar una trampa.
+13. Aplicar y usar Marca.
+14. Aplicar y usar Vínculo.
+15. Entrar/salir de Monolito.
+16. KO.
+17. Confirmar que ninguna mecánica depende de las animaciones.
 
 ## Versión
-- pública: v0.5.33
-- cache PWA: `liga-mundos-0533`
+- pública: v0.5.34
+- cache PWA: `liga-mundos-0534`
