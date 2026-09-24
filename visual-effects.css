@@ -1,0 +1,225 @@
+/* Liga de los Mundos v0.5.33 — VFX general / 🟡 EN PRUEBA */
+
+#combat-vfx-root{
+  position:fixed;
+  inset:0;
+  z-index:90;
+  overflow:hidden;
+  pointer-events:none!important;
+  user-select:none;
+  -webkit-user-select:none;
+  contain:layout style paint;
+}
+
+#combat-vfx-root,
+#combat-vfx-root *{
+  pointer-events:none!important;
+}
+
+.combat-vfx{
+  position:fixed;
+  margin:0;
+  padding:0;
+  will-change:transform,opacity;
+  transform-origin:center;
+}
+
+/* El feedback legacy queda oculto para no duplicar números.
+   La lógica de feedback y el HUD no se modifican. */
+.battle-grid.iso-grid .damage-float{
+  display:none!important;
+}
+
+/* Daño / curación / escudo */
+.vfx-float{
+  z-index:18;
+  transform:translateX(-50%);
+  font-weight:1000;
+  font-size:clamp(15px,2.15vw,28px);
+  line-height:1;
+  letter-spacing:.2px;
+  text-shadow:0 2px 2px #000,0 0 5px #000;
+  white-space:nowrap;
+}
+.vfx-float.vfx-damage{color:#ffded5}
+.vfx-float.vfx-heal{color:#bffff0}
+.vfx-float.vfx-shield{color:#aee8ff}
+
+/* Impacto */
+.vfx-impact{
+  z-index:15;
+  width:42px;
+  height:42px;
+  border-radius:50%;
+  border:2px solid #fff9;
+  box-shadow:0 0 10px #fff7,inset 0 0 10px #fff4;
+}
+.vfx-impact i{
+  position:absolute;
+  left:50%;
+  top:50%;
+  width:4px;
+  height:22px;
+  border-radius:8px;
+  background:#fff;
+  transform-origin:center;
+  box-shadow:0 0 6px #fff;
+}
+.vfx-impact i:nth-child(1){transform:translate(-50%,-50%) rotate(0deg)}
+.vfx-impact i:nth-child(2){transform:translate(-50%,-50%) rotate(60deg)}
+.vfx-impact i:nth-child(3){transform:translate(-50%,-50%) rotate(120deg)}
+.vfx-impact.vfx-shield{border-color:#aee8ff;box-shadow:0 0 13px #8ddcff99}
+
+/* Proyectil genérico */
+.vfx-projectile{
+  z-index:14;
+  width:11px;
+  height:11px;
+  border-radius:50%;
+  background:#f4e29a;
+  box-shadow:0 0 4px #fff,0 0 11px #e8c95a;
+}
+.vfx-projectile::after{
+  content:"";
+  position:absolute;
+  right:50%;
+  top:50%;
+  width:28px;
+  height:3px;
+  border-radius:999px;
+  transform:translateY(-50%);
+  background:linear-gradient(90deg,transparent,#f4e29aaa);
+}
+.vfx-projectile.vfx-physical{background:#f3e1b2;box-shadow:0 0 8px #fff8}
+.vfx-projectile.vfx-stone{background:#b8d7ff;box-shadow:0 0 10px #83b7ff}
+.vfx-projectile.vfx-nature{background:#adffbb;box-shadow:0 0 10px #56d77a}
+.vfx-projectile.vfx-tech{background:#9ceeff;box-shadow:0 0 11px #4fcfff}
+.vfx-projectile.vfx-ritual{background:#e5a9ff;box-shadow:0 0 11px #b85eff}
+
+/* Escudo */
+.vfx-shield{
+  z-index:13;
+  width:62px;
+  height:62px;
+  border:2px solid #a8e9ff;
+  border-radius:50%;
+  box-shadow:0 0 13px #67cfff99,inset 0 0 14px #8de2ff66;
+}
+.vfx-shield span{
+  position:absolute;
+  inset:8px;
+  border-radius:50%;
+  border:1px solid #e6faffaa;
+}
+
+/* Área */
+.vfx-area{
+  z-index:8;
+  width:42px;
+  height:21px;
+  border-radius:50%;
+  border:2px solid #f0d572c9;
+  background:#f0d57222;
+  box-shadow:0 0 12px #f0d57255;
+}
+.vfx-area.vfx-stone{border-color:#9ec9ff;background:#76aaff22;box-shadow:0 0 13px #77aaff66}
+.vfx-area.vfx-nature{border-color:#8eff9f;background:#50df7522;box-shadow:0 0 13px #4edf7166}
+.vfx-area.vfx-tech{border-color:#84edff;background:#43dcff22;box-shadow:0 0 13px #43dcff66}
+.vfx-area.vfx-ritual{border-color:#e0a0ff;background:#c95cff22;box-shadow:0 0 13px #c95cff66}
+
+/* Estado */
+.vfx-status{
+  z-index:19;
+  display:flex;
+  align-items:center;
+  gap:3px;
+  padding:2px 5px;
+  border-radius:999px;
+  background:#10120ee6;
+  border:1px solid #d8c87899;
+  box-shadow:0 2px 8px #0009;
+  color:#fff7df;
+  white-space:nowrap;
+  transform:translateX(-50%);
+}
+.vfx-status b{font-size:16px;line-height:1}
+.vfx-status small{font-size:8px;font-weight:900}
+
+/* Aparición */
+.vfx-spawn{
+  z-index:10;
+  width:50px;
+  height:25px;
+  border-radius:50%;
+  border:2px solid #e7d36c;
+  background:#e7d36c20;
+  box-shadow:0 0 14px #e7d36c88;
+}
+.vfx-spawn i{
+  position:absolute;
+  left:50%;
+  top:50%;
+  width:8px;
+  height:8px;
+  border-radius:50%;
+  background:#fff6b2;
+  box-shadow:-18px 0 0 #fff6b288,18px 0 0 #fff6b288,0 -12px 0 #fff6b277;
+}
+
+/* Desaparición / destrucción */
+.vfx-vanish{
+  z-index:12;
+  width:48px;
+  height:48px;
+  border-radius:50%;
+  border:1px dashed #e4d7a4bb;
+}
+.vfx-vanish i{
+  position:absolute;
+  left:50%;
+  top:50%;
+  width:5px;
+  height:5px;
+  border-radius:50%;
+  background:#f3e4ad;
+  box-shadow:0 0 6px #fff6;
+}
+.vfx-vanish i:nth-child(1){transform:translate(-20px,-8px)}
+.vfx-vanish i:nth-child(2){transform:translate(14px,-13px)}
+.vfx-vanish i:nth-child(3){transform:translate(-11px,15px)}
+.vfx-vanish i:nth-child(4){transform:translate(17px,10px)}
+
+/* Movimiento forzado */
+.vfx-forced{
+  z-index:16;
+  color:#fff0a6;
+  font-size:25px;
+  text-shadow:0 0 6px #fff,0 0 12px #e4bc4f;
+}
+
+/* KO deportivo, no muerte */
+.vfx-ko{
+  z-index:22;
+  width:58px;
+  height:34px;
+  display:grid;
+  place-items:center;
+  border:2px solid #f1d36e;
+  border-radius:7px;
+  background:#11150fed;
+  box-shadow:0 0 15px #e8c35b88;
+  color:#ffe98d;
+}
+.vfx-ko b{
+  font-size:22px;
+  font-weight:1000;
+  letter-spacing:2px;
+  line-height:1;
+}
+
+@media (prefers-reduced-motion:reduce){
+  .combat-vfx{
+    animation-duration:.01ms!important;
+    animation-iteration-count:1!important;
+  }
+}

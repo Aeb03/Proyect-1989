@@ -1,127 +1,167 @@
-# Liga de los Mundos v0.5.32 — IA: aproximación / primeros turnos
+# Liga de los Mundos v0.5.33 — Sistema general de VFX
 
 ## Estado
 🟡 EN PRUEBA
 
-Corrección puntual sobre la IA táctica general de v0.5.31.
+Primera capa general reutilizable de efectos visuales de combate.
 
-## Problema corregido
-Cuando ambos equipos comenzaban fuera de alcance, una IA podía considerar que no había una acción suficientemente valiosa y pasar turno sin aproximarse.
+## Regla principal
+Los VFX son exclusivamente una capa de presentación.
 
-Eso podía generar:
-
-IA pasa → rival espera → IA pasa → rival espera.
-
-## Nueva regla
-Si la IA iba a finalizar su turno SIN haber realizado:
-
-- ataque;
+No modifican:
+- daño;
 - curación;
-- habilidad táctica;
-- construcción;
-- preparación;
+- PA;
+- PM;
+- alcance;
+- estados;
 - movimiento;
+- IA;
+- orden de resolución.
 
-se activa una evaluación adicional de **movimiento de aproximación** antes de pasar turno.
-
-## Movimiento de aproximación
-Tiene valor táctico propio cuando:
-
-- reduce distancia;
-- acerca al rango útil;
-- consigue línea de visión;
-- prepara una posición para el turno siguiente.
-
-No equivale a caminar siempre todos los PM hacia el rival.
-
-## Distancias buscadas
-
-### Arfeli
-Aproximación agresiva.
-Banda preferida: 1–2 casillas.
-
-### Coloso
-Avanza hacia zona disputada.
-Banda preferida: 2–3.
-
-### Piplus
-Busca distancia de tiro.
-Banda preferida: 3–4.
-
-### Onod
-Busca zona útil para Brotes/control.
-Banda preferida: 3–4.
-
-### Korgan
-Busca zona de disparo/trampas sin entrar gratuitamente a cuerpo a cuerpo.
-Banda preferida: 3–4.
-
-### Hougan
-Busca alcance útil de Vínculo/Maldición/Muñeco conservando distancia.
-Banda preferida: 3–4.
-
-## Sentido común conservado
-La aproximación sigue penalizando:
-
-- Herida por cada casilla;
-- exposición;
-- quedar adyacente innecesariamente con Campeones de rango;
-- movimiento más largo cuando uno más corto logra prácticamente lo mismo;
-- ocupar una trampa propia/aliada útil.
-
-La búsqueda usa obstáculos y rutas legales del motor.
-
-## Trampas ocultas
-La corrección consulta exclusivamente trampas del MISMO equipo de la IA.
-
-Nunca consulta trampas enemigas invisibles.
-
-## Anti-estancamiento
-Si existe una ruta razonablemente segura que acerca a una posición de combate útil, esa posición recibe valor positivo.
-
-Pasar sin avanzar queda reservado para casos donde:
-
-- ya hubo una acción/preparación concreta en el turno;
-- no existe una mejora alcanzable;
-- o avanzar resulta claramente perjudicial.
-
-## Reevaluación
-Después de aproximarse, la IA vuelve a ejecutar su evaluación táctica normal.
-
-Esto permite:
-
-**mover → conseguir alcance → usar habilidad**
-
-sin convertir la IA en una búsqueda profunda multironda.
+Si un VFX falla, la mecánica debe continuar normalmente.
 
 ## Arquitectura
-Se agrega una capa pequeña y reversible:
+Se agregan:
 
-`ai-approach.js`
+- `visual-effects.js`
+- `visual-effects.css`
 
-Se carga después de:
+Existe una API general:
 
-`ai-tactical.js`
+`window.LigaVFX`
 
-No se reconstruye la IA base v0.5.31.
+Métodos:
+- `damage(subject, n)`
+- `heal(subject, n)`
+- `impact(subject, variant)`
+- `projectile(from, to, variant)`
+- `shield(subject)`
+- `area(cells, variant)`
+- `status(subject, icon, label)`
+- `spawn(subject, variant)`
+- `vanish(subject, variant)`
+- `ko(subject)`
+- `forced(subject, source, away)`
 
-## Sin cambios
+Esto permite reutilizar el mismo motor con estilos futuros por Campeón.
+
+## Sistemas incorporados
+
+### Daño flotante
+Cualquier pérdida real de PV genera:
+- impacto breve;
+- número negativo;
+- desplazamiento hacia arriba;
+- desaparición automática.
+
+Si un Escudo absorbe todo el golpe, se muestra pérdida de Escudo.
+
+### Curación
+Cualquier recuperación real de PV muestra un número positivo.
+
+### Impacto
+Flash/chispa breve localizado sobre la pieza.
+
+### Proyectil
+Sistema genérico de origen → objetivo.
+
+Primera conexión en:
+- Arfeli: Arco;
+- Coloso: Roca;
+- Onod: Espina;
+- Piplus: Marcador / Preciso / Vectorial;
+- Korgan: Disparo de Caza;
+- Hougan: Aguja / Maldición.
+
+### Escudo
+Pulso protector breve al aplicar Escudo.
+
+### Área
+Pulso por casilla.
+
+Primera conexión:
+- Esporas Tóxicas;
+- Granada;
+- Golpe Sísmico;
+- Despertar del Bosque.
+
+### Estado aplicado
+Feedback breve para:
+- Herida;
+- Veneno;
+- Quemadura;
+- Marca;
+- Vínculo;
+- pérdida de PA;
+- pérdida de PM.
+
+El indicador permanente sigue perteneciendo al HUD/motor existente.
+
+### Empuje / atracción
+Se muestra un impulso direccional antes/durante el movimiento forzado.
+
+No anima caminata.
+La pieza sigue siendo movida por el sistema mecánico existente.
+
+### Aparición de piezas
+Pulso reutilizable para:
+- Pilares;
+- Brotes;
+- Muñecos;
+- trampas.
+
+No crea ni modifica el asset de la pieza.
+
+### Desaparición / destrucción
+Efecto general para objetos destruidos, consumidos o retirados.
+
+### KO
+Indicador deportivo `KO`.
+
+No representa muerte.
+
+## Rendimiento
+- capa global única;
+- `pointer-events:none`;
+- máximo 60 nodos simultáneos;
+- limpieza automática;
+- animaciones breves;
+- sin timers permanentes;
+- sin canvas pesado;
+- sin assets adicionales.
+
+## Compatibilidad
+Se conserva:
 - balance v0.5.30;
-- selección ponderada de loadouts;
-- lógica táctica principal v0.5.31;
+- IA táctica v0.5.31;
+- aproximación IA v0.5.32;
 - Arena Central;
-- HUD;
-- miniaturas;
-- cámara;
-- reglas del jugador.
+- HUD superior;
+- miniaturas rígidas;
+- cámara.
+
+## Fuera de esta versión
+NO se incorpora:
+- caminata;
+- balanceo de peana;
+- animación corporal;
+- cambio de pose;
+- frames extra de Campeones.
 
 ## Prueba prioritaria
-1. Iniciar 1v1 y no avanzar con el jugador.
-2. Confirmar que la IA rompe el estancamiento.
-3. Repetir con Arfeli, Piplus y Korgan para comprobar diferencias de distancia.
-4. Probar 2v2 y verificar que la IA aliada utiliza exactamente la misma regla.
-5. Probar con Herida para confirmar que no avanza si el perjuicio supera claramente el beneficio.
+1. Atacar y comprobar impacto + daño flotante.
+2. Curar y comprobar número positivo.
+3. Aplicar Escudo.
+4. Usar Arco/Roca/Espina para ver proyectil.
+5. Usar Esporas o Granada para ver área.
+6. Aplicar Herida/Veneno.
+7. Crear Pilar/Brote/Muñeco/trampa.
+8. Destruir o consumir una pieza.
+9. Empujar/atraer.
+10. Llevar un Campeón a 0 PV y comprobar KO.
+11. Confirmar que todas las mecánicas siguen resolviendo aunque haya varios VFX seguidos.
 
 ## Versión
-- pública: v0.5.32
-- cache PWA: `liga-mundos-0532`
+- pública: v0.5.33
+- cache PWA: `liga-mundos-0533`
