@@ -1,43 +1,102 @@
-# Liga de los Mundos v0.5.42 — IA territorial de Coloso + pendientes visuales
+# Liga de los Mundos v0.5.44 — Panel inferior + ajuste de laterales
 
 ## Estado
 🟡 EN PRUEBA
 
-## Ventana inferior
-POSTERGADA. No se implementa ni modifica en esta versión.
+Esta tanda reúne dos cambios visuales.
 
-## Coloso — IA territorial
-- Si el combate está lejos, prioriza aproximación.
-- En Ronda 1 evita fortificar automáticamente la zona inicial.
-- A larga distancia sólo permite un Pilar si adelanta claramente el frente.
-- Si ya existe un Pilar adelantado, evita construir otro detrás.
-- Fusión/Monolito sólo se habilita para IA cuando la posición puede influir.
-- En Monolito reevalúa ataque, amenaza, red de Pilares, control territorial y protección de aliado.
-- Un turno completo improductivo marca espera.
-- Si al turno siguiente continúa sin influencia, sale de Monolito y vuelve a reposicionarse.
+## 1. Panel inferior de combate
+Se integra la piel `Liga_Mundos_Panel_Inferior_v1`.
 
-No usa información oculta ni simulación profunda.
+Se mantiene exactamente la estructura funcional actual:
 
-## Balance conservado
-### Absorción Rocosa
-- 2 PA
-- alcance 3
-- no absorbe Pilar creado ese mismo turno
-- cura según PV actuales del Pilar
-- máximo 20
+CONTROLES IZQUIERDOS
+→ FICHA DEL CAMPEÓN
+→ 4 HABILIDADES
+→ MOVER / FIN TURNO
 
-### Armadura de Piedra
-- 2 PA
-- +15 Escudo
-- no sobre Coloso
-- sí sobre aliados, Pilares e invocaciones aliadas válidas
+No se modifica:
+- tamaño funcional;
+- posición;
+- distribución;
+- lógica;
+- habilidades;
+- PA;
+- PM;
+- estados;
+- IA.
 
-## Visual
-- brillo/grosor de peanas igual a v0.5.41
-- diámetro más cerrado: 70% interior / 80% exterior
-- fichas de personajes más compactas en panel lateral vertical
-- sin cambios en ancho/posición/skin del panel
+### Piezas utilizadas
+- `bottom-panel-base-horizontal.png`
+- `bottom-panel-controls-left.png`
+- `bottom-panel-champion-card.png`
+- `skill-slot-normal.png`
+- `skill-slot-selected.png`
+- `skill-slot-disabled.png`
+- `action-button-move.png`
+- `action-button-end-turn.png`
+- `action-button-secondary-gold.png`
+
+Toda la información sigue siendo dinámica.
+
+La integración ahora usa directamente la estructura real de la app:
+- `.battle-command-panel`
+- `.command-hud-tools`
+- `.fighter-panel`
+- `.skill-drawer`
+- `.hud`
+- `.special-actions`
+
+No se usa detección heurística.
+
+## 2. Paneles laterales — modo vertical
+Se corrige el problema visto en los recuadros de los personajes.
+
+### Expandido
+- la ficha queda contenida dentro del marco;
+- deja margen a izquierda y derecha;
+- la barra de vida sigue el ancho interior;
+- el avatar queda nuevamente más legible.
+
+### Plegado
+- el recuadro dorado baja a un ancho contenido;
+- la barra de vida queda dentro de la ventana;
+- el avatar vuelve a 31 px aprox., no se reduce más;
+- se conserva el tamaño/posición general del panel.
+
+El modo horizontal no se modifica.
+
+## Conservado
+Se mantienen todos los cambios ya vigentes:
+- IA territorial de Coloso;
+- Absorción Rocosa;
+- Armadura de Piedra;
+- halos de equipo;
+- colores tácticos;
+- 24 vistas de miniaturas;
+- Arena Central;
+- HUD superior;
+- VFX.
+
+## Archivos
+- `bottom-panel-skin.css`
+- `side-panel-fit.css`
+- `index.html`
+- `brand.js`
+- `sw.js`
+- assets del panel inferior
+
+## Prueba prioritaria
+1. Ver panel inferior completo.
+2. Seleccionar habilidad y revisar `selected`.
+3. Revisar habilidad sin PA / sin usos.
+4. Probar Mover.
+5. Probar Fin turno.
+6. Probar acción especial de Coloso u Onod.
+7. Poner TU EQUIPO / RIVALES en vertical expandido.
+8. Plegarlos y confirmar que ficha + barra quedan dentro del marco.
+9. Confirmar que el avatar no quedó demasiado chico.
 
 ## Versión
-- pública: v0.5.42
-- cache PWA: `liga-mundos-0542`
+- pública: v0.5.44
+- cache PWA: `liga-mundos-0544`
