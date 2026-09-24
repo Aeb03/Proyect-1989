@@ -12,40 +12,40 @@ const CHAMPION_ART={
 
 const CHAMPION_COMBAT_VIEWS={
   arfeli:{
-    'down-right':'./assets/champions/arfeli/arfeli-combat-down-right.png?v=0537',
-    'down-left':'./assets/champions/arfeli/arfeli-combat-down-left.png?v=0537',
-    'up-right':'./assets/champions/arfeli/arfeli-combat-up-right.png?v=0537',
-    'up-left':'./assets/champions/arfeli/arfeli-combat-up-left.png?v=0537'
+    'down-right':'./assets/champions/arfeli/arfeli-combat-down-left.png?v=0538',
+    'down-left':'./assets/champions/arfeli/arfeli-combat-down-right.png?v=0538',
+    'up-right':'./assets/champions/arfeli/arfeli-combat-up-left.png?v=0538',
+    'up-left':'./assets/champions/arfeli/arfeli-combat-up-right.png?v=0538'
   },
   coloso:{
-    'down-right':'./assets/champions/coloso/coloso-combat-down-right.png?v=0537',
-    'down-left':'./assets/champions/coloso/coloso-combat-down-left.png?v=0537',
-    'up-right':'./assets/champions/coloso/coloso-combat-up-right.png?v=0537',
-    'up-left':'./assets/champions/coloso/coloso-combat-up-left.png?v=0537'
+    'down-right':'./assets/champions/coloso/coloso-combat-down-left.png?v=0538',
+    'down-left':'./assets/champions/coloso/coloso-combat-down-right.png?v=0538',
+    'up-right':'./assets/champions/coloso/coloso-combat-up-right.png?v=0538',
+    'up-left':'./assets/champions/coloso/coloso-combat-up-left.png?v=0538'
   },
   piplus:{
-    'down-right':'./assets/champions/piplus/piplus-combat-down-right.png?v=0537',
-    'down-left':'./assets/champions/piplus/piplus-combat-down-left.png?v=0537',
-    'up-right':'./assets/champions/piplus/piplus-combat-up-right.png?v=0537',
-    'up-left':'./assets/champions/piplus/piplus-combat-up-left.png?v=0537'
+    'down-right':'./assets/champions/piplus/piplus-combat-down-left.png?v=0538',
+    'down-left':'./assets/champions/piplus/piplus-combat-down-right.png?v=0538',
+    'up-right':'./assets/champions/piplus/piplus-combat-up-right.png?v=0538',
+    'up-left':'./assets/champions/piplus/piplus-combat-up-left.png?v=0538'
   },
   onod:{
-    'down-right':'./assets/champions/onod/onod-combat-down-right.png?v=0537',
-    'down-left':'./assets/champions/onod/onod-combat-down-left.png?v=0537',
-    'up-right':'./assets/champions/onod/onod-combat-up-right.png?v=0537',
-    'up-left':'./assets/champions/onod/onod-combat-up-left.png?v=0537'
+    'down-right':'./assets/champions/onod/onod-combat-down-left.png?v=0538',
+    'down-left':'./assets/champions/onod/onod-combat-down-right.png?v=0538',
+    'up-right':'./assets/champions/onod/onod-combat-up-right.png?v=0538',
+    'up-left':'./assets/champions/onod/onod-combat-up-left.png?v=0538'
   },
   korgan:{
-    'down-right':'./assets/champions/korgan/korgan-combat-down-right.png?v=0537',
-    'down-left':'./assets/champions/korgan/korgan-combat-down-left.png?v=0537',
-    'up-right':'./assets/champions/korgan/korgan-combat-up-right.png?v=0537',
-    'up-left':'./assets/champions/korgan/korgan-combat-up-left.png?v=0537'
+    'down-right':'./assets/champions/korgan/korgan-combat-down-left.png?v=0538',
+    'down-left':'./assets/champions/korgan/korgan-combat-down-right.png?v=0538',
+    'up-right':'./assets/champions/korgan/korgan-combat-up-left.png?v=0538',
+    'up-left':'./assets/champions/korgan/korgan-combat-up-right.png?v=0538'
   },
   houngan:{
-    'down-right':'./assets/champions/houngan/houngan-combat-down-right.png?v=0537',
-    'down-left':'./assets/champions/houngan/houngan-combat-down-left.png?v=0537',
-    'up-right':'./assets/champions/houngan/houngan-combat-up-right.png?v=0537',
-    'up-left':'./assets/champions/houngan/houngan-combat-up-left.png?v=0537'
+    'down-right':'./assets/champions/houngan/houngan-combat-down-left.png?v=0538',
+    'down-left':'./assets/champions/houngan/houngan-combat-down-right.png?v=0538',
+    'up-right':'./assets/champions/houngan/houngan-combat-up-left.png?v=0538',
+    'up-left':'./assets/champions/houngan/houngan-combat-up-right.png?v=0538'
   }
 };
 
