@@ -1,118 +1,96 @@
-# Liga de los Mundos v0.5.39 — Paneles laterales + escala de miniaturas + Armadura de Piedra
+# Liga de los Mundos v0.5.40 — Pulido visual de combate
 
 ## Estado
 🟡 EN PRUEBA
 
-Esta actualización conserva la v0.5.38 como base validada para las 24 vistas y su mapeo.
+Parche exclusivamente visual sobre v0.5.39.
 
-Incluye tres cambios concretos.
+## 1. TU EQUIPO / RIVALES
 
-## 1. TU EQUIPO / RIVALES — nueva piel
+Se conserva el diseño aprobado de los paneles laterales.
 
-Se integran los assets `Liga_Mundos_Paneles_Laterales_v1`.
+Pulidos:
+- menor desborde ornamental exterior;
+- interior azul/rojo un poco menos intenso;
+- filas normales con menos brillo;
+- combatiente activo conserva brillo destacado;
+- avatar y textos mantienen la jerarquía actual.
 
-Se aplican:
-- marco azul para TU EQUIPO;
-- marco rojo para RIVALES;
-- versión vertical;
-- versión horizontal;
-- versión vertical plegada;
-- cabecera;
-- placa de controles;
-- emblema independiente;
-- brillo del equipo para combatiente activo;
-- tratamiento desaturado para KO.
+### Controles del encabezado
 
-Los marcos grandes se renderizan mediante `border-image` 9-slice.
+Se corrige la doble capa visual.
 
-NO se modifica:
-- tamaño funcional;
-- posición;
-- arrastre;
-- orientación;
-- plegado;
-- avatares;
-- nombres;
-- PV;
-- PA;
-- PM;
-- controles.
+Antes:
+- el asset de controles estaba debajo;
+- el botón funcional viejo seguía dibujando fondo y borde encima.
 
-## 2. Miniaturas de combate
+Ahora:
+- el asset continúa siendo la superficie visible;
+- mover / orientar / plegar-desplegar siguen siendo los mismos botones funcionales;
+- el botón real queda transparente;
+- sólo el glifo y la respuesta táctil quedan encima.
 
-Las seis miniaturas se reducen visualmente un 11%.
+No cambia ninguna función.
 
-Se conserva:
-- la misma casilla lógica;
-- la misma posición;
-- la misma línea inferior de peana;
-- las 24 imágenes;
-- el mapeo validado en v0.5.38;
-- la rotación de cámara.
+## 2. Peanas de equipo
 
-El ajuste se hace sólo por CSS con `transform: scale(.89)` y origen `center bottom`.
+Se recupera la lectura de equipo:
 
-## 3. Coloso — Armadura de Piedra
+- aliado / propio → halo AZUL;
+- rival / enemigo → halo ROJO.
 
-Continúa:
-- Coste: 2 PA.
-- Alcance: 3.
-- Escudo: +15.
-- Máximo 1 uso por objetivo por turno.
-- Duración: 1 turno o hasta ser destruido.
+El halo queda detrás de la miniatura y alrededor de la peana, sin alterar el PNG ni su escala.
 
-Cambio:
-- Coloso NO puede aplicarse Armadura de Piedra a sí mismo.
+## 3. Colores tácticos de casillas
 
-Objetivos válidos:
-- Campeón aliado;
-- Pilar aliado;
-- invocación aliada con PV, incluyendo Brotes y Muñecos.
+Nueva convención visual:
 
-La IA usa la misma validación `canUseAbility`, por lo que tampoco intentará usarla sobre Coloso y puede considerar los nuevos objetivos válidos.
+- VERDE = movimiento disponible;
+- AZUL = alcance / área de habilidad;
+- AZUL brillante = objetivo válido de habilidad;
+- azul/gris discontinuo = casilla del alcance bloqueada.
+
+No cambia:
+- cantidad de PM;
+- alcance real;
+- LoS;
+- objetivos válidos;
+- mecánicas.
 
 ## Sin cambios
 
-No se modifica:
-- Absorción Rocosa v0.5.37;
-- Fusión;
-- Monolito;
-- Golpe Sísmico;
-- Réplicas;
-- ninguna otra habilidad;
-- balance de otros Campeones;
+Se mantiene exactamente:
+- miniaturas al 89%;
+- mapeo validado de las 24 vistas;
+- Absorción Rocosa;
+- Armadura de Piedra v0.5.39;
+- balance;
+- IA;
 - Arena Central;
 - parallax;
-- VFX;
 - HUD de Ronda;
-- lógica de cámara.
+- VFX.
 
-## Archivos nuevos / modificados
+## Archivos
 
-- `hud-team-panels.css`
-- `miniature-scale.css`
-- `coloso-stonearmor-test.js`
+- `battle-visual-polish.css`
 - `index.html`
 - `brand.js`
 - `sw.js`
 - `README.md`
-- `assets/ui/hud/team/*`
 
 ## Prueba prioritaria
 
-1. TU EQUIPO vertical normal.
-2. RIVALES vertical normal.
-3. Ambos plegados.
-4. Cambiar ambos a horizontal.
-5. Arrastrarlos.
-6. Confirmar que no cambió el tamaño funcional.
-7. Revisar miniaturas dentro de la grilla.
-8. Con Coloso, intentar Armadura sobre sí mismo: debe rechazarse.
-9. Probar Armadura sobre aliado.
-10. Probar Armadura sobre Pilar.
-11. En 2v2, probar Armadura sobre Brote o Muñeco aliado.
+1. Revisar TU EQUIPO y RIVALES.
+2. Probar mover / cambiar orientación / plegar.
+3. Confirmar que ya no se ve el botón viejo por encima de la textura.
+4. Revisar brillo azul de peanas propias.
+5. Revisar brillo rojo de peanas rivales.
+6. Pulsar Mover: área VERDE.
+7. Seleccionar habilidad: alcance AZUL.
+8. Confirmar que ninguna regla cambió.
 
 ## Versión
 
-- pública: v0.5.39
-- cache PWA: `liga-mundos-0539`
+- pública: v0.5.40
+- cache PWA: `liga-mundos-0540`
