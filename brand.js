@@ -1,5 +1,5 @@
 (()=>{'use strict';
-const V='0.5.31';
+const V='0.5.32';
 function rep(){
   const w=document.createTreeWalker(document,NodeFilter.SHOW_TEXT),a=[];
   while(w.nextNode())a.push(w.currentNode);
@@ -20,10 +20,8 @@ function rep(){
 function deco(){
   document.title='Liga de los Mundos v'+V;
   rep();
-
   const version=document.querySelector('.start-version');
   if(version)version.textContent='v'+V;
-
   const s=document.querySelector('.start-card');
   if(s&&!s.querySelector('.league-main-logo')){
     const a=s.querySelector('.start-stars'),b=s.querySelector('.start-brand'),l=document.createElement('div');
@@ -32,7 +30,6 @@ function deco(){
     a?a.replaceWith(l):s.prepend(l);
     b?.remove();
   }
-
   const br=document.querySelector('.brand-block');
   if(br&&!br.querySelector('.league-brand-logo')){
     const m=br.querySelector('.brand-mark');
