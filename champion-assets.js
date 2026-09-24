@@ -12,22 +12,40 @@ const CHAMPION_ART={
 
 const CHAMPION_COMBAT_VIEWS={
   arfeli:{
-    'down-right':'./assets/champions/arfeli/arfeli-combat-down-right.png',
-    'down-left':'./assets/champions/arfeli/arfeli-combat-down-left.png',
-    'up-right':'./assets/champions/arfeli/arfeli-combat-up-right.png',
-    'up-left':'./assets/champions/arfeli/arfeli-combat-up-left.png'
+    'down-right':'./assets/champions/arfeli/arfeli-combat-down-right.png?v=0537',
+    'down-left':'./assets/champions/arfeli/arfeli-combat-down-left.png?v=0537',
+    'up-right':'./assets/champions/arfeli/arfeli-combat-up-right.png?v=0537',
+    'up-left':'./assets/champions/arfeli/arfeli-combat-up-left.png?v=0537'
   },
   coloso:{
-    'down-right':'./assets/champions/coloso/coloso-combat-up-left.png',
-    'down-left':'./assets/champions/coloso/coloso-combat-up-right.png',
-    'up-right':'./assets/champions/coloso/coloso-combat-down-right.png',
-    'up-left':'./assets/champions/coloso/coloso-combat-down-left.png'
+    'down-right':'./assets/champions/coloso/coloso-combat-down-right.png?v=0537',
+    'down-left':'./assets/champions/coloso/coloso-combat-down-left.png?v=0537',
+    'up-right':'./assets/champions/coloso/coloso-combat-up-right.png?v=0537',
+    'up-left':'./assets/champions/coloso/coloso-combat-up-left.png?v=0537'
+  },
+  piplus:{
+    'down-right':'./assets/champions/piplus/piplus-combat-down-right.png?v=0537',
+    'down-left':'./assets/champions/piplus/piplus-combat-down-left.png?v=0537',
+    'up-right':'./assets/champions/piplus/piplus-combat-up-right.png?v=0537',
+    'up-left':'./assets/champions/piplus/piplus-combat-up-left.png?v=0537'
   },
   onod:{
-    'down-right':'./assets/champions/onod/onod-combat-down-right.png',
-    'down-left':'./assets/champions/onod/onod-combat-down-left.png',
-    'up-right':'./assets/champions/onod/onod-combat-up-left.png',
-    'up-left':'./assets/champions/onod/onod-combat-up-right.png'
+    'down-right':'./assets/champions/onod/onod-combat-down-right.png?v=0537',
+    'down-left':'./assets/champions/onod/onod-combat-down-left.png?v=0537',
+    'up-right':'./assets/champions/onod/onod-combat-up-right.png?v=0537',
+    'up-left':'./assets/champions/onod/onod-combat-up-left.png?v=0537'
+  },
+  korgan:{
+    'down-right':'./assets/champions/korgan/korgan-combat-down-right.png?v=0537',
+    'down-left':'./assets/champions/korgan/korgan-combat-down-left.png?v=0537',
+    'up-right':'./assets/champions/korgan/korgan-combat-up-right.png?v=0537',
+    'up-left':'./assets/champions/korgan/korgan-combat-up-left.png?v=0537'
+  },
+  houngan:{
+    'down-right':'./assets/champions/houngan/houngan-combat-down-right.png?v=0537',
+    'down-left':'./assets/champions/houngan/houngan-combat-down-left.png?v=0537',
+    'up-right':'./assets/champions/houngan/houngan-combat-up-right.png?v=0537',
+    'up-left':'./assets/champions/houngan/houngan-combat-up-left.png?v=0537'
   }
 };
 
@@ -109,13 +127,13 @@ function combatVisualDirection(facing,rotation=0){
   if(dy>0)return 'down-left';
   return 'up-right';
 }
+
 function championCombatImages(id,active){
-  const arfeli=id==='arfeli';
-  const baseClass=arfeli?'arfeli-combat-img':'champion-combat-img';
   return Object.entries(CHAMPION_COMBAT_VIEWS[id]).map(([dir,src])=>
-    `<img class="${baseClass} ${id}-combat-${dir}${dir===active?' is-active':''}" src="${src}" alt="" aria-hidden="true" draggable="false">`
+    `<img class="champion-combat-img ${id}-combat-${dir}${dir===active?' is-active':''}" src="${src}" alt="" aria-hidden="true" draggable="false">`
   ).join('');
 }
+
 function installChampionBattleHook(){
   if(typeof renderEntity!=='function'||renderEntity.__championFourViews)return;
   const original=renderEntity;
@@ -123,13 +141,13 @@ function installChampionBattleHook(){
     let html=original(z,current,view);
     const id=z?.championId;
     if(!z||z.kind!=='unit'||!CHAMPION_COMBAT_VIEWS[id])return html;
+
     const rotation=(typeof B!=='undefined'&&B?.camera?.rotation)||0;
     const dir=combatVisualDirection(z.facing,rotation);
+
     html=html.replace('<div class="unit-piece ','<div class="unit-piece champion-'+id+' ');
     const oldIcon=`<span class="unit-icon">${z.icon}</span>`;
-    const hostClass=id==='arfeli'?'arfeli-combat-host':'champion-combat-host';
-    const dataAttr=id==='arfeli'?`data-arfeli-direction="${dir}"`:`data-combat-direction="${dir}"`;
-    const newIcon=`<span class="unit-icon ${hostClass}" ${dataAttr}>${championCombatImages(id,dir)}</span>`;
+    const newIcon=`<span class="unit-icon champion-combat-host" data-combat-direction="${dir}">${championCombatImages(id,dir)}</span>`;
     return html.replace(oldIcon,newIcon);
   };
   hooked.__championFourViews=true;
@@ -137,6 +155,7 @@ function installChampionBattleHook(){
 }
 
 installChampionBattleHook();
+
 function decorate(){decorateChampionScreens();decorateHud()}
 let queued=false;
 function schedule(){if(queued)return;queued=true;requestAnimationFrame(()=>{queued=false;decorate()})}

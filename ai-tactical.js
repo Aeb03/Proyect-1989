@@ -418,8 +418,9 @@ function aiScoreAbilityCandidate(u,id,x,y,focus){
   }
 
   else if(id==='absorb'){
-    const effective=Math.min(aiMissingHp(u),20);
-    score=aiHealScore(u,20)-6; // costo táctico de consumir Pilar
+    const available=Math.max(0,Math.min(20,target?.hp||0));
+    const effective=Math.min(aiMissingHp(u),available);
+    score=aiHealScore(u,available)-6; // costo táctico de consumir Pilar
     if(effective<6)score-=10;
   }
 

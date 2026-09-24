@@ -1,125 +1,150 @@
-# Liga de los Mundos v0.5.36 — Arena transparente + parallax
+# Liga de los Mundos v0.5.37 — 24 vistas + Absorción Rocosa
 
 ## Estado
 🟡 EN PRUEBA
 
-Corrección visual puntual de Arena Central sobre v0.5.35.
+Actualización combinada con dos objetivos concretos:
 
-## 1. Plataforma RGBA real
+1. integrar las cuatro vistas rígidas de los 6 Campeones;
+2. modificar exclusivamente Absorción Rocosa de Coloso.
 
-Se reemplaza:
+---
 
-`assets/arenas/central/arena-central-base.png`
+## MINIATURAS — 6 Campeones × 4 vistas
 
-por una versión técnica:
+Se integran:
 
-- PNG;
-- RGBA;
-- 1920 × 960;
-- proporción 2:1;
-- fondo exterior realmente transparente;
-- sin halo negro exterior.
+- Arfeli;
+- Coloso;
+- Piplus;
+- Onod;
+- Korgan;
+- Houngan.
 
-El asset conserva el diseño de la plataforma.
+Cada Campeón dispone de:
 
-## 2. Se elimina el recorte artificial
+- `down-right`;
+- `down-left`;
+- `up-right`;
+- `up-left`.
 
-La versión anterior necesitaba un `clip-path` aproximado para esconder el negro del PNG.
+Todos los PNG se normalizaron a:
 
-Ese recorte queda eliminado:
+- formato RGBA;
+- transparencia real;
+- lienzo 768 × 768;
+- misma altura visible aproximada;
+- misma línea inferior de peana;
+- centrado horizontal por silueta.
 
-`clip-path: none`
+Piplus contenía un damero gris incrustado dentro de la zona opaca.
+Ese fondo fue limpiado y convertido a transparencia real antes de normalizarlo.
 
-La transparencia ahora pertenece al propio archivo.
+La lógica de elección de vista sigue siendo la existente:
+`facing + rotación de cámara`.
 
-## 3. Parallax del Coliseo
+No hay animación corporal ni caminata.
 
-El fondo del Coliseo continúa siendo:
+---
 
-`assets/arenas/central/arena-central-background.png`
+## COLOSO — ABSORCIÓN ROCOSA
 
-No rota físicamente.
+Sólo cambia esta habilidad.
 
-Ahora acompaña suavemente el desplazamiento de la cámara:
+### Valores que se mantienen
 
-- horizontal: 22% del desplazamiento del tablero;
-- vertical: 14%;
-- límite horizontal: ±56 px;
-- límite vertical: ±20 px.
+- Coste: 2 PA.
+- Alcance: 3.
+- Consume 1 Pilar propio.
+- Pilar: máximo 20 PV.
 
-Esto evita que el Coliseo parezca una fotografía completamente fija detrás de una plataforma móvil.
+### Nueva restricción de antigüedad
 
-## 4. Cómo se sincroniza
+Un Pilar creado durante el turno actual de Coloso NO puede ser absorbido.
 
-`arena-central.js` observa la cámara ya existente.
+Al crearse, el Pilar guarda una marca interna del turno:
 
-Después de que `applyBattleCamera()` termina su cálculo normal:
+`round : turn : owner`
 
-1. NO altera `B.camera`;
-2. NO modifica la transformación del tablero;
-3. lee `camera.x / camera.y`;
-4. actualiza únicamente dos variables CSS del fondo.
+En un turno posterior esa marca ya no coincide y el Pilar pasa a ser válido.
 
-Por eso el parallax no participa en ninguna regla del juego.
+### Nueva curación
 
-## 5. Rotación
+Absorción Rocosa recupera PV iguales a los PV ACTUALES del Pilar.
 
-La cámara lógica mantiene exactamente sus cuatro rotaciones actuales.
+Ejemplos:
 
-La plataforma continúa reutilizándose en las cuatro vistas.
+- Pilar 20/20 → intenta curar 20.
+- Pilar 15/20 → intenta curar 15.
+- Pilar 8/20 → intenta curar 8.
+- Pilar 1/20 → intenta curar 1.
 
-El Coliseo:
-- no gira;
-- conserva orientación arquitectónica;
-- acompaña cualquier recentrado/desplazamiento que produzca la rotación.
+La curación efectiva continúa limitada por los PV máximos de Coloso, como cualquier curación normal.
 
-## Sin cambios
+Después:
+- el Pilar se consume;
+- desaparece con la lógica/VFX actual.
 
-No se modifica:
+### IA
 
-- tablero lógico 12×12;
-- `isoViewCoords`;
-- selección;
-- movimiento;
-- alcance;
-- LoS;
-- obstáculos;
-- Campeones;
-- objetos dinámicos;
-- daño;
-- PA;
-- PM;
-- estados;
-- balance;
-- IA;
-- VFX;
+La IA no puede seleccionar un Pilar creado durante el mismo turno porque usa la misma validación `canUseAbility`.
+
+Además, su valoración de Absorción ahora usa los PV actuales del Pilar en vez de asumir 20.
+
+No se modifica ningún otro criterio de IA de Coloso.
+
+---
+
+## NO CAMBIA
+
+- Coloso: 115 PV.
+- Creación de Pilar: 2 PA.
+- Pilar: 20 PV.
+- Armadura de Piedra.
+- Fusión de Pilar.
+- Monolito.
+- Golpe Sísmico.
+- Réplicas.
+- ninguna otra habilidad.
+- reglas globales.
+- Arena Central.
+- parallax.
+- VFX.
 - HUD.
+- balance de otros Campeones.
 
-## Archivos modificados
+---
 
-- `arena-central.css`
-- `arena-central.js`
+## Archivos principales modificados
+
+- `champion-assets.js`
+- `champion-assets.css`
+- `coloso-absorb-test.js`
+- `ai-tactical.js`
 - `index.html`
 - `brand.js`
 - `sw.js`
 - `README.md`
 
-## Asset reemplazado
-
-- `assets/arenas/central/arena-central-base.png`
+Más los 24 PNG de combate.
 
 ## Prueba prioritaria
 
-1. Comprobar que desapareció el halo negro.
-2. Arrastrar lentamente la arena en las cuatro direcciones.
-3. Confirmar que el Coliseo acompaña de forma suave, pero menos que la plataforma.
-4. Rotar cámara varias veces.
-5. Confirmar que el fondo no gira físicamente.
-6. Confirmar que el recentrado tras rotar también produce parallax.
-7. Probar selección/movimiento/alcance.
-8. Confirmar que cuadrícula, piezas y clics siguen exactamente alineados.
+### Miniaturas
+1. Probar los 6 Campeones.
+2. Girar las 4 cámaras.
+3. Confirmar que cada vista corresponde a su dirección.
+4. Revisar escala y línea de peana.
+
+### Absorción
+1. Crear Pilar.
+2. Intentar absorberlo en ese mismo turno → debe impedirlo.
+3. Llegar a un turno posterior → debe permitirlo.
+4. Dañar Pilar a 15 → curación 15.
+5. Dañar Pilar a 8 → curación 8.
+6. Confirmar consumo/desaparición normal.
 
 ## Versión
 
-- pública: v0.5.36
-- cache PWA: `liga-mundos-0536`
+- pública: v0.5.37
+- cache PWA: `liga-mundos-0537`
