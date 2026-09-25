@@ -1,36 +1,46 @@
-# Liga de los Mundos v0.5.49 — Escalas tácticas + corrección de Mina Eléctrica
+# Liga de los Mundos v0.5.50 — Ajuste fino táctico + HUD contextual
 
 ## Estado
 🟡 LISTA PARA PROBAR
 
-## Direcciones
-Las vistas de Monolito y Muñecos se mantienen exactamente como en v0.5.48.
-No se modifica ningún mapeo direccional.
+## Trampas
+- Las imágenes ya validadas NO se cambian.
+- Se reduce apenas el tamaño.
+- Se corrige el apoyo visual para que la trampa quede centrada dentro de UNA casilla.
+- El ancla sigue siendo la casilla lógica original; sólo cambia la posición visual del PNG.
 
-## Escala visual
-- Pilar: levemente menor que un Campeón.
-- Brote: mucho más chico que un Campeón.
-- Muñecos: apenas más grandes que el Brote, pero menores que un Campeón.
-- Monolito: cercano al tamaño de un Campeón, reducido respecto de v0.5.48.
-- Trampas: tamaño casi igual al actual, con centrado exacto en la casilla.
+## Pilar
+- Se reduce nuevamente.
+- Debe quedar un poco más chico que un Campeón.
 
-## Trampas de Korgan
-Se corrige la asignación visual:
-- `trapType = spikes` usa la imagen visual de Pinchos.
-- `trapType = mine` usa la imagen visual Eléctrica.
+## Monolito
+- Se reduce nuevamente.
+- Debe quedar aproximadamente en la misma escala visual que los Campeones.
 
-No se confía en el nombre histórico del archivo PNG, porque los nombres pueden estar invertidos.
+## Brote y Muñecos
+- No se modifican en esta versión.
+
+## Acciones doradas contextuales
+Problema anterior:
+Retirar Brote / Desarmar Trampa / Salir de Monolito / Consumir Pilar
+entraban como una segunda fila del panel y empujaban las cuatro habilidades.
+
+Solución:
+- dejan de participar del grid del HUD;
+- aparecen en una barra dorada compacta flotante encima del panel;
+- las 4 habilidades permanecen siempre en su posición original;
+- Mover / Fin turno tampoco se desplazan;
+- si hay dos acciones contextuales, se muestran lado a lado.
 
 ## No cambia
-- mecánicas
+- reglas
 - balance
 - IA
 - habilidades
 - PA / PM
-- estados
-- reglas
-- direcciones de vistas
+- direcciones de Monolito y Muñecos
+- asignación visual de trampas
 
 ## Versión
-- pública: v0.5.49
-- cache PWA: liga-mundos-0549
+- pública: v0.5.50
+- cache PWA: liga-mundos-0550
