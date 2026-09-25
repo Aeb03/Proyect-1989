@@ -1,5 +1,5 @@
 (()=>{'use strict';
-const V='0.5.44';
+const V='0.5.45';
 function rep(){
   const w=document.createTreeWalker(document,NodeFilter.SHOW_TEXT),a=[];
   while(w.nextNode())a.push(w.currentNode);
