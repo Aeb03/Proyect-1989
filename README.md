@@ -1,45 +1,72 @@
-# Liga de los Mundos v0.5.45 — Fix panel inferior + centrado laterales
+# Liga de los Mundos v0.5.46 — HUD horizontal + pulido de habilidades
 
 ## Estado
 🟡 EN PRUEBA
 
-## Referencia visual
-La captura aprobada donde el panel inferior aparece como una sola consola continua
-se toma como objetivo de integración.
+## Objetivo
+Cerrar la UI de combate antes de integrar el próximo pack de invocaciones/objetos.
 
-## Panel inferior
-Se corrige el desorden observado en v0.5.44.
+## 1. Ronda y panel inferior: sólo horizontal
+Se bloquea la orientación vertical para:
+- HUD superior de Ronda;
+- panel inferior de habilidades/acciones.
 
-Cambios:
-- una sola base continua;
-- controles izquierdos alineados sobre sus tres huecos;
-- ficha del Campeón contenida;
-- cuatro habilidades del mismo tamaño;
-- Mover / Fin turno alineados;
-- eliminación de marcos duplicados que se superponían;
-- selected / disabled siguen usando la familia gráfica suministrada;
-- acciones contextuales permanecen funcionales.
+Los paneles laterales TU EQUIPO / RIVALES conservan orientación adaptable.
 
-No se toca:
-- posición global;
+También desaparece el botón de cambio de orientación en Ronda y panel inferior.
+
+## 2. Habilidades
+Se corrige la composición interna de las cuatro cartas:
+
+- nombre en hasta 2 líneas;
+- coste de PA arriba a la derecha;
+- contador de usos arriba a la izquierda;
+- icono centrado;
+- mejor jerarquía del estado seleccionado;
+- estado deshabilitado más claro.
+
+No se cambia ningún coste, límite o habilidad.
+
+## 3. Mover / Fin turno
+Se mejora:
+- centrado del icono;
+- centrado del texto;
+- proporción interna;
+- lectura dentro de la skin gráfica.
+
+No cambia su función.
+
+## No cambia
 - lógica;
+- IA;
+- PA / PM;
 - habilidades;
-- PA;
-- PM;
 - estados;
-- IA.
+- reglas;
+- arena;
+- miniaturas;
+- laterales;
+- sistema de audio (todavía no integrado).
 
-## Paneles laterales
-Se fuerza centrado geométrico de cada ficha en modo vertical.
+## Archivos
+- `hud-horizontal-only.js`
+- `hud-horizontal-polish-0546.css`
+- `index.html`
+- `brand.js`
+- `sw.js`
+- `README.md`
 
-Especialmente en RIVALES:
-- avatar centrado;
-- recuadro centrado;
-- barra de Vida centrada;
-- compensación óptica mínima del asset rojo.
-
-TU EQUIPO usa el mismo eje de centrado para mantener simetría.
+## Prueba prioritaria
+1. Confirmar que Ronda no puede pasar a vertical.
+2. Confirmar que panel inferior no puede pasar a vertical.
+3. Ver nombres largos de habilidades.
+4. Revisar PA arriba a la derecha.
+5. Revisar contador de usos arriba a la izquierda.
+6. Confirmar iconos centrados.
+7. Probar Mover.
+8. Probar Fin turno.
+9. Probar a baja altura / celular apaisado.
 
 ## Versión
-- pública: v0.5.45
-- cache PWA: `liga-mundos-0545`
+- pública: v0.5.46
+- cache PWA: `liga-mundos-0546`
