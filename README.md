@@ -1,53 +1,129 @@
-# Liga de los Mundos v0.5.55 — Inicio + Muñecos Vudú
+# Liga de los Mundos v0.6.0 — EXPERIMENTAL SFX
 
 ## Estado
-🟡 LISTA PARA PROBAR
+🧪 EXPERIMENTAL / PRUEBA MAYOR
 
-## INICIO
-Se conserva el Inicio modular existente.
+## Punto de retorno
+La v0.5.55 queda definida como CHECKPOINT ESTABLE.
+Si esta integración no convence, se vuelve a v0.5.55.
 
-Correcciones:
-- se recorta visualmente la escena que seguía apareciendo por debajo del marco;
-- el fondo ya no debe sobresalir bajo el recuadro inferior;
-- se reducen las esquinas inferiores;
-- las esquinas inferiores buscan el mismo peso visual que las superiores;
-- la punta inferior central queda más recortada por el borde físico de la pantalla;
-- no se reemplaza el Inicio por una imagen compuesta.
+## Contenido
+Se integran los 26 MP3 del pack:
+`Liga_de_los_Mundos_SFX_Aprobados_v1.zip`
 
-## MUÑECOS VUDÚ
+Los archivos originales se copian sin normalizar, recortar ni modificar.
 
-### Artes corregidos
-La asignación visual queda:
-- Muñeco de 16 PV → set de vistas `muneco-houngan-02`
-- Muñeco de 30 PV → set de vistas `muneco-houngan-01`
+## Motor de audio
+Canales lógicos preparados:
+- MASTER
+- MUSIC
+- SFX_COMBAT
+- SFX_UI
 
-Esto corrige el intercambio anterior.
+MUSIC queda preparado pero sin contenido.
 
-### 4 vistas
-Ambos Muñecos usan:
-- down-right
-- down-left
-- up-left
-- up-right
+Configuración:
+- `audio-config-0600.js`
+- volumen por canal
+- ganancia individual por archivo
 
-La vista responde a la dirección visual y a la rotación de cámara.
-Al iniciar movimiento del Muñeco también se guarda una dirección visual de marcha.
+API de prueba:
+- `LigaAudio.getState()`
+- `LigaAudio.setChannelVolume('SFX_COMBAT', 0.8)`
+- `LigaAudio.setGain('core.impacto', 0.9)`
+- `LigaAudio.mute(true/false)`
 
-### Tamaño
-El tamaño de referencia es el que tenía visualmente el Muñeco de 30 PV antes de esta corrección.
-Los dos Muñecos quedan normalizados para verse aproximadamente a esa misma escala.
+## Inicialización en celular
+No hay autoplay.
 
-## No cambia
-- PV reales de 16 / 30;
-- PM;
-- vínculo;
-- curación/reflejo;
-- Transferencia de Dolor;
-- reglas;
-- balance;
-- IA;
-- resto del combate.
+El AudioContext se desbloquea con el primer gesto real:
+- pointer/touch/teclado
+
+Después se precargan los 26 SFX.
+Peso total aproximado del pack: 0.4 MB.
+
+Si un archivo falla:
+- la acción continúa;
+- no se modifica ninguna mecánica;
+- audio falla en silencio.
+
+## Integración inicial
+
+### SFX específicos
+Arfeli:
+- Dagas Danzantes
+- Disparo con Arco
+- Golpe de Martillo
+
+Coloso:
+- Absorción Rocosa
+- Creación de Pilar
+- Golpe Sísmico
+
+Piplus:
+- Marca
+- Ruptura de Marca
+- Impulso
+
+Onod:
+- Germinar
+- Enredaderas
+- Esporas Tóxicas
+
+Korgan:
+- Gancho
+- Trampa de Pinchos al ACTIVARSE
+- Trampa Eléctrica al ACTIVARSE
+
+Houngan:
+- Efigie/Muñeco
+- Vínculo
+- Dolor Reflejado / Transferencia de Dolor
+
+### Korgan
+Los nombres finales del ZIP son fuente de verdad:
+- `trampa_pinchos.mp3` → Pinchos
+- `trampa_electrica.mp3` → Eléctrica
+
+Las trampas NO reproducen su SFX al colocarse.
+Suena al activarse para no revelar información oculta.
+
+### CORE
+- curación: cuando una curación real recupera PV
+- escudo: cuando un escudo real aumenta
+- ruptura de escudo: cuando el escudo pasa de >0 a 0
+- KO: sólo cuando un Campeón pasa a 0 PV
+- proyectil + impacto: ataques sin SFX específico cuando mejora la lectura
+- área: acciones de área sin específico / carga explosiva
+- aparición: transformaciones/creaciones sin SFX específico
+
+## Superposición
+- máximo inicial: 3 SFX fuertes simultáneos
+- deduplicación temporal para curación, escudo, áreas, KO y trampas
+- separación típica proyectil→impacto: ~210 ms
+- específico + resultado real se separan naturalmente por el timing de la habilidad
+
+## Áreas
+Los SFX principales se disparan una sola vez por acción.
+El daño a múltiples objetivos NO reproduce una copia de audio por objetivo.
+
+## No modifica
+- daño
+- curación
+- escudo
+- PA / PM
+- estados
+- IA
+- movimiento
+- resultado de habilidades
+- balance
+- reglas
+
+## Archivos principales
+- `audio-config-0600.js`
+- `audio-engine-0600.js`
+- `assets/audio/sfx/...`
 
 ## Versión
-- pública: v0.5.55
-- cache PWA: liga-mundos-0555
+- pública: v0.6.0
+- cache PWA: liga-mundos-0600

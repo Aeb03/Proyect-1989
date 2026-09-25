@@ -1,5 +1,5 @@
 (()=>{'use strict';
-const V='0.5.55';
+const V='0.6.0';
 function rep(){
   const w=document.createTreeWalker(document,NodeFilter.SHOW_TEXT),a=[];
   while(w.nextNode())a.push(w.currentNode);
@@ -13,7 +13,7 @@ function rep(){
        .replaceAll('El circuito abre sus puertas','La Liga abre sus puertas')
        .replaceAll('Competidor del circuito','Competidor de la Liga.')
        .replaceAll('Distintos mundos. Una sola Arena.','Distintos mundos. Una sola Liga.')
-       .replace(/v0\.5\.\d+/g,'v'+V);
+       .replace(/v\d+\.\d+\.\d+/g,'v'+V);
     if(t!==n.nodeValue)n.nodeValue=t;
   }
 }
