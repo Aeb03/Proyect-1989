@@ -1,96 +1,66 @@
-# Liga de los Mundos v0.5.51 — Splash + Intro + Inicio Modular
+# Liga de los Mundos v0.5.53 — Corrección Inicio + Splash/Intro
 
 ## Estado
 🟡 LISTA PARA PROBAR EN CELULAR
 
-## Alcance
-Actualización exclusivamente visual del flujo de apertura:
+## 1. Inicio
+Se mantiene la escala general del fondo / escena interior.
 
-1. Splash nativo de la PWA.
-2. Intro personalizada breve.
-3. Inicio modular.
+Se corrige exclusivamente el marco-display:
+- se extiende más hacia los extremos;
+- gana cobertura lateral;
+- gana cobertura superior e inferior;
+- en celulares muy anchos se sobredimensiona ligeramente;
+- continúa implementado con `border-image` / 9-slice;
+- NO se transforma en una fotografía estirada.
 
-No se modifica el destino ni la navegación del botón `ENTRAR AL CIRCUITO`.
+Logo, textos, botón y versión continúan separados y dinámicos.
 
-## 1. Splash nativo
-Se reemplazan los iconos por los suministrados:
-- `icon-192.png`
-- `icon-512.png`
-- `icon-maskable-512.png`
+## 2. Splash nativo
+Se mantiene simple:
+- icon-192
+- icon-512
+- icon-maskable-512
+- fondo #07111A
 
-Manifest:
-- background: `#07111A`
-- theme: `#07111A`
-- orientation: landscape
+No usa la composición del Inicio.
 
-Nota: Android/launcher puede conservar temporalmente el icono/splash de una PWA
-ya instalada. Si no cambia después de la actualización, puede requerir reinstalar
-el acceso/PWA para validar el splash nativo definitivo.
-
-## 2. Intro
-Asset:
+## 3. Intro breve
+Se reemplaza el asset de Intro por la imagen dedicada suministrada en esta corrección:
 - `assets/ui/start/intro-splash.png`
 
-Prueba actual:
-- 1.5 s visible
-- fade de ~0.28 s
-- sin interacción
-- se ejecuta una vez por carga de página
+La Intro:
+- conserva duración de 1.5 s;
+- conserva fade corto;
+- no tiene interacción;
+- usa `contain` sobre fondo #07111A para evitar recortar la composición en pantallas muy anchas.
 
-## 3. Inicio modular
-Assets de runtime:
-- `inicio-fondo.png`
-- `inicio-marco-display.png`
-- `inicio-logo-liga.png`
-- `inicio-boton-normal.png`
-- `inicio-boton-pressed.png`
-- `inicio-icono-espadas.png`
+## 4. Inicio interactivo
+Permanece modular:
+- fondo de escena;
+- marco-display;
+- logo;
+- textos;
+- botón normal / pressed;
+- icono de espadas;
+- versión.
 
-La referencia compuesta `mockup-referencia-NO-USAR.png` NO se incluye ni se usa
-en runtime.
+## 5. PWA instalada
+Se arrastra también el hotfix de v0.5.52:
+- start_url versionado;
+- navegación network-first/no-store para el shell;
+- activación segura del Service Worker nuevo desde Inicio.
 
-### Fondo
-`cover`, centrado.
-
-### Marco
-Se adapta mediante `border-image` / 9-slice.
-No se usa como una fotografía estirada completa.
-
-### Elementos independientes
-- Logo.
-- Texto principal.
-- Lema.
-- Botón.
-- Icono de espadas.
-- Versión.
-
-Los textos y la versión son HTML dinámico.
-
-## Botón
-El script captura y reutiliza el callback del botón existente creado por
-`showStart()`. Por lo tanto se conserva el mismo destino funcional actual.
-
-Estados:
-- normal → `inicio-boton-normal.png`
-- pressed → `inicio-boton-pressed.png`
-
-## Responsive
-- fondo: cover
-- marco: 9-slice
-- contenido: posiciones relativas con zona segura ~4–5%
-- ajustes especiales para celulares landscape de poca altura
-
-## No modifica
-- lobby
-- navegación
-- combate
-- reglas
-- balance
-- IA
-- HUD de combate
-- orientación landscape
-- destino de Entrar al circuito
+## No cambia
+- navegación del botón Entrar al circuito;
+- Lobby;
+- combate;
+- reglas;
+- balance;
+- IA;
+- HUD;
+- orientación landscape.
 
 ## Versión
-- pública: v0.5.51
-- cache PWA: `liga-mundos-0551`
+- pública: v0.5.53
+- cache PWA: liga-mundos-0553
