@@ -1,72 +1,58 @@
-# Liga de los Mundos v0.5.46 — HUD horizontal + pulido de habilidades
+# Liga de los Mundos v0.5.47 — Assets tácticos + HUD + icono
 
 ## Estado
-🟡 EN PRUEBA
+🟡 LISTA PARA PROBAR
 
-## Objetivo
-Cerrar la UI de combate antes de integrar el próximo pack de invocaciones/objetos.
+## Assets tácticos integrados
+- Pilar de Coloso
+- Brote de Onod
+- Trampa de Korgan
+- Dispositivo eléctrico
+- Monolito de Coloso — 4 vistas
+- Muñeco Houngan 01 — 4 vistas
+- Muñeco Houngan 02 — 4 vistas
 
-## 1. Ronda y panel inferior: sólo horizontal
-Se bloquea la orientación vertical para:
-- HUD superior de Ronda;
-- panel inferior de habilidades/acciones.
+Las vistas múltiples se cargan por nombre recibido:
+down-right / down-left / up-left / up-right.
+No se corrige preventivamente ninguna dirección. Si una vista queda cruzada, se ajusta después.
 
-Los paneles laterales TU EQUIPO / RIVALES conservan orientación adaptable.
+Muñecos:
+- Houngan 01 → Muñeco normal de 16 PV
+- Houngan 02 → Muñeco grande de 30 PV
+- la selección del arte se hace por `maxHp`, no por equipo
 
-También desaparece el botón de cambio de orientación en Ronda y panel inferior.
+Trampas:
+- Pinchos / Cepo → trampa-korgan
+- Carga Explosiva → dispositivo-electrico
 
-## 2. Habilidades
-Se corrige la composición interna de las cuatro cartas:
+## HUD
+Ronda y panel inferior quedan bloqueados en horizontal.
+Además del estado guardado, se fuerza la clase horizontal y se bloquea el control de orientación.
 
-- nombre en hasta 2 líneas;
-- coste de PA arriba a la derecha;
-- contador de usos arriba a la izquierda;
-- icono centrado;
-- mejor jerarquía del estado seleccionado;
-- estado deshabilitado más claro.
+## Laterales
+En modo vertical desplegado se reduce el ancho del recuadro interno y de la barra de vida
+para que no sobresalgan del marco.
 
-No se cambia ningún coste, límite o habilidad.
+## Icono PWA
+- icon-192.png → 192×192
+- icon-512.png → 512×512
+Generados a tamaño técnico exacto a partir de los dos PNG suministrados.
 
-## 3. Mover / Fin turno
-Se mejora:
-- centrado del icono;
-- centrado del texto;
-- proporción interna;
-- lectura dentro de la skin gráfica.
-
-No cambia su función.
-
-## No cambia
-- lógica;
-- IA;
-- PA / PM;
-- habilidades;
-- estados;
-- reglas;
-- arena;
-- miniaturas;
-- laterales;
-- sistema de audio (todavía no integrado).
-
-## Archivos
-- `hud-horizontal-only.js`
-- `hud-horizontal-polish-0546.css`
-- `index.html`
-- `brand.js`
-- `sw.js`
-- `README.md`
-
-## Prueba prioritaria
-1. Confirmar que Ronda no puede pasar a vertical.
-2. Confirmar que panel inferior no puede pasar a vertical.
-3. Ver nombres largos de habilidades.
-4. Revisar PA arriba a la derecha.
-5. Revisar contador de usos arriba a la izquierda.
-6. Confirmar iconos centrados.
-7. Probar Mover.
-8. Probar Fin turno.
-9. Probar a baja altura / celular apaisado.
+## No se modifica
+- mecánicas
+- balance
+- IA
+- PA/PM
+- estados
+- reglas
+- Arena
+- vistas de Campeones validadas
+- sonidos
 
 ## Versión
-- pública: v0.5.46
-- cache PWA: `liga-mundos-0546`
+- pública: v0.5.47
+- cache: liga-mundos-0547
+
+
+## Corrección previa a prueba
+Se corrigió la asignación de los dos Muñecos: 01 corresponde a 16 PV y 02 a 30 PV.
