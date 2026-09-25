@@ -1,31 +1,36 @@
-# Liga de los Mundos v0.5.48 — Hotfix de Despliegue
+# Liga de los Mundos v0.5.49 — Escalas tácticas + corrección de Mina Eléctrica
 
 ## Estado
 🟡 LISTA PARA PROBAR
 
-## Problema observado
-En v0.5.47, después de elegir una casilla en Despliegue, la app podía quedar trabada antes de entrar al combate.
+## Direcciones
+Las vistas de Monolito y Muñecos se mantienen exactamente como en v0.5.48.
+No se modifica ningún mapeo direccional.
 
-## Hotfix
-- Los nuevos assets tácticos NO intervienen mientras `B.deployment` está activo.
-- Se eliminó la precarga/decodificación simultánea de los 16 PNG tácticos.
-- Los PNG tácticos ya no se precachean todos durante la instalación del Service Worker.
-- Los assets se cargan recién cuando realmente aparecen en combate.
-- El renderer visual tiene fail-safe: si falla una sustitución de arte, conserva el render base.
-- El bloqueo horizontal de Ronda/Habilidades usa un observer más liviano y sólo reacciona a cambios de DOM.
+## Escala visual
+- Pilar: levemente menor que un Campeón.
+- Brote: mucho más chico que un Campeón.
+- Muñecos: apenas más grandes que el Brote, pero menores que un Campeón.
+- Monolito: cercano al tamaño de un Campeón, reducido respecto de v0.5.48.
+- Trampas: tamaño casi igual al actual, con centrado exacto en la casilla.
 
-## Se conserva de v0.5.47
-- Pilar / Brote / Trampas / Dispositivo.
-- Monolito 4 vistas.
-- Muñeco 01 = 16 PV.
-- Muñeco 02 = 30 PV.
-- Laterales corregidos.
-- Nuevo icono PWA.
-- Ronda y panel inferior sólo horizontales.
+## Trampas de Korgan
+Se corrige la asignación visual:
+- `trapType = spikes` usa la imagen visual de Pinchos.
+- `trapType = mine` usa la imagen visual Eléctrica.
+
+No se confía en el nombre histórico del archivo PNG, porque los nombres pueden estar invertidos.
 
 ## No cambia
-Mecánicas, balance, IA, habilidades, PA/PM, estados ni reglas.
+- mecánicas
+- balance
+- IA
+- habilidades
+- PA / PM
+- estados
+- reglas
+- direcciones de vistas
 
 ## Versión
-- pública: v0.5.48
-- cache PWA: liga-mundos-0548
+- pública: v0.5.49
+- cache PWA: liga-mundos-0549
