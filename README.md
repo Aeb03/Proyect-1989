@@ -1,46 +1,96 @@
-# Liga de los Mundos v0.5.50 — Ajuste fino táctico + HUD contextual
+# Liga de los Mundos v0.5.51 — Splash + Intro + Inicio Modular
 
 ## Estado
-🟡 LISTA PARA PROBAR
+🟡 LISTA PARA PROBAR EN CELULAR
 
-## Trampas
-- Las imágenes ya validadas NO se cambian.
-- Se reduce apenas el tamaño.
-- Se corrige el apoyo visual para que la trampa quede centrada dentro de UNA casilla.
-- El ancla sigue siendo la casilla lógica original; sólo cambia la posición visual del PNG.
+## Alcance
+Actualización exclusivamente visual del flujo de apertura:
 
-## Pilar
-- Se reduce nuevamente.
-- Debe quedar un poco más chico que un Campeón.
+1. Splash nativo de la PWA.
+2. Intro personalizada breve.
+3. Inicio modular.
 
-## Monolito
-- Se reduce nuevamente.
-- Debe quedar aproximadamente en la misma escala visual que los Campeones.
+No se modifica el destino ni la navegación del botón `ENTRAR AL CIRCUITO`.
 
-## Brote y Muñecos
-- No se modifican en esta versión.
+## 1. Splash nativo
+Se reemplazan los iconos por los suministrados:
+- `icon-192.png`
+- `icon-512.png`
+- `icon-maskable-512.png`
 
-## Acciones doradas contextuales
-Problema anterior:
-Retirar Brote / Desarmar Trampa / Salir de Monolito / Consumir Pilar
-entraban como una segunda fila del panel y empujaban las cuatro habilidades.
+Manifest:
+- background: `#07111A`
+- theme: `#07111A`
+- orientation: landscape
 
-Solución:
-- dejan de participar del grid del HUD;
-- aparecen en una barra dorada compacta flotante encima del panel;
-- las 4 habilidades permanecen siempre en su posición original;
-- Mover / Fin turno tampoco se desplazan;
-- si hay dos acciones contextuales, se muestran lado a lado.
+Nota: Android/launcher puede conservar temporalmente el icono/splash de una PWA
+ya instalada. Si no cambia después de la actualización, puede requerir reinstalar
+el acceso/PWA para validar el splash nativo definitivo.
 
-## No cambia
+## 2. Intro
+Asset:
+- `assets/ui/start/intro-splash.png`
+
+Prueba actual:
+- 1.5 s visible
+- fade de ~0.28 s
+- sin interacción
+- se ejecuta una vez por carga de página
+
+## 3. Inicio modular
+Assets de runtime:
+- `inicio-fondo.png`
+- `inicio-marco-display.png`
+- `inicio-logo-liga.png`
+- `inicio-boton-normal.png`
+- `inicio-boton-pressed.png`
+- `inicio-icono-espadas.png`
+
+La referencia compuesta `mockup-referencia-NO-USAR.png` NO se incluye ni se usa
+en runtime.
+
+### Fondo
+`cover`, centrado.
+
+### Marco
+Se adapta mediante `border-image` / 9-slice.
+No se usa como una fotografía estirada completa.
+
+### Elementos independientes
+- Logo.
+- Texto principal.
+- Lema.
+- Botón.
+- Icono de espadas.
+- Versión.
+
+Los textos y la versión son HTML dinámico.
+
+## Botón
+El script captura y reutiliza el callback del botón existente creado por
+`showStart()`. Por lo tanto se conserva el mismo destino funcional actual.
+
+Estados:
+- normal → `inicio-boton-normal.png`
+- pressed → `inicio-boton-pressed.png`
+
+## Responsive
+- fondo: cover
+- marco: 9-slice
+- contenido: posiciones relativas con zona segura ~4–5%
+- ajustes especiales para celulares landscape de poca altura
+
+## No modifica
+- lobby
+- navegación
+- combate
 - reglas
 - balance
 - IA
-- habilidades
-- PA / PM
-- direcciones de Monolito y Muñecos
-- asignación visual de trampas
+- HUD de combate
+- orientación landscape
+- destino de Entrar al circuito
 
 ## Versión
-- pública: v0.5.50
-- cache PWA: liga-mundos-0550
+- pública: v0.5.51
+- cache PWA: `liga-mundos-0551`
