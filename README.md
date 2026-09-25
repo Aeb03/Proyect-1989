@@ -1,58 +1,31 @@
-# Liga de los Mundos v0.5.47 — Assets tácticos + HUD + icono
+# Liga de los Mundos v0.5.48 — Hotfix de Despliegue
 
 ## Estado
 🟡 LISTA PARA PROBAR
 
-## Assets tácticos integrados
-- Pilar de Coloso
-- Brote de Onod
-- Trampa de Korgan
-- Dispositivo eléctrico
-- Monolito de Coloso — 4 vistas
-- Muñeco Houngan 01 — 4 vistas
-- Muñeco Houngan 02 — 4 vistas
+## Problema observado
+En v0.5.47, después de elegir una casilla en Despliegue, la app podía quedar trabada antes de entrar al combate.
 
-Las vistas múltiples se cargan por nombre recibido:
-down-right / down-left / up-left / up-right.
-No se corrige preventivamente ninguna dirección. Si una vista queda cruzada, se ajusta después.
+## Hotfix
+- Los nuevos assets tácticos NO intervienen mientras `B.deployment` está activo.
+- Se eliminó la precarga/decodificación simultánea de los 16 PNG tácticos.
+- Los PNG tácticos ya no se precachean todos durante la instalación del Service Worker.
+- Los assets se cargan recién cuando realmente aparecen en combate.
+- El renderer visual tiene fail-safe: si falla una sustitución de arte, conserva el render base.
+- El bloqueo horizontal de Ronda/Habilidades usa un observer más liviano y sólo reacciona a cambios de DOM.
 
-Muñecos:
-- Houngan 01 → Muñeco normal de 16 PV
-- Houngan 02 → Muñeco grande de 30 PV
-- la selección del arte se hace por `maxHp`, no por equipo
+## Se conserva de v0.5.47
+- Pilar / Brote / Trampas / Dispositivo.
+- Monolito 4 vistas.
+- Muñeco 01 = 16 PV.
+- Muñeco 02 = 30 PV.
+- Laterales corregidos.
+- Nuevo icono PWA.
+- Ronda y panel inferior sólo horizontales.
 
-Trampas:
-- Pinchos / Cepo → trampa-korgan
-- Carga Explosiva → dispositivo-electrico
-
-## HUD
-Ronda y panel inferior quedan bloqueados en horizontal.
-Además del estado guardado, se fuerza la clase horizontal y se bloquea el control de orientación.
-
-## Laterales
-En modo vertical desplegado se reduce el ancho del recuadro interno y de la barra de vida
-para que no sobresalgan del marco.
-
-## Icono PWA
-- icon-192.png → 192×192
-- icon-512.png → 512×512
-Generados a tamaño técnico exacto a partir de los dos PNG suministrados.
-
-## No se modifica
-- mecánicas
-- balance
-- IA
-- PA/PM
-- estados
-- reglas
-- Arena
-- vistas de Campeones validadas
-- sonidos
+## No cambia
+Mecánicas, balance, IA, habilidades, PA/PM, estados ni reglas.
 
 ## Versión
-- pública: v0.5.47
-- cache: liga-mundos-0547
-
-
-## Corrección previa a prueba
-Se corrigió la asignación de los dos Muñecos: 01 corresponde a 16 PV y 02 a 30 PV.
+- pública: v0.5.48
+- cache PWA: liga-mundos-0548
