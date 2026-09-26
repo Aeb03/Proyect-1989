@@ -1,14 +1,15 @@
-# Liga de los Mundos v0.6.6 — Lobby UI modular v1
+# Liga de los Mundos v0.6.7 — Pulido final del Lobby
 
-Estado: 🟡 LISTA PARA PROBAR
-Base: v0.6.5 validada.
+Base: v0.6.6 Lobby UI modular + v0.6.5 Campeones validada.
 
-Cambios:
-- Integra Liga_Mundos_Lobby_UI_v1 como piezas modulares.
-- JUGAR usa arte independiente + marco + botón gráfico real.
-- CAMPEONES / LIGA / PERFIL usan arte 3:1 independiente, marco común y placa de texto HTML/CSS.
-- Header usa marco 9-slice y conserva identidad, Opciones y Competidor.
-- Conserva navegación, audio v0.6.4, Campeones UI v0.6.5 y combate.
-- Actualiza versión, PWA y Service Worker/cache a 0606.
+Cambios limitados al Lobby:
+- clipping/máscara y encastre del arte de JUGAR;
+- mayor aire y jerarquía entre textos y botón JUGAR;
+- marcos laterales ajustados para abrazar la ilustración;
+- placas laterales más compactas y menos invasivas;
+- mayor separación entre CAMPEONES / LIGA / PERFIL;
+- PERFIL prioriza “Manager · Estrategia · Progreso”;
+- header superior alineado como una sola estructura, corrigiendo capas y marco.
 
-Validar en celular horizontal antes de marcar como estable.
+No se modifica navegación, lógica, contador de combates, audio, rutas, Campeones ni combate.
+Estado: LISTA PARA PROBAR.
