@@ -1,11 +1,12 @@
-# Liga de los Mundos — v0.6.4
-
+# Liga de los Mundos v0.6.5 — CAMPEONES UI v1
 Estado: 🟡 LISTA PARA PROBAR
-Base: v0.6.3 experimental; checkpoint estable conservado: v0.6.1.
+Base: v0.6.4 completa.
 
-Cambios exclusivos:
-- Lobby: CAMPEONES / LIGA / PERFIL mantienen `cover` y anclan el arte hacia la parte inferior para evitar cortar sus rótulos.
-- Música: si la escena Lobby ya está activa pero el reproductor quedó pausado durante la transición posterior al combate, el motor vuelve a iniciar la pista del Lobby respetando volumen, mute, ducking y suspensión por segundo plano.
-- PWA/cache/versionado actualizado a 0.6.4.
+Cambios:
+- Integra el pack gráfico Liga_Mundos_Campeones_UI_v1 exclusivamente en la pantalla CAMPEONES.
+- Header, tarjetas normal/seleccionada, panel de detalle, marco de avatar, slots de habilidades, placa de destacado y botones inferiores usan assets reales del pack.
+- Conserva datos, imágenes maestras, avatares, selección, favorito, navegación y botón Jugar existentes.
+- No modifica Lobby, combate, IA, SFX ni música.
+- Cache/PWA subidos a 0605.
 
-No se modifican mecánicas, combate, SFX ni archivos MP3.
+Validación pendiente en celular horizontal.
