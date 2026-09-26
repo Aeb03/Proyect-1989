@@ -1,129 +1,103 @@
-# Liga de los Mundos v0.6.0 — EXPERIMENTAL SFX
+# Liga de los Mundos v0.6.1 — Música ambiente + Opciones de audio
 
 ## Estado
-🧪 EXPERIMENTAL / PRUEBA MAYOR
+🟡 LISTA PARA PROBAR
 
-## Punto de retorno
-La v0.5.55 queda definida como CHECKPOINT ESTABLE.
-Si esta integración no convence, se vuelve a v0.5.55.
+Base: v0.6.0 EXPERIMENTAL SFX.
 
-## Contenido
-Se integran los 26 MP3 del pack:
-`Liga_de_los_Mundos_SFX_Aprobados_v1.zip`
+## Música
 
-Los archivos originales se copian sin normalizar, recortar ni modificar.
+### Inicio / Lobby
+Archivo:
+`assets/audio/music/lobby-liga.mp3`
 
-## Motor de audio
-Canales lógicos preparados:
-- MASTER
-- MUSIC
-- SFX_COMBAT
-- SFX_UI
+Estado:
+🟡 EN PRUEBA
 
-MUSIC queda preparado pero sin contenido.
+Comportamiento:
+- loop;
+- continúa sin reiniciarse al abrir/cerrar paneles;
+- continúa por pantallas de Lobby / selección;
+- al entrar al combate hace transición suave hacia la música de Arena Central.
 
-Configuración:
-- `audio-config-0600.js`
-- volumen por canal
-- ganancia individual por archivo
+### Arena Central
+Archivo:
+`assets/audio/music/arena-central-combate.mp3`
 
-API de prueba:
-- `LigaAudio.getState()`
-- `LigaAudio.setChannelVolume('SFX_COMBAT', 0.8)`
-- `LigaAudio.setGain('core.impacto', 0.9)`
-- `LigaAudio.mute(true/false)`
+Estado:
+✅ contenido aprobado / 🟡 integración en app en prueba
 
-## Inicialización en celular
-No hay autoplay.
+Comportamiento:
+- loop durante el combate;
+- no reinicia por turnos, rondas, selección, IA ni renders del HUD;
+- al terminar el combate hace fade-out;
+- al volver al Lobby vuelve la música de Lobby con fade-in.
 
-El AudioContext se desbloquea con el primer gesto real:
-- pointer/touch/teclado
+## Loop
+Los MP3 originales NO se editaron.
 
-Después se precargan los 26 SFX.
-Peso total aproximado del pack: 0.4 MB.
+Se detectó que ambos masters tienen pequeños silencios de entrada/salida.
+El código usa puntos de loop internos para evitar una pausa larga entre repeticiones:
 
-Si un archivo falla:
-- la acción continúa;
-- no se modifica ninguna mecánica;
-- audio falla en silencio.
+- Lobby: aprox. 0.52 s → 169.30 s
+- Arena Central: aprox. 0.36 s → 156.88 s
 
-## Integración inicial
+Los archivos permanecen bit a bit iguales a los masters entregados.
 
-### SFX específicos
-Arfeli:
-- Dagas Danzantes
-- Disparo con Arco
-- Golpe de Martillo
+## Mezcla
+La música usa el canal lógico MUSIC.
+Los SFX siguen usando SFX_COMBAT / SFX_UI.
 
-Coloso:
-- Absorción Rocosa
-- Creación de Pilar
-- Golpe Sísmico
+Volumen inicial para prueba:
+- MASTER: 100 %
+- MUSIC: 40 %
+- SFX_COMBAT: 92 %
 
-Piplus:
-- Marca
-- Ruptura de Marca
-- Impulso
+La intención es que los SFX queden por delante de la música.
 
-Onod:
-- Germinar
-- Enredaderas
-- Esporas Tóxicas
+## Ducking
+Se deja preparada la API:
+`LigaMusic.duck()`
 
-Korgan:
-- Gancho
-- Trampa de Pinchos al ACTIVARSE
-- Trampa Eléctrica al ACTIVARSE
+No se activa automáticamente todavía para no modificar la mezcla de SFX ya validada.
+Se probará después si los SFX importantes necesitan más espacio.
 
-Houngan:
-- Efigie/Muñeco
-- Vínculo
-- Dolor Reflejado / Transferencia de Dolor
+## Opciones de audio
+Se agrega botón ⚙️ Opciones en:
+- Lobby;
+- controles de cámara dentro de Combate.
 
-### Korgan
-Los nombres finales del ZIP son fuente de verdad:
-- `trampa_pinchos.mp3` → Pinchos
-- `trampa_electrica.mp3` → Eléctrica
+Panel inicial:
+- Volumen del juego;
+- Música ambiente;
+- Sonidos del juego;
+- Mute / activar audio.
 
-Las trampas NO reproducen su SFX al colocarse.
-Suena al activarse para no revelar información oculta.
+Los valores se guardan en LocalStorage:
+`liga-audio-settings-v1`
 
-### CORE
-- curación: cuando una curación real recupera PV
-- escudo: cuando un escudo real aumenta
-- ruptura de escudo: cuando el escudo pasa de >0 a 0
-- KO: sólo cuando un Campeón pasa a 0 PV
-- proyectil + impacto: ataques sin SFX específico cuando mejora la lectura
-- área: acciones de área sin específico / carga explosiva
-- aparición: transformaciones/creaciones sin SFX específico
+Cerrar/reabrir la app conserva los valores.
 
-## Superposición
-- máximo inicial: 3 SFX fuertes simultáneos
-- deduplicación temporal para curación, escudo, áreas, KO y trampas
-- separación típica proyectil→impacto: ~210 ms
-- específico + resultado real se separan naturalmente por el timing de la habilidad
+## Fallback
+Si una pista no carga o el navegador bloquea una reproducción:
+- la app continúa;
+- no afecta turnos, IA ni habilidades;
+- el sistema vuelve a intentarlo tras una interacción válida.
 
-## Áreas
-Los SFX principales se disparan una sola vez por acción.
-El daño a múltiples objetivos NO reproduce una copia de audio por objetivo.
+## Preparado para futuras Arenas
+Mapa actual:
+- Lobby → `lobby-liga.mp3`
+- Arena Central → `arena-central-combate.mp3`
 
-## No modifica
-- daño
-- curación
-- escudo
-- PA / PM
-- estados
-- IA
-- movimiento
-- resultado de habilidades
-- balance
-- reglas
+El motor está organizado por pistas/escenas para agregar después:
+- Tarku
+- Návara
+- otras Arenas
 
-## Archivos principales
-- `audio-config-0600.js`
-- `audio-engine-0600.js`
-- `assets/audio/sfx/...`
+## SFX
+NO se reemplazan ni se editan los 26 SFX de v0.6.0.
+El motor `audio-engine-0600.js` se conserva.
 
 ## Versión
-- pública: v0.6.0
-- cache PWA: liga-mundos-0600
+- pública: v0.6.1
+- cache PWA: liga-mundos-0601
