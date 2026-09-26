@@ -11,3 +11,8 @@
 .lobby-screen>.lobby-hero,.lobby-screen>.lobby-nav,.lobby-screen>.lobby-topbar{transform:none!important;left:auto!important;right:auto!important;top:auto!important;bottom:auto!important}
 }
 @media (orientation:landscape) and (max-height:500px){.lobby-screen{grid-template-columns:minmax(0,1fr) clamp(285px,27vw,370px)!important;grid-template-rows:40px minmax(0,1fr)!important;gap:6px!important;padding:max(4px,env(safe-area-inset-top)) max(6px,env(safe-area-inset-right)) max(5px,env(safe-area-inset-bottom)) max(6px,env(safe-area-inset-left))!important}.lobby-topbar{height:40px!important;min-height:40px!important;border-radius:9px!important}.lobby-topbar .league-brand-logo{width:28px!important;height:28px!important}.lobby-topbar .profile-chip,.lobby-topbar .liga-options-lobby{height:30px!important;min-height:30px!important}.lobby-nav{gap:5px!important}.lobby-nav button,.lobby-hero{border-radius:9px!important}}
+
+/* v0.6.4 — conservar etiquetas inferiores completas en accesos laterales */
+@media (orientation:landscape){
+.lobby-nav .nav-card{background-position:center bottom!important;}
+}
